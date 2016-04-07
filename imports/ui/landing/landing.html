@@ -2,13 +2,13 @@
   <div class="landing">
     <div class="main container">
       <div class="information container">
-        <h1 class="ui center aligned header">Epply Project</h1>
+        <h1 class="ui center aligned header">Epply Project<sup>beta</sup></h1>
         <div class="ui text container center">
-          <p>Welcome to this advanced recruitment system</p>
+          <p>Welcome to the most fascinating recruitment system</p>
         </div>
         <div class="ui divider"></div>
         <div class="ui text container center">
-          <button class="fluid huge ui primary button">
+          <button class="fluid huge ui primary button sign-in" disabled="{{#if currentUser}}disabled{{/if}}">
             Sign In!
           </button>
         </div>
@@ -20,6 +20,17 @@
           <a class="item" href="#">Terms and Conditions</a>
           <a class="item" href="#">Privacy Policy</a>
           <a class="item" href="#">Feedback</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- sign-in / sign-up-->
+  <div class="ui basic modal sign-in-modal">
+    <div class="ui container">
+      <div class="ui grid centered">
+        <div class="ten wide column sign-in-form">
+          {{> atForm }}
         </div>
       </div>
     </div>

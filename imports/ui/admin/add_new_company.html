@@ -1,0 +1,36 @@
+<template name="AdminAddNewCompany">
+  <!-- add new company modal -->
+  <div class="ui basic modal add-new-company">
+    <div class="ui container">
+      <div class="ui grid centered">
+        <div class="twelve wide column add-new-company">
+          <!-- form div starts-->
+          <div class="ui inverted segment">
+            <div class="ui inverted form">
+              <div class="three fields">
+                <div class="field">
+                  <label>Company Name</label>
+                  <input type="text" placeholder="Company Ltd." name="companyname" id="companyname">
+                </div>
+                <div class="field">
+                  <label>Authorized E-Mail</label>
+                  <input type="email" placeholder="admin@company.ltd" name="email" id="email">
+                </div>
+                <div class="field">
+                  <label>Password</label>
+                  <input type="password" placeholder="********" name="password" id="password">
+                </div>
+              </div>
+              
+              <div class="actions">
+                <div class="ui button cancel" id="dismiss-button">Dismiss</div>
+                <div class="ui button positive submit" id="submit-button">Submit</div>
+              </div>
+            </div>
+          </div>
+          <!-- /form div ends-->
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

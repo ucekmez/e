@@ -1,0 +1,22 @@
+<template name="AdminListCompanies">
+  <table class="ui single line table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Company Name</th>
+        <th>Authorized User</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each companies}}
+        <tr>
+          <td>{{ index }}</td>
+          <td>{{ name }}</td>
+          <td>{{ email }}</td>
+          <td><a id="remove-company" style="cursor:pointer;"><i class="large red remove user icon"></i></a></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>

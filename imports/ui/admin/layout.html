@@ -1,0 +1,16 @@
+<template name="AdminLayout">
+  <div class="ui container admin-layout">
+    {{> Template.dynamic template=nav}}
+    <div class="ui stackable grid">
+      <div class="four wide column">
+        <div class="ui segment">
+          {{> Template.dynamic template=left}}
+        </div>
+      </div>
+      <div class="twelve wide column">
+        {{> Template.dynamic template=main}}
+      </div>
+    </div>
+  </div>
+  {{> AdminAddNewCompany }}
+</template>
