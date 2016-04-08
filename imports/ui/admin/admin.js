@@ -4,6 +4,7 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Companies } from '/imports/api/collections/companies.js';
 
+import '../landing/main_navigation.html' // MainNavigation
 import './add_new_company.html'; // AdminDashboard
 import './layout.html'; // AdminLayout
 import './left_menu.html'; // AdminLeftMenu
@@ -17,6 +18,8 @@ const adminRoutes = FlowRouter.group({ prefix: '/admin', name: 'admin',
       if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
         FlowRouter.go('home');
       }
+    }else {
+      FlowRouter.go('home');
     }
   }]
 });
