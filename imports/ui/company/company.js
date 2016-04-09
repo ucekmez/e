@@ -36,9 +36,9 @@ const companyFormRoutes = companyRoutes.group({ prefix: "/forms", name: "company
 companyFormRoutes.route('/edit/:formId', { name: 'edit_form',
   action: function(params) {
     BlazeLayout.render('CompanyEditFormLayout', { nav: 'MainNavigation', main: 'CompanyEditForm' }); } });
-//companyFormRoutes.route('/list', { name: 'list_forms',
-//  action: function() {
-//    BlazeLayout.render('CompanyLayout', { nav: 'Nav', left: 'CompanyLeftMenu', main: 'CompanyListForms' }); } });
+companyFormRoutes.route('/list', { name: 'list_forms',
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListForms' }); } });
 
 
 

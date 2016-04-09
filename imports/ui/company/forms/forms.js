@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating';
 import { Forms } from '/imports/api/collections/forms.js'; // Forms collections
+
 import './edit_form.html';
+import './list_forms.html';
 
 
 
@@ -27,4 +29,15 @@ Template.CompanyEditForm.onRendered(function() {
     }
 
   });
+});
+
+
+Template.CompanyListForms.helpers({
+  forms() {
+    return Forms.find({},{ sort: { createdAt: -1}})
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
+  },
 });
