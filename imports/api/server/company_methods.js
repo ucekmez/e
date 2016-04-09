@@ -23,4 +23,8 @@ Meteor.methods({
     return form_id;
   },
 
+  remove_form(id) {
+    Forms.remove(id);
+  },
+
 });

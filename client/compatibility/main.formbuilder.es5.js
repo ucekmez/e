@@ -9588,7 +9588,7 @@ Meteor.startup(function() {
         // console.log("ft: " + rf.attributes.field_type + " fType: " +
         //   formType);
         if (rf.attributes.field_type == "checkboxes" && formType ==
-          'Test') {
+          'test') {
           // console.log("girdi chk");
           __p +=
             '<div class="checkbox-inline"><label><input name="isTrue"  data-rv-checked="option:truechoice"' +

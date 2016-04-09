@@ -41,3 +41,9 @@ Template.CompanyListForms.helpers({
       });
   },
 });
+
+Template.CompanyListForms.events({
+  'click #remove-form'(event, instance) {
+    Meteor.call('remove_form', this._id);
+  }
+});
