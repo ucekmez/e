@@ -1,7 +1,19 @@
 <template name="MainNavigation">
   <div class="main-navigation">
     <strong style="font-size:1.8em;padding-right:4px;">Epply Project</strong>
-    <a href="{{pathFor 'home'}}">Home</a> |
+
+    {{#if isInRole 'admin'}}
+      <a href="{{pathFor 'admin_dashboard'}}">Home</a>
+    {{else}}
+      {{#if isInRole 'company'}}
+        <a href="{{pathFor 'company_dashboard'}}">Home</a>
+      {{else}}
+        <a href="{{pathFor 'user_dashboard'}}">Home</a>
+      {{/if}}
+    {{/if}}
+
+
+     |
     <a style="cursor:pointer;" class="item" id="logout">Sign Out</a>
   </div>
   <div class="ui divider"></div>
