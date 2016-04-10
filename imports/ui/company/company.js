@@ -138,37 +138,38 @@ Template.CompanyLeftMenu.events({
               fields: {
                 positiontitle   : 'empty',
                 opensat         : 'empty',
+                endsat         : 'empty',
                 description     : 'empty',
               }
             });
 
-            if ($('.ui.form').form('is valid')) {
-              const positiontitle = $('#positiontitle').val();
-              const opensat = $('#opensat').val();
-              const endsat = $('#endsat').val();
-              const description = $('.fr-element.fr-view').html();
-              Meteor.call('add_new_position', positiontitle, opensat, endsat, description, function (err, data) {
-                if (err) {
-                  toastr.error(err.reason);
-                  Session.set("success", false);
-                }else {
-                  Session.set("success", false);
-                  $(".ui.form").form('reset');
-                  $(".ui.form").form('clear');
-                  toastr.success('New Position has been added!');
-                  $('.modal.add-new-position').modal('hide');
-                  FlowRouter.go('list_positions');
-                }
-              });
-
-              if (!Session.get("success")) {
+          if ($('.ui.form').form('is valid')) {
+            const positiontitle = $('#positiontitle').val();
+            const opensat = $('#opensat').val();
+            const endsat = $('#endsat').val();
+            const description = $('.fr-element.fr-view').html();
+            Meteor.call('add_new_position', positiontitle, opensat, endsat, description, function (err, data) {
+              if (err) {
+                toastr.error(err.reason);
                 Session.set("success", false);
-                return false;
+              }else {
+                Session.set("success", false);
+                $(".ui.form").form('reset');
+                $(".ui.form").form('clear');
+                toastr.success('New Position has been added!');
+                $('.modal.add-new-position').modal('hide');
+                FlowRouter.go('list_positions');
               }
-            }else {
-              toastr.error('Please correct the errors!');
+            });
+
+            if (!Session.get("success")) {
+              Session.set("success", false);
               return false;
             }
+          }else {
+            toastr.error('Please correct the errors!');
+            return false;
+          }
         }
       })
       .modal('show');
@@ -205,7 +206,7 @@ Template.registerHelper("convertToDateFormat", function(date) {
   var month = date.getMonth() + 1;
   if (month < 10) { month = "0" + month }
 
-  return month + "/" + day + "/" + date.getFullYear();
+  return date.getFullYear() + "-" + month + "-" + day;
 });
 
 

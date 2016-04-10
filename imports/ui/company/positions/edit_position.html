@@ -1,0 +1,37 @@
+<template name="CompanyEditPosition">
+
+  {{#with position}}
+    <div class="twelve wide column add-new-position">
+      <!-- form div starts-->
+      <div class="ui segment">
+        <div class="ui form">
+          <div class="field">
+            <label>Position Title</label>
+            <input type="text" placeholder="Position..." name="positiontitle_edit" id="positiontitle-edit" value="{{ title }}">
+            </div>
+
+            <div class="two fields">
+              <div class="field">
+                <label>Opens At</label>
+                <input type="text" placeholder="YYYY-MM-DD" name="opensat_edit" id="opensat-edit" value="{{ convertToDateFormat opensAt }}" />
+              </div>
+
+              <div class="field">
+                <label>Ends At</label>
+                <input type="text" placeholder="YYYY-MM-DD" name="endsat_edit" id="endsat-edit" value="{{ convertToDateFormat endsAt }}" />
+              </div>
+            </div>
+
+            <div class="field">
+              {{> froalaReactive getFEContext disableRightClick=true}}
+            </div>
+
+            <div class="actions">
+              <div class="ui button positive submit" id="submit-button">Submit</div>
+            </div>
+          </div>
+        </div>
+        <!-- /form div ends-->
+    </div>
+    {{/with}}
+</template>
