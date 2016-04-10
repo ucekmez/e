@@ -9,7 +9,7 @@ import './preview_keynote.html';
 
 Template.CompanyListKeynotes.helpers({
   keynotes() {
-    return Keynotes.find({},{ sort: { createdAt: -1}})
+    return Keynotes.find({ user: Meteor.userid() },{ sort: { createdAt: -1}})
       .map(function(document, index) {
         document.index = index + 1;
         return document;

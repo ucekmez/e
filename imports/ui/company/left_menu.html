@@ -6,8 +6,8 @@
 
   <h3>Process Management</h3>
   <div class="menu">
-    <a href="#" class="item">List Open Positions</a><br />
-    <a href="#" class="item">Add New Position</a>
+    <a href="{{ pathFor 'list_positions' }}" class="item">List Open Positions</a><br />
+    <a id="add-new-position" style="cursor:pointer;" class="item">Add New Position</a>
   </div>
 
   <h3>Form Management</h3>
@@ -29,4 +29,6 @@
     <a href="#" class="item">Add New Question</a><br />
     <a href="#" class="item">Experimental</a>
   </div>
+
+  {{> CompanyAddNewPosition}}
 </template>

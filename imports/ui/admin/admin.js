@@ -36,7 +36,7 @@ Template.AdminLeftMenu.events({
   'click #add-new-company'(event, instance) {
     $('.modal.add-new-company')
       .modal({
-        blurring: true,
+        //blurring: true,
         onDeny() {
           $('.ui.form').form('reset');
           $('.ui.form').form('clear');

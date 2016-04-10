@@ -6,7 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import '../landing/main_navigation.html' // MainNavigationx
+import '../landing/main_navigation.html' // MainNavigation
 import './layout.html'; // CompanyLayout
 import './dashboard_main.html'; // CompanyDashboard
 import './left_menu.html'; // CompanyLeftMenu
@@ -15,6 +15,7 @@ import './left_menu.html'; // CompanyLeftMenu
 
 import './forms/forms.js';
 import './keynotes/keynotes.js';
+import './positions/positions.js';
 
 // ******************** //
 
@@ -69,6 +70,18 @@ companyKeynoteRoutes.route('/preview/:keynoteId', { name: 'preview_keynote',
     BlazeLayout.render('CompanyKeynotePreviewLayout'); } });
 
 
+//************ positions routes
+
+const companyPositions = companyRoutes.group({ prefix: "/positions", name: "companypositions"});
+companyPositions.route('/list', { name: 'list_positions',
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListPositions' }); } });
+companyPositions.route('/edit/:positionId', { name: 'edit_position',
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditPosition' }); } });
+
+
+
 
 
 //////////// Template events, helpers
@@ -109,7 +122,61 @@ Template.CompanyLeftMenu.events({
       }
     });
   },
+
+  'click #add-new-position'(event, instance) {
+    $('.modal.add-new-position')
+      .modal({
+        //blurring: true,
+        onDeny() {
+          $('.ui.form').form('reset');
+          $('.ui.form').form('clear');
+          Session.set("success", false);
+        },
+        onApprove() {
+          $('.ui.form')
+            .form({
+              fields: {
+                positiontitle   : 'empty',
+                opensat         : 'empty',
+                description     : 'empty',
+              }
+            });
+
+            if ($('.ui.form').form('is valid')) {
+              const positiontitle = $('#positiontitle').val();
+              const opensat = $('#opensat').val();
+              const endsat = $('#endsat').val();
+              const description = $('.fr-element.fr-view').html();
+              Meteor.call('add_new_position', positiontitle, opensat, endsat, description, function (err, data) {
+                if (err) {
+                  toastr.error(err.reason);
+                  Session.set("success", false);
+                }else {
+                  Session.set("success", false);
+                  $(".ui.form").form('reset');
+                  $(".ui.form").form('clear');
+                  toastr.success('New Position has been added!');
+                  $('.modal.add-new-position').modal('hide');
+                  FlowRouter.go('list_positions');
+                }
+              });
+
+              if (!Session.get("success")) {
+                Session.set("success", false);
+                return false;
+              }
+            }else {
+              toastr.error('Please correct the errors!');
+              return false;
+            }
+        }
+      })
+      .modal('show');
+  },
 });
+
+
+
 
 
 

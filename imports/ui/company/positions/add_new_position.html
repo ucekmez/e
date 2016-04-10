@@ -1,0 +1,42 @@
+<template name="CompanyAddNewPosition">
+  <!-- add new company modal -->
+  <div class="ui basic modal add-new-position">
+    <div class="ui container">
+      <div class="ui grid centered">
+        <div class="twelve wide column add-new-position">
+          <!-- form div starts-->
+          <div class="ui inverted segment">
+            <div class="ui inverted form">
+              <div class="field">
+                <label>Position Title</label>
+                <input type="text" placeholder="Position..." name="positiontitle" id="positiontitle">
+              </div>
+
+              <div class="two fields">
+                <div class="field">
+                  <label>Opens At</label>
+                  <input type="text" placeholder="YYYY/MM/DD" name="opensat" id="opensat"/>
+                </div>
+
+                <div class="field">
+                  <label>Ends At</label>
+                  <input type="text" placeholder="YYYY/MM/DD" name="endsat" id="endsat">
+                </div>
+              </div>
+
+              <div class="field">
+                {{> froalaReactive getFEContext disableRightClick=true}}
+              </div>
+
+              <div class="actions">
+                <div class="ui button cancel" id="dismiss-button">Dismiss</div>
+                <div class="ui button positive submit" id="submit-button">Submit</div>
+              </div>
+            </div>
+          </div>
+          <!-- /form div ends-->
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,30 @@
+<template name="CompanyListPositions">
+  <table class="ui single line table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Position</th>
+        <th>Opens</th>
+        <th>Ends</th>
+        <th>Created At</th>
+        <th>Updated At</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each positions}}
+        <tr>
+          <td>{{ index }}</td>
+          <td><a href="{{ pathFor 'edit_position' positionId=_id }}">{{ title }}</a></td>
+          <td>{{ dateFromNow opensAt }}</td>
+          <td>{{ dateFromNow endsAt }}</td>
+          <td>{{ dateFromNow createdAt }}</td>
+          <td>{{ dateFromNow updatedAt }}</td>
+          <td><a id="remove-position" style="cursor:pointer;"><i class="large red remove icon"></i></a></td>
+        </tr>
+      {{else}}
+        There are no positions yet!
+      {{/each}}
+    </tbody>
+  </table>
+</template>

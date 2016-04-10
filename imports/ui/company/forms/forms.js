@@ -10,7 +10,7 @@ Template.CompanyEditForm.onRendered(function() {
   const form = Forms.findOne({_id: FlowRouter.getParam('formId')});
 
   Tracker.autorun(function() {
-    if (form) {
+    if (form && form.user === Meteor.userId()) {
       fb = new Formbuilder({ selector: '.fb-main', bootstrapData: form.payload ? JSON.parse(form.payload).fields : [], workingFormType: form.type });
       fb.on('save', function(payload) {
         Forms.update({ _id: form._id }, { $set: { payload: payload } });
@@ -34,7 +34,7 @@ Template.CompanyEditForm.onRendered(function() {
 
 Template.CompanyListForms.helpers({
   forms() {
-    return Forms.find({},{ sort: { createdAt: -1}})
+    return Forms.find({ user: Meteor.userId() },{ sort: { createdAt: -1}})
       .map(function(document, index) {
         document.index = index + 1;
         return document;

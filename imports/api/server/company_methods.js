@@ -1,5 +1,6 @@
 import { Forms } from '/imports/api/collections/forms.js';
 import { Slides, Keynotes } from '/imports/api/collections/keynotes.js';
+import { Positions } from '/imports/api/collections/positions.js';
 
 Meteor.methods({
   add_new_form(){
@@ -50,6 +51,29 @@ Meteor.methods({
   remove_keynote(id) {
     Keynotes.remove(id);
     Slides.remove({keynote: id});
+  },
+
+  add_new_position(positiontitle, opensat, endsat, description){
+    const position_id = Positions.insert({
+      title: positiontitle,
+      description: description,
+      opensAt: opensat,
+      endsAt: endsat,
+      user: Meteor.userId()
+    });
+
+    return position_id;
+  },
+
+  edit_position(id, title, opensat, endsat) {
+    Positions.update({_id: id}, {
+      $set: {title: title, opensAt: opensat, endsAt: endsat}
+    });
+    //console.log("editposition: " + id + " " + title + " " + opensat + " " + endsat);
+  },
+
+  remove_position(id) {
+    Positions.remove(id);
   },
 
 });
