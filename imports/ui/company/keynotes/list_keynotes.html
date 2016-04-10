@@ -1,0 +1,28 @@
+<template name="CompanyListKeynotes">
+  <table class="ui single line table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Keynote Title</th>
+        <th># of Slides</th>
+        <th>Created At</th>
+        <th>Preview</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each keynotes}}
+        <tr>
+          <td>{{ index }}</td>
+          <td><a href="{{ pathFor 'edit_keynote' keynoteId=_id }}">{{ title }}</a></td>
+          <td>{{ numberOfSlides _id }}</td>
+          <td>{{ dateFromNow createdAt }}</td>
+          <td>P</td>
+          <td><a id="remove-keynote" style="cursor:pointer;"><i class="large red remove icon"></i></a></td>
+        </tr>
+      {{else}}
+        There are no keynotes yet!
+      {{/each}}
+    </tbody>
+  </table>
+</template>

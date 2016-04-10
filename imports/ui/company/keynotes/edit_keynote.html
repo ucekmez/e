@@ -1,0 +1,41 @@
+<template name="CompanyEditKeynoteLayout">
+  <div class="ui container company-layout">
+    {{> Template.dynamic template=nav}}
+    {{> Template.dynamic template=main}}
+  </div>
+</template>
+
+<template name="CompanyEditKeynote">
+  <h3>Edit New Form</h3>
+  <div class="ui stackable grid">
+    <div class="four wide column thumbnails">
+      <ul class="keynote-thumbnails">
+        {{#sortable items=slides options=sortableOptions}}
+          <li class="keynote-slide" id="thumbnail">
+            <i class="big red delete icon" id="slide-delete-icon" aria-hidden="true"></i>
+            <span>{{{ scaleText content }}}</span>
+          </li>
+        {{/sortable}}
+        <div class="add-icon-container"><i class="big blue add icon" id="slide-add-icon" aria-hidden="true"></i></div>
+      </ul>
+    </div>
+
+    <div class="twelve wide column">
+      <div class="bigger-slide-container">
+        <div id="start-editing">
+            <h3>Please choose a slide to edit.</h3>
+        </div>
+        {{#each slides }}
+          {{> EditSingleSlide}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</template>
+
+
+<template name="EditSingleSlide">
+  <div id="slide-{{_id}}" class="editable slide-area passive">
+    {{> froalaReactive getFEContext disableRightClick=true}}
+  </div>
+</template>

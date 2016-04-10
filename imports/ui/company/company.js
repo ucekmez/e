@@ -10,7 +10,8 @@ import './left_menu.html'; // CompanyLeftMenu
 
 // ******************** //
 
-import './forms/forms.js'
+import './forms/forms.js';
+import './keynotes/keynotes.js';
 
 // ******************** //
 
@@ -41,6 +42,19 @@ companyFormRoutes.route('/list', { name: 'list_forms',
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListForms' }); } });
 
 
+//************ keynotes routes
+
+const companyKeynoteRoutes = companyRoutes.group({ prefix: "/keynotes", name: "companykeynotes"});
+companyKeynoteRoutes.route('/edit/:keynoteId', { name: 'edit_keynote',
+  action: function(params) {
+    BlazeLayout.render('CompanyEditKeynoteLayout', { nav: 'MainNavigation', main: 'CompanyEditKeynote' }); } });
+companyKeynoteRoutes.route('/list', { name: 'list_keynotes',
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListKeynotes' }); } });
+
+
+
+
 
 //////////// Template events, helpers
 
@@ -64,4 +78,55 @@ Template.CompanyLeftMenu.events({
       }
     });
   },
+
+  'click #add-new-keynote'(event, instance) {
+    Meteor.call('add_new_keynote', function(err, data) {
+      if (err) {
+        toastr.error('Keynote cannot be created. Please review it!');
+      }else {
+        Meteor.call('add_new_slide', data, function(err2, data2) {
+          if (err2) {
+            toastr.error('Slide cannot be created. Please review it!');
+          }else {
+            FlowRouter.go("edit_keynote", {keynoteId: data});
+          }
+        });
+      }
+    });
+  },
+});
+
+
+
+////////////// registerhelper functions
+
+Template.registerHelper("scaleText", function(content){
+  var c = content.replace(new RegExp("[1][0-9]px","gm"), "6px");
+  c = c.replace(new RegExp("[2][0-9]px","gm"), "9px");
+  c = c.replace(new RegExp("[3-9][0-9]px","gm"), "12px");
+  c = c.replace(new RegExp("<br>","gm"), "");
+  c = c.replace(new RegExp("<p></p>","gm"), "");
+  return c;
+});
+
+
+setInterval(function() { Session.set("time", new Date()); }, 60000);
+Template.registerHelper("dateFromNow", function(date){
+  Session.get('time');
+  return moment(date).fromNow();
+});
+
+Template.registerHelper("convertToDateFormat", function(date) {
+  var day = date.getDate();
+  if (day < 10) { day = "0" + day }
+
+  var month = date.getMonth() + 1;
+  if (month < 10) { month = "0" + month }
+
+  return month + "/" + day + "/" + date.getFullYear();
+});
+
+
+Template.registerHelper("ifEqualSelect", function(v1, v2) {
+  if (v1 === v2) return "selected";
 });
