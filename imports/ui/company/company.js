@@ -1,9 +1,12 @@
 // disariya export etmek istedigimiz her sey bu dosyada olacak
 
+import { Slides, Keynotes } from '/imports/api/collections/keynotes.js'; // Keynotes collections
+
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import '../landing/main_navigation.html' // MainNavigation
+import '../landing/main_navigation.html' // MainNavigationx
 import './layout.html'; // CompanyLayout
 import './dashboard_main.html'; // CompanyDashboard
 import './left_menu.html'; // CompanyLeftMenu
@@ -51,7 +54,19 @@ companyKeynoteRoutes.route('/edit/:keynoteId', { name: 'edit_keynote',
 companyKeynoteRoutes.route('/list', { name: 'list_keynotes',
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListKeynotes' }); } });
-
+companyKeynoteRoutes.route('/preview/:keynoteId', { name: 'preview_keynote',
+  triggersExit: [function() {
+    $('body').removeClass('ofhiddenforslide');
+    $('html').removeClass('ofhiddenforslide');
+    if (typeof Reveal !== 'undefined') { Reveal.removeEventListeners(); }
+  }],
+  subscriptions: function(params, queryParams) {
+    if(Meteor.isClient) {
+      this.register('showslides', Meteor.subscribe("getSlidesOfKeynote", params._id));
+    }
+  },
+  action: function() {
+    BlazeLayout.render('CompanyKeynotePreviewLayout'); } });
 
 
 

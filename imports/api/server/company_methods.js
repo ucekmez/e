@@ -49,10 +49,7 @@ Meteor.methods({
 
   remove_keynote(id) {
     Keynotes.remove(id);
-    const slides = Slides.find({keynote: id});
-    for(let i=0;i<sides.count();i++) {
-      slides.remove();
-    }
+    Slides.remove({keynote: id});
   },
 
 });
