@@ -37,7 +37,7 @@ Template.CompanyAddNewPosition.onRendered(function() {
 
 
 Template.CompanyAddNewPosition.helpers({
-  getFEContext : function() {
+  getFEContext() {
     const self = this;
     return {
       //_value: self.description, // set HTML content
@@ -134,12 +134,12 @@ Template.CompanyEditPosition.events({
 });
 
 Template.CompanyEditPosition.helpers({
-  position: function() {
+  position() {
     return Positions.findOne({_id: FlowRouter.getParam('positionId')});
   },
 
-  getFEContext : function() {
-    var self = this;
+  getFEContext() {
+    const self = this;
     return {
       _value: self.description, // set HTML content
       _keepMarkers: true, // preserving cursor markers
@@ -155,7 +155,7 @@ Template.CompanyEditPosition.helpers({
       toolbarButtons: ['bold', 'italic', 'underline', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL', 'insertHR', 'insertLink', 'insertImage', 'insertVideo', 'insertTable', 'undo'],
       "_oncontentChanged": function (e, editor) { // FE save.before event handler function:
         // Get edited HTML from Froala-Editor
-        var newHTML = editor.html.get(true);
+        const newHTML = editor.html.get(true);
         // Do something to update the edited value provided by the Froala-Editor plugin, if it has changed:
         if (!_.isEqual(newHTML, self.description)) {
           Positions.update({_id: self._id}, {

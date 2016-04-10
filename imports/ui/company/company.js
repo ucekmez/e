@@ -16,6 +16,7 @@ import './left_menu.html'; // CompanyLeftMenu
 import './forms/forms.js';
 import './keynotes/keynotes.js';
 import './positions/positions.js';
+import './videos/videos.js';
 
 // ******************** //
 
@@ -81,6 +82,18 @@ companyPositions.route('/edit/:positionId', { name: 'edit_position',
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditPosition' }); } });
 
 
+//************ interview questions routes
+
+const companyQuestions = companyRoutes.group({ prefix: "/questions", name: "companyquestions"});
+companyQuestions.route('/list', { name: 'list_questions',
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListQuestions' }); } });
+companyQuestions.route('/edit/:questionId', { name: 'edit_question',
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditQuestion' }); } });
+
+
+
 
 
 
@@ -138,7 +151,7 @@ Template.CompanyLeftMenu.events({
               fields: {
                 positiontitle   : 'empty',
                 opensat         : 'empty',
-                endsat         : 'empty',
+                endsat          : 'empty',
                 description     : 'empty',
               }
             });
@@ -159,6 +172,55 @@ Template.CompanyLeftMenu.events({
                 toastr.success('New Position has been added!');
                 $('.modal.add-new-position').modal('hide');
                 FlowRouter.go('list_positions');
+              }
+            });
+
+            if (!Session.get("success")) {
+              Session.set("success", false);
+              return false;
+            }
+          }else {
+            toastr.error('Please correct the errors!');
+            return false;
+          }
+        }
+      })
+      .modal('show');
+  },
+
+  'click #add-new-question'(event, instance) {
+    $('.modal.add-new-question')
+      .modal({
+        //blurring: true,
+        onDeny() {
+          $('.ui.form').form('reset');
+          $('.ui.form').form('clear');
+          Session.set("success", false);
+        },
+        onApprove() {
+          $('.ui.form')
+            .form({
+              fields: {
+                question      : 'empty',
+                responsetime  : 'empty',
+              }
+            });
+
+          if ($('.ui.form').form('is valid')) {
+            const question = $('#question').val();
+            const description = $('#description').val();
+            const responsetime = $('#responsetime').val();
+            Meteor.call('add_new_interview_question', question, description, responsetime, function (err, data) {
+              if (err) {
+                toastr.error(err.reason);
+                Session.set("success", false);
+              }else {
+                Session.set("success", false);
+                $(".ui.form").form('reset');
+                $(".ui.form").form('clear');
+                toastr.success('New Question has been added!');
+                $('.modal.add-new-question').modal('hide');
+                FlowRouter.go('list_questions');
               }
             });
 

@@ -1,6 +1,7 @@
 import { Forms } from '/imports/api/collections/forms.js';
 import { Slides, Keynotes } from '/imports/api/collections/keynotes.js';
 import { Positions } from '/imports/api/collections/positions.js';
+import { InterviewQuestions } from '/imports/api/collections/videos.js';
 
 Meteor.methods({
   add_new_form(){
@@ -66,7 +67,7 @@ Meteor.methods({
   },
 
   edit_position(id, title, opensat, endsat) {
-    Positions.update({_id: id}, {
+    Positions.update({ _id: id }, {
       $set: {title: title, opensAt: opensat, endsAt: endsat}
     });
     //console.log("editposition: " + id + " " + title + " " + opensat + " " + endsat);
@@ -74,6 +75,39 @@ Meteor.methods({
 
   remove_position(id) {
     Positions.remove(id);
+  },
+
+
+  add_new_interview_question(question, description, responsetime) {
+    let time = 90;
+    if (responsetime == 30) { time = 30; }
+    else if (responsetime == 60) { time = 60; }
+
+    const question_id = InterviewQuestions.insert({
+      content: question,
+      description: description,
+      user: Meteor.userId(),
+      time: time
+    });
+
+    return question_id;
+  },
+
+  edit_interview_question(id, question, description, responsetime) {
+    let time = 90;
+    if (responsetime == 30) { time = 30; }
+    else if (responsetime == 60) { time = 60; }
+
+    InterviewQuestions.update({ _id: id }, {
+      $set: {
+        content: question,
+        description: description,
+        time: time
+      }});
+  },
+
+  remove_question(id) {
+    InterviewQuestions.remove(id);
   },
 
 });

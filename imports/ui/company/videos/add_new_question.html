@@ -1,0 +1,41 @@
+<template name="CompanyAddNewQuestion">
+  <!-- add new company modal -->
+  <div class="ui basic modal add-new-question">
+    <div class="ui container">
+      <div class="ui grid centered">
+        <div class="twelve wide column add-new-question">
+          <!-- form div starts-->
+          <div class="ui inverted segment">
+            <div class="ui inverted form">
+              <div class="field">
+                <label>Question</label>
+                <input type="text" placeholder="Have you ever..." name="quesiton" id="question" />
+              </div>
+
+              <div class="field">
+                <label>Description</label>
+                <input type="text" placeholder="Describe your question, if needed..." name="description" id="description" />
+              </div>
+
+              <div class="field">
+                <label>Allowed Response Time </label>
+                <select class="ui dropdown" id="responsetime" name="responsetime">
+                  <option value="">Time (seconds)</option>
+                  <option value="30">30 seconds</option>
+                  <option value="60">60 seconds</option>
+                  <option value="90">90 seconds</option>
+                </select>
+              </div>
+
+              <div class="actions">
+                <div class="ui button cancel" id="dismiss-button">Dismiss</div>
+                <div class="ui button positive submit" id="submit-button">Submit</div>
+              </div>
+            </div>
+          </div>
+          <!-- /form div ends-->
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
