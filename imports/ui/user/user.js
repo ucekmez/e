@@ -11,12 +11,15 @@ import './left_menu.html'; // UserLeftMenu
 
 const userRoutes = FlowRouter.group({ prefix: '/user', name: 'user',
   triggersEnter: [function() {
-    if (Meteor.userId()) {
-      if (!Roles.getRolesForUser(Meteor.userId()) > 0) {
-        FlowRouter.go('home');
+    if (Meteor.loggingIn()) { BlazeLayout.render('LoadingLayout');}
+    else {
+      if (Meteor.userId() && Meteor.user()) {
+        if (!Roles.userIsInRole(Meteor.userId(), ['user'])) {
+          FlowRouter.go('notfound');
+        }
+      }else {
+        FlowRouter.go('notfound');
       }
-    }else {
-      FlowRouter.go('home');
     }
   }]
 });

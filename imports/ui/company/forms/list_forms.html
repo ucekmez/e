@@ -5,6 +5,7 @@
         <th>ID</th>
         <th>Form Name</th>
         <th>Form Type</th>
+        <th>Preview</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -14,6 +15,7 @@
           <td>{{ index }}</td>
           <td><a href="{{ pathFor 'edit_form' formId=_id }}">{{ title }}</a></td>
           <td>{{ type }}</td>
+          <td><i class="large blue unhide icon"></i></td>
           <td><a id="remove-form" style="cursor:pointer;"><i class="large red remove icon"></i></a></td>
         </tr>
       {{else}}

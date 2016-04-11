@@ -1,5 +1,6 @@
 // disariya export etmek istedigimiz her sey bu dosyada olacak
 
+import { Companies } from '/imports/api/collections/companies.js';
 import { Slides, Keynotes } from '/imports/api/collections/keynotes.js'; // Keynotes collections
 
 import { Meteor } from 'meteor/meteor';
@@ -7,6 +8,8 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import '../landing/main_navigation.html' // MainNavigation
+import '../landing/loading.html' // LoadingLayout
+
 import './layout.html'; // CompanyLayout
 import './dashboard_main.html'; // CompanyDashboard
 import './left_menu.html'; // CompanyLeftMenu
@@ -23,12 +26,15 @@ import './videos/videos.js';
 
 const companyRoutes = FlowRouter.group({ prefix: '/company', name: 'company',
   triggersEnter: [function() {
-    if (Meteor.userId()) {
-      if (!Roles.userIsInRole(Meteor.userId(), ['company'])) {
-        FlowRouter.go('home');
+    if (Meteor.loggingIn()) { BlazeLayout.render('LoadingLayout');}
+    else {
+      if (Meteor.userId() && Meteor.user()) {
+        if (!Roles.userIsInRole(Meteor.userId(), ['company'])) {
+          FlowRouter.go('notfound');
+        }
+      }else {
+        FlowRouter.go('notfound');
       }
-    }else {
-      FlowRouter.go('home');
     }
   }]
 });
@@ -91,7 +97,17 @@ companyQuestions.route('/list', { name: 'list_questions',
 companyQuestions.route('/edit/:questionId', { name: 'edit_question',
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditQuestion' }); } });
-
+companyQuestions.route('/preview/:questionId', { name: 'preview_question',
+  subscriptions: function(params, queryParams) {
+    if(Meteor.isClient) {
+      this.register('showquestion', Meteor.subscribe("getInterviewQuestion", params._id));
+    }
+  },
+  triggersExit: [function() {
+    q_player.recorder.destroy();
+  }],
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewQuestion' }); } });
 
 
 
@@ -240,6 +256,11 @@ Template.CompanyLeftMenu.events({
 
 
 
+Template.CompanyDashboard.helpers({
+  company() {
+    return Companies.findOne({ user: Meteor.userId()});
+  }
+});
 
 
 

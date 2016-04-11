@@ -17,7 +17,7 @@
           <td><a href="{{ pathFor 'edit_keynote' keynoteId=_id }}">{{ title }}</a></td>
           <td>{{ numberOfSlides _id }}</td>
           <td>{{ dateFromNow createdAt }}</td>
-          <td><a href="{{ pathFor 'preview_keynote' keynoteId=_id }}">Preview</a></td>
+          <td><a href="{{ pathFor 'preview_keynote' keynoteId=_id }}"><i class="large blue unhide icon"></i></a></td>
           <td><a id="remove-keynote" style="cursor:pointer;"><i class="large red remove icon"></i></a></td>
         </tr>
       {{else}}

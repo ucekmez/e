@@ -4,7 +4,10 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Companies } from '/imports/api/collections/companies.js';
 
+import '/imports/startup/client/routes/not_found.js'; // BlazeLayout.render('NotFoundLayout');
+
 import '../landing/main_navigation.html' // MainNavigation
+import '../landing/not_found.html' // NotFoundLayout
 import './add_new_company.html'; // AdminDashboard
 import './layout.html'; // AdminLayout
 import './left_menu.html'; // AdminLeftMenu
@@ -14,12 +17,15 @@ import './list_companies.html'; // AdminListCompanies
 
 const adminRoutes = FlowRouter.group({ prefix: '/admin', name: 'admin',
   triggersEnter: [function() {
-    if (Meteor.userId()) {
-      if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
-        FlowRouter.go('home');
+    if (Meteor.loggingIn()) { BlazeLayout.render('LoadingLayout');}
+    else {
+      if (Meteor.userId() && Meteor.user()) {
+        if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
+          FlowRouter.go('notfound');
+        }
+      }else {
+        FlowRouter.go('notfound');
       }
-    }else {
-      FlowRouter.go('home');
     }
   }]
 });

@@ -2,6 +2,9 @@ import './landing_routes.js';
 import './admin_routes.js';
 import './company_routes.js';
 import './user_routes.js';
+import './not_found.js';
+
+import '/imports/ui/landing/loading.html';
 
 // her sayfada kullanici oturum acana kadar loading ekranini gosterir
 FlowRouter.triggers.enter([function() {

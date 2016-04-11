@@ -1,0 +1,15 @@
+<template name="CompanyPreviewQuestion">
+  <div class="ui container">
+    <div class="preview-question">
+      {{#with question}}
+        <h3>{{ content }}</h3>
+        <span>{{ description }}</span>
+
+
+        <video id="interview" class="video-js vjs-default-skin"></video>
+        <!-- lukemuke vide recorder template tag-->
+        <!-- {{> lmVideoCapture opts=opts}} -->
+      {{/with}}
+    </div>
+  </div>
+</template>
