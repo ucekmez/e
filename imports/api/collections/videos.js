@@ -24,3 +24,24 @@ InterviewQuestions.attachSchema(new SimpleSchema({
     optional: true
   }
 }));
+
+
+/////////////
+
+export const Videos = new FS.Collection("videos", {
+  stores: [new FS.Store.GridFS("videos", {})]
+});
+
+/////////////
+
+// for company preview
+export const PreviewVideos = new Mongo.Collection('preview_videos');
+
+
+
+
+
+
+
+
+//

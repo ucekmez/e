@@ -17,7 +17,8 @@
           <td><a href="{{ pathFor 'edit_question' questionId=_id }}">{{ content }}</a></td>
           <td>{{ dateFromNow createdAt }}</td>
           <td>{{ dateFromNow updatedAt }}</td>
-          <td><a href="{{ pathFor 'preview_question' questionId=_id }}"><i class="large blue unhide icon"></i></a></td>
+          <td><a href="{{ pathFor 'preview_record_question' questionId=_id }}"><i class="large green record icon"></i></a>
+          <a href="{{ pathFor 'preview_answer_question' questionId=_id }}"><i class="large blue unhide icon"></i></a></td>
           <td><a id="remove-question" style="cursor:pointer;"><i class="large red remove icon"></i></a></td>
         </tr>
       {{else}}

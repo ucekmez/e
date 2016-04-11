@@ -1,15 +1,30 @@
-<template name="CompanyPreviewQuestion">
+<template name="CompanyPreviewRecordQuestion">
   <div class="ui container">
     <div class="preview-question">
       {{#with question}}
         <h3>{{ content }}</h3>
         <span>{{ description }}</span>
 
-
         <video id="interview" class="video-js vjs-default-skin"></video>
         <!-- lukemuke vide recorder template tag-->
         <!-- {{> lmVideoCapture opts=opts}} -->
       {{/with}}
+    </div>
+  </div>
+</template>
+
+
+<template name="CompanyPreviewAnswerQuestion">
+  <div class="ui container">
+    <div class="preview-answer">
+      <video id="preview-answer" class="video-js vjs-default-skin" controls
+        preload="auto">
+        <source src="{{ video_url }}" type="video/webm">
+        <p class="vjs-no-js">
+          To view this video please enable JavaScript, and consider upgrading to a web browser
+          that supports HTML5 video
+        </p>
+      </video>
     </div>
   </div>
 </template>

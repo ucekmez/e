@@ -97,7 +97,7 @@ companyQuestions.route('/list', { name: 'list_questions',
 companyQuestions.route('/edit/:questionId', { name: 'edit_question',
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditQuestion' }); } });
-companyQuestions.route('/preview/:questionId', { name: 'preview_question',
+companyQuestions.route('/preview/record/:questionId', { name: 'preview_record_question',
   subscriptions: function(params, queryParams) {
     if(Meteor.isClient) {
       this.register('showquestion', Meteor.subscribe("getInterviewQuestion", params._id));
@@ -107,8 +107,13 @@ companyQuestions.route('/preview/:questionId', { name: 'preview_question',
     q_player.recorder.destroy();
   }],
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewQuestion' }); } });
-
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewRecordQuestion' }); } });
+companyQuestions.route('/preview/answer/:questionId', { name: 'preview_answer_question',
+  triggersExit: [function() {
+    a_player.dispose();
+  }],
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewAnswerQuestion' }); } });
 
 
 

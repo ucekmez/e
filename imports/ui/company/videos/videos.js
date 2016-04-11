@@ -1,7 +1,7 @@
 // disariya export etmek istedigimiz her sey bu dosyada olacak
 
 import { Template } from 'meteor/templating';
-import { InterviewQuestions } from '/imports/api/collections/videos.js'; // Positions collections
+import { InterviewQuestions, PreviewVideos, Videos } from '/imports/api/collections/videos.js'; // Positions collections
 
 import  videojs  from 'video.js';
 import  record  from 'videojs-record';
@@ -57,13 +57,13 @@ Template.CompanyPreviewQuestion.helpers({
 
 */
 
-Template.CompanyPreviewQuestion.helpers({
+Template.CompanyPreviewRecordQuestion.helpers({
   question() {
     return InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
   }
 });
 
-Template.CompanyPreviewQuestion.onRendered(function() {
+Template.CompanyPreviewRecordQuestion.onRendered(function() {
   FlowRouter.subsReady("showquestion", function() {
     const question = InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
 
@@ -87,26 +87,53 @@ Template.CompanyPreviewQuestion.onRendered(function() {
       });
 
       q_player.on('startRecord', function() {
-        console.log('started recording!');
+        //console.log('started recording!');
       });
 
       q_player.on('stopRecord', function() {
-        console.log('stopped recording!');
+        //console.log('stopped recording!');
       });
+
+      q_player.on('finishRecord', function() {
+        //const video = new Blob([q_player.recordedData], { type: 'video/*'});
+        Videos.insert(q_player.recordedData.video, function(err, fileObj) {
+          Meteor.call('add_video_to_preview', question._id, Meteor.userId(), fileObj._id, function() {
+            toastr.info("Your response has been saved!");
+          });
+        });
+      })
 
       q_player.on('deviceError', function() {
         if (q_player.deviceErrorCode === "PermissionDeniedError") {
           toastr.warning("You must give permission to your camera and mic!");
         }else if (q_player.deviceErrorCode === "NotFoundError") {
-          toastr.warning("You need Firefox or Chrome to record!");
+          toastr.warning("You must have a working camera + mic!");
         }else {
-          toastr.warning("An unknown error occured! Please reload the page.");
+          toastr.warning("You need Firefox or Chrome to record!");
         }
       });
     }
 
   });
 });
+
+
+Template.CompanyPreviewAnswerQuestion.onRendered(function(){
+  a_player = videojs("preview-answer", {
+    "width": 640,
+    "height": 480,
+    "poster": "/img/fililabs_logo.png",
+  });
+});
+
+
+Template.CompanyPreviewAnswerQuestion.helpers({
+  video_url() {
+    A = PreviewVideos.findOne({ $and : [{ question: FlowRouter.getParam('questionId')}, {user: Meteor.userId() }]});
+    return Videos.findOne(A.video).url();
+  }
+});
+
 
 Template.CompanyListQuestions.helpers({
   questions() {

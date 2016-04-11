@@ -1,7 +1,7 @@
 import { Forms } from '/imports/api/collections/forms.js';
 import { Slides, Keynotes } from '/imports/api/collections/keynotes.js';
 import { Positions } from '/imports/api/collections/positions.js';
-import { InterviewQuestions } from '/imports/api/collections/videos.js';
+import { InterviewQuestions, PreviewVideos, Videos } from '/imports/api/collections/videos.js';
 
 Meteor.methods({
   add_new_form(){
@@ -109,5 +109,24 @@ Meteor.methods({
   remove_question(id) {
     InterviewQuestions.remove(id);
   },
+
+  // for preview purpose only
+  add_video_to_preview(q_id, user_id, video_id) {
+    const already_exists = PreviewVideos.findOne({ $and : [{ question: q_id}, {user: user_id}]});
+    if (already_exists) {
+      Videos.remove(already_exists.video); // remove the previous video
+      PreviewVideos.update({ $and : [{ question: q_id}, {user: user_id}]}, {
+        $set: { video: video_id } // set the new one
+      });
+      return already_exists._id;
+    }else { // if there is no record before, then create a new one
+      const preview_id = PreviewVideos.insert({
+        question: q_id,
+        user: user_id,
+        video: video_id
+      });
+      return preview_id;
+    }
+  }
 
 });
