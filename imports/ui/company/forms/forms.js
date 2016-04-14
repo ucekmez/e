@@ -1,22 +1,23 @@
 import { Template } from 'meteor/templating';
 import { Forms } from '/imports/api/collections/forms.js'; // Forms collections
 
-import './edit_form.html';
-import './list_forms.html';
+import './edit_form.html'; // CompanyEditFormLayout CompanyEditForm
+import './list_forms.html'; // CompanyListForms
+import './preview_form.html'; // CompanyPreviewForm
 
 
 
 Template.CompanyEditForm.onRendered(function() {
-  const form = Forms.findOne({_id: FlowRouter.getParam('formId')});
+  FlowRouter.subsReady("getformpreview", function() {
+    const form = Forms.findOne({_id: FlowRouter.getParam('formId')});
 
-  Tracker.autorun(function() {
     if (form && form.user === Meteor.userId()) {
       fb = new Formbuilder({ selector: '.fb-main', bootstrapData: form.payload ? JSON.parse(form.payload).fields : [], workingFormType: form.type });
       fb.on('save', function(payload) {
-        Forms.update({ _id: form._id }, { $set: { payload: payload } });
-        toastr.info("Form updated!");
+        Meteor.call("update_form_payload", form._id, payload, function(data) {
+          toastr.info("Form updated!");
+        });
       });
-
       if (form.type == 'test') {
           $("a[data-field-type='address']").remove();
           $("a[data-field-type='number']").remove();
@@ -27,7 +28,6 @@ Template.CompanyEditForm.onRendered(function() {
           $("a[data-field-type='section_break']").remove();
       }
     }
-
   });
 });
 
@@ -46,4 +46,21 @@ Template.CompanyListForms.events({
   'click #remove-form'(event, instance) {
     Meteor.call('remove_form', this._id);
   }
+});
+
+
+Template.CompanyPreviewForm.helpers({
+  form() {
+    const frm = Forms.findOne({ _id: FlowRouter.getParam('formId') });
+    Frm = frm;
+    return frm;
+  }
+});
+
+Template.registerHelper('toJSON', function(payload){
+  return JSON.parse(payload);
+});
+
+Template.registerHelper('equals', function(s1, s2){
+  return s1 === s2;
 });

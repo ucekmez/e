@@ -2,6 +2,9 @@
 
 import { Companies } from '/imports/api/collections/companies.js';
 import { Slides, Keynotes } from '/imports/api/collections/keynotes.js'; // Keynotes collections
+import { Positions } from '/imports/api/collections/positions.js'; // Positions collections
+import { InterviewQuestions } from '/imports/api/collections/videos.js'; // Videos collections
+import { Forms } from '/imports/api/collections/forms.js'; // Forms collections
 
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
@@ -46,8 +49,15 @@ companyRoutes.route('/', { name: 'company_dashboard',
 
 const companyFormRoutes = companyRoutes.group({ prefix: "/forms", name: "companyforms"});
 companyFormRoutes.route('/edit/:formId', { name: 'edit_form',
+  subscriptions: function(params, queryParams) {
+    if(Meteor.isClient) {
+      this.register('getformpreview', Meteor.subscribe("getFormForPreview", params._id));
+    }
+  },
   action: function(params) {
     BlazeLayout.render('CompanyEditFormLayout', { nav: 'MainNavigation', main: 'CompanyEditForm' }); } });
+companyFormRoutes.route('/preview/:formId', { name: 'preview_form',
+  action: function(params) { BlazeLayout.render('CompanyPreviewForm'); } });
 companyFormRoutes.route('/list', { name: 'list_forms',
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListForms' }); } });
@@ -101,16 +111,27 @@ companyQuestions.route('/preview/record/:questionId', { name: 'preview_record_qu
   subscriptions: function(params, queryParams) {
     if(Meteor.isClient) {
       this.register('showquestion', Meteor.subscribe("getInterviewQuestion", params._id));
+      this.register('showquestionvideo', Meteor.subscribe("getInterviewQuestionVideo", params._id, Meteor.userId()));
     }
   },
   triggersExit: [function() {
-    q_player.recorder.destroy();
+    if (typeof(q_player) !== "undefined") {
+      q_player.recorder.destroy();
+    }
   }],
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewRecordQuestion' }); } });
 companyQuestions.route('/preview/answer/:questionId', { name: 'preview_answer_question',
+  subscriptions: function(params, queryParams) {
+    if(Meteor.isClient) {
+      this.register('showquestion', Meteor.subscribe("getInterviewQuestion", params._id));
+      this.register('showquestionvideo', Meteor.subscribe("getInterviewQuestionVideo", params._id, Meteor.userId()));
+    }
+  },
   triggersExit: [function() {
-    a_player.dispose();
+    if (typeof(a_player) !== "undefined") {
+      a_player.dispose();
+    }
   }],
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewAnswerQuestion' }); } });
@@ -164,7 +185,7 @@ Template.CompanyLeftMenu.events({
         onDeny() {
           $('.ui.form').form('reset');
           $('.ui.form').form('clear');
-          Session.set("success", false);
+          Session.set("position-success", false);
         },
         onApprove() {
           $('.ui.form')
@@ -185,9 +206,9 @@ Template.CompanyLeftMenu.events({
             Meteor.call('add_new_position', positiontitle, opensat, endsat, description, function (err, data) {
               if (err) {
                 toastr.error(err.reason);
-                Session.set("success", false);
+                Session.set("position-success", false);
               }else {
-                Session.set("success", false);
+                Session.set("position-success", false);
                 $(".ui.form").form('reset');
                 $(".ui.form").form('clear');
                 toastr.success('New Position has been added!');
@@ -196,8 +217,8 @@ Template.CompanyLeftMenu.events({
               }
             });
 
-            if (!Session.get("success")) {
-              Session.set("success", false);
+            if (!Session.get("position-success")) {
+              Session.set("position-success", false);
               return false;
             }
           }else {
@@ -216,7 +237,7 @@ Template.CompanyLeftMenu.events({
         onDeny() {
           $('.ui.form').form('reset');
           $('.ui.form').form('clear');
-          Session.set("success", false);
+          Session.set("question-success", false);
         },
         onApprove() {
           $('.ui.form')
@@ -234,9 +255,9 @@ Template.CompanyLeftMenu.events({
             Meteor.call('add_new_interview_question', question, description, responsetime, function (err, data) {
               if (err) {
                 toastr.error(err.reason);
-                Session.set("success", false);
+                Session.set("question-success", false);
               }else {
-                Session.set("success", false);
+                Session.set("question-success", false);
                 $(".ui.form").form('reset');
                 $(".ui.form").form('clear');
                 toastr.success('New Question has been added!');
@@ -245,8 +266,8 @@ Template.CompanyLeftMenu.events({
               }
             });
 
-            if (!Session.get("success")) {
-              Session.set("success", false);
+            if (!Session.get("question-success")) {
+              Session.set("question-success", false);
               return false;
             }
           }else {
@@ -264,7 +285,21 @@ Template.CompanyLeftMenu.events({
 Template.CompanyDashboard.helpers({
   company() {
     return Companies.findOne({ user: Meteor.userId()});
-  }
+  },
+  saved_positions() {
+    return Positions.find({ user: Meteor.userId() }).count();
+  },
+  saved_forms() {
+    return Forms.find({ user: Meteor.userId() }).count();
+  },
+  saved_keynotes() {
+    return Keynotes.find({ user: Meteor.userId() }).count();
+  },
+  saved_questions() {
+    return InterviewQuestions.find({ user: Meteor.userId() }).count();
+  },
+
+
 });
 
 

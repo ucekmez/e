@@ -11,31 +11,29 @@
     <div class="four wide column thumbnails">
       <ul class="keynote-thumbnails">
         {{#sortable items=slides options=sortableOptions}}
-          <li class="keynote-slide" id="thumbnail">
-            <i class="big red delete icon" id="slide-delete-icon" aria-hidden="true"></i>
+          <li class="keynote-slide ui segment" id="thumbnail">
+            <i class="red delete icon" style="cursor:pointer" id="slide-delete-icon" aria-hidden="true"></i>
             <span>{{{ scaleText content }}}</span>
           </li>
         {{/sortable}}
-        <div class="add-icon-container"><i class="big blue add icon" id="slide-add-icon" aria-hidden="true"></i></div>
+        <div class="add-icon-container"><i class="huge blue add icon" style="cursor:pointer;" id="slide-add-icon" aria-hidden="true"></i></div>
       </ul>
     </div>
 
     <div class="twelve wide column">
-      <div class="bigger-slide-container">
-        <div id="start-editing">
-            <h3>Please choose a slide to edit.</h3>
-        </div>
-        {{#each slides }}
-          {{> EditSingleSlide}}
-        {{/each}}
+      <div id="start-editing">
+          <h3>Please choose a slide to edit.</h3>
       </div>
+      {{#each slides }}
+        {{> EditSingleSlide}}
+      {{/each}}
     </div>
   </div>
 </template>
 
 
 <template name="EditSingleSlide">
-  <div id="slide-{{_id}}" class="editable slide-area passive">
+  <div id="slide-{{_id}}" class="slide-area passive">
     {{> froalaReactive getFEContext disableRightClick=true}}
   </div>
 </template>

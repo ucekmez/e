@@ -87,6 +87,10 @@ Template.CompanyEditKeynote.events({
   }
 });
 
+Template.EditSingleSlide.onRendered(function() {
+  $('.fr-toolbar').addClass("ui segment");
+  $('.fr-wrapper').addClass("ui segment");
+});
 
 Template.EditSingleSlide.helpers({
   getFEContext : function() {
@@ -100,9 +104,9 @@ Template.EditSingleSlide.helpers({
       tabSpaces: false, // Set some FE options
       disableRightClick: false,
       maxCharacters: 2048,
-      widht: 'auto',
-      height: '300',
-      heightMax: '300',
+      width: 'auto',
+      height: '360',
+      heightMax: '360',
       toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'color', 'emoticons', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', 'insertHR', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', 'undo', 'redo', 'clearFormatting', 'selectAll', 'html'],
       "_oncontentChanged": function (e, editor) { // FE save.before event handler function:
         // Get edited HTML from Froala-Editor

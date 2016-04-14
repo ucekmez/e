@@ -11,13 +11,17 @@
 .keynote-slide {
   padding: 15px;
   margin: 0 0 15px;
-  border: 1px dashed #ddd;
   height: 100px;
   max-height: 100px;
   overflow: hidden;
   white-space:nowrap;
   font-size: 0.6vw !important;
   line-height: 60%;
+  user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
 }
 .keynote-thumbnail-placeholder {
   background: #DADADA;
@@ -45,22 +49,26 @@
 }
 
 #slide-delete-icon {
-  z-index:10;
+  z-index:999;
+  position:absolute;
   float:left;
   margin-left: -10px;
-  margin-top: -10px;
+  margin-top: 4px;
   color: red;
+  font-size:30px;
 }
 
 
+/*
 .bigger-slide-container {
   height: 400px;
   border: 1px dashed #ddd;
   width:auto;
 }
+*/
 
 .thumbnails {
-  height:400px;
+  height:500px;
   overflow: auto;
 }
 
@@ -70,7 +78,6 @@
   position:absolute;
   width:96%;
   height:400px;
-  padding:10px;
 }
 
 #start-editing {
@@ -95,13 +102,12 @@ textarea {
 }
 
 
-.fr-wrapper {
-	background-color: #fff;
-	transition:3s background;
-  transition:3s all;
-}
-
 
 .ui.container.preview-keynote {
   margin:0px !important;
+}
+
+
+.fr-toolbar.ui.segment {
+  padding: 0px !important;
 }

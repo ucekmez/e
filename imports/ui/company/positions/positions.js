@@ -9,6 +9,9 @@ import './edit_position.html'; // CompanyEditPositions
 
 
 Template.CompanyAddNewPosition.onRendered(function() {
+  $('.fr-add-new-position .fr-toolbar').addClass("ui segment");
+  $('.fr-add-new-position .fr-wrapper').addClass("ui segment");
+
   $.getScript("/js/datetimepicker.js")
     .done(function(script, textStatus) {
       $('#opensat').datetimepicker({
@@ -42,7 +45,7 @@ Template.CompanyAddNewPosition.helpers({
     return {
       //_value: self.description, // set HTML content
       //_keepMarkers: true, // preserving cursor markers
-      //_className: "froala-reactive-meteorized-override", // Override wrapper class
+      _className: "fr-add-new-position", // Override wrapper class
       toolbarInline: false, // Set some FE options
       initOnClick: false, // Set some FE options
       tabSpaces: false, // Set some FE options
@@ -51,7 +54,7 @@ Template.CompanyAddNewPosition.helpers({
       width: 'auto',
       height: '200',
       heightMax: '200',
-      toolbarButtons: ['bold', 'italic', 'underline', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL', 'insertHR', 'insertLink', 'insertImage', 'insertVideo', 'insertTable', 'undo'],
+      toolbarButtons: ['bold', 'italic', 'underline', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL', 'insertHR', 'insertLink', 'insertImage', 'insertVideo', 'undo'],
     };
   }
 });
@@ -102,6 +105,12 @@ Template.CompanyEditPosition.onRendered(function() {
   });
 });
 
+
+Template.CompanyEditPosition.onRendered(function() {
+  $('.fr-edit-position .fr-toolbar').addClass("ui segment");
+  $('.fr-edit-position .fr-wrapper').addClass("ui segment");
+});
+
 Template.CompanyEditPosition.events({
   'click #submit-button'(event, instance) {
     $('.ui.form')
@@ -143,15 +152,15 @@ Template.CompanyEditPosition.helpers({
     return {
       _value: self.description, // set HTML content
       _keepMarkers: true, // preserving cursor markers
-      _className: "froala-reactive-meteorized-override", // Override wrapper class
+      _className: "fr-edit-position", // Override wrapper class
       toolbarInline: false, // Set some FE options
       initOnClick: false, // Set some FE options
       tabSpaces: false, // Set some FE options
       disableRightClick: false,
       maxCharacters: 4096,
-      widht: 'auto',
-      height: '200',
-      heightMax: '300',
+      width: 'auto',
+      height: '240',
+      heightMax: '240',
       toolbarButtons: ['bold', 'italic', 'underline', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL', 'insertHR', 'insertLink', 'insertImage', 'insertVideo', 'insertTable', 'undo'],
       "_oncontentChanged": function (e, editor) { // FE save.before event handler function:
         // Get edited HTML from Froala-Editor

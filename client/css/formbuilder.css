@@ -1,10 +1,9 @@
-
 .fb-button[disabled]{background:#ddd !important;border:thin solid #ccc;color:#777 !important;text-shadow:none !important;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=65)";opacity:.65;cursor:default}
 .fb-clear{clear:both}
 .fb-main{margin:0 auto;padding-right:20px;position:relative;}
 .fb-save-wrapper{position:absolute;right:20px;top:10px}
-.fb-left{float:left;width:260px;padding-top:10px}
-.fb-right{padding-top:70px;margin-left:260px;border-left:1px solid #ddd;padding-left:10px;min-height:100%;overflow:hidden}
+.fb-left{float:left;width:280px;padding-top:10px}
+.fb-right{margin-left:280px;border-left:1px solid #ddd;padding-left:10px;min-height:100%;overflow:hidden}
 .fb-no-response-fields{color:#999}
 .fb-tabs{list-style:none;margin:0 0 20px 0;padding:0 0 0 20px;border-bottom:1px solid #ccc}
 .fb-tabs li{display:inline-block}
@@ -47,3 +46,6 @@
 .fb-common-wrapper .fb-label-description{margin-bottom:10px}
 .fb-common-wrapper .fb-label-description input,.fb-common-wrapper .fb-label-description textarea{width:100%}
 .fb-common-wrapper .fb-label-description textarea{min-height:5em}
+.form-button-class {
+  margin:0px 0px 4px 2px !important;
+}

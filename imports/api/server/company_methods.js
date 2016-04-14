@@ -30,6 +30,10 @@ Meteor.methods({
     Forms.remove(id);
   },
 
+  update_form_payload(id, payload) {
+    Forms.update({ _id: id }, { $set: { payload: payload } });
+  },
+
   add_new_keynote() {
     var keynote_id = Keynotes.insert({
       title: "New Keynote",

@@ -1,5 +1,65 @@
 <template name="CompanyDashboard">
-  <p>
-    Hi {{ company.name }}, Welcome to your Dashboard!
-  </p>
+  <div class="ui segment">
+    <h3>Hi {{ company.name }}, Welcome to your Dashboard!</h3>
+    <div class="ui divider"></div>
+    <div class="ui four statistics">
+      <div class="statistic">
+        <div class="value">
+          <a href="{{ pathFor 'list_positions' }}">
+            <i class="sitemap grey icon"></i>
+          {{ saved_positions }}
+          </a>
+        </div>
+        <div class="label">
+          <a href="{{ pathFor 'list_positions' }}">
+            Positions
+          </a>
+        </div>
+      </div>
+
+      <div class="statistic">
+        <div class="value">
+          <a href="{{ pathFor 'list_forms' }}">
+            <i class="browser grey icon"></i>
+          {{ saved_forms }}
+          </a>
+        </div>
+        <div class="label">
+          <a href="{{ pathFor 'list_forms' }}">
+            Forms
+          </a>
+        </div>
+      </div>
+
+      <div class="statistic">
+        <div class="value">
+          <a href="{{ pathFor 'list_keynotes' }}">
+            <i class="unordered grey list icon"></i>
+          {{ saved_keynotes }}
+          </a>
+        </div>
+        <div class="label">
+          <a href="{{ pathFor 'list_keynotes' }}">
+            Keynotes
+          </a>
+        </div>
+      </div>
+
+      <div class="statistic">
+        <div class="value">
+          <a href="{{ pathFor 'list_questions' }}">
+            <i class="video play grey icon"></i>
+          {{ saved_questions }}
+          </a>
+        </div>
+        <div class="label">
+          <a href="{{ pathFor 'list_questions' }}">
+            Video Questions
+          </a>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
 </template>

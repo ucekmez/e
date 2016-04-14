@@ -1215,7 +1215,7 @@ Meteor.startup(function() {
         //Create and append the visible helper
         this.helper = this._createHelper(event);
 
-        this.helper.addClass("ui-draggable-dragging btn btn-default");
+        this.helper.addClass("ui-draggable-dragging ui button");
 
         //Cache the helper size
         this._cacheHelperProportions();
@@ -8289,7 +8289,7 @@ Meteor.startup(function() {
           arguments);
       }
 
-      ViewFieldView.prototype.className = "fb-field-wrapper ";
+      ViewFieldView.prototype.className = "fb-field-wrapper ui segment ";
 
       ViewFieldView.prototype.events = {
         'click .subtemplate-wrapper': 'focusEditView',
@@ -8634,7 +8634,7 @@ Meteor.startup(function() {
             return function() {
               var $helper;
               $helper = $(
-                "<div class='ui card response-field-draggable-helper' />"
+                "<div class='ui segment response-field-draggable-helper' />"
               );
               $helper.css({
                 width: _this.$responseFields.width(),
@@ -8676,8 +8676,8 @@ Meteor.startup(function() {
           function() {
             return $(this).data('cid') === model.cid;
           });
-        $responseFieldEl.addClass('panel panel-default').siblings(
-          '.fb-field-wrapper').removeClass('panel panel-default');
+        $responseFieldEl.addClass('panel panel-default raised').siblings(
+          '.fb-field-wrapper').removeClass('panel panel-default raised');
         if (this.editView) {
           if (this.editView.model.cid === model.cid) {
             this.$el.find(".fb-tabs a[data-target=\"#editField\"]")
@@ -8805,7 +8805,7 @@ Meteor.startup(function() {
       };
 
       Formbuilder.options = {
-        BUTTON_CLASS: 'btn btn-default',
+        BUTTON_CLASS: 'ui button form-button-class',
         HTTP_ENDPOINT: '',
         HTTP_METHOD: 'POST',
         AUTOSAVE: true,
@@ -8905,7 +8905,7 @@ Meteor.startup(function() {
 
     Formbuilder.registerField('address', {
       order: 50,
-      view: "<div class='input-line'>\n  <span class='street'>\n    <input type='text' placeholder='<%= rf.get(Formbuilder.options.mappings.ADDRESS_VALUE) %>' />\n    <label>Address</label>\n  </span>\n</div>\n\n<div class='input-line'>\n  <span class='city'>\n    <input type='text' placeholder='<%= rf.get(Formbuilder.options.mappings.CITY_VALUE) %>' />\n    <label>City</label>\n  </span>\n\n  <span class='country'>\n    <input type='text' placeholder='<%= rf.get(Formbuilder.options.mappings.COUNTRY_VALUE) %>' />\n    <label>Country</label>\n  </span>\n</div>\n\n<div class='input-line'>\n </div>",
+      view: "<div class='input-line field'>\n  <span class='street'>\n    <input type='text' placeholder='<%= rf.get(Formbuilder.options.mappings.ADDRESS_VALUE) %>' />\n    <label>Address</label>\n  </span>\n</div>\n\n<div class='input-line'>\n  <span class='city'>\n    <input type='text' placeholder='<%= rf.get(Formbuilder.options.mappings.CITY_VALUE) %>' />\n    <label>City</label>\n  </span>\n\n  <span class='country'>\n    <input type='text' placeholder='<%= rf.get(Formbuilder.options.mappings.COUNTRY_VALUE) %>' />\n    <label>Country</label>\n  </span>\n</div>\n\n<div class='input-line'>\n </div>",
       edit: "<%= Formbuilder.templates['edit/address_values']() %>",
       addButton: "Addr"
     });
@@ -8918,7 +8918,7 @@ Meteor.startup(function() {
     // console.log("formType : " + Session.get("workingFormType"));
     Formbuilder.registerField('checkboxes', {
       order: 10,
-      view: "<% for (i in (rf.get(Formbuilder.options.mappings.OPTIONS) || [])) { %>\n  <div class='checkbox'>\n    <label for='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].id %>' class='fb-option'>\n      <input id='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].id %>' type='checkbox' class='checkbox' <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].checked && 'checked' %> onclick=\"javascript: return false;\" />\n      <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>   </label>\n  </div>\n<% } %>\n\n<% if (rf.get(Formbuilder.options.mappings.INCLUDE_OTHER)) { %>\n  <div class='other-option'>\n    <label class='fb-option'>\n      <input id='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].id %>' type='checkbox' class='checkbox' <%= rf.get(Formbuilder.options.mappings.INCLUDE_OTHER_CHECKED) && 'checked' %> />\r      <label for='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>'>Other</label>\r    </label>    <input type='text' placeholder='<%= rf.get(Formbuilder.options.mappings.INCLUDE_OTHER_VALUE) %>'/>\n  </div>\n<% } %>",
+      view: "<% for (i in (rf.get(Formbuilder.options.mappings.OPTIONS) || [])) { %>\n  <div class='checkbox'>\n    <label for='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].id %>' class='fb-option'>\n      <input id='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].id %>' type='checkbox' class='checkbox' <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].checked && 'checked' %> onclick=\"javascript: return false;\" />\n      <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>   </label>\n  </div>\n<% } %>\n\n<% if (rf.get(Formbuilder.options.mappings.INCLUDE_OTHER)) { %>\n  <div class='other-option field'>\n    <label class='fb-option'>\n      <input id='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].id %>' type='checkbox' class='checkbox' <%= rf.get(Formbuilder.options.mappings.INCLUDE_OTHER_CHECKED) && 'checked' %> />\r      <label for='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>'>Other</label>\r    </label>    <input type='text' placeholder='<%= rf.get(Formbuilder.options.mappings.INCLUDE_OTHER_VALUE) %>'/>\n  </div>\n<% } %>",
       edit: "<%= Formbuilder.templates['edit/options']({ includeOther: true }, rf) %>",
       addButton: "Check",
       defaultAttributes: function(attrs) {
@@ -8942,6 +8942,8 @@ Meteor.startup(function() {
 
   }).call(this);
 
+
+/*
   (function() {
     Formbuilder.registerField('date', {
       order: 20,
@@ -8955,6 +8957,7 @@ Meteor.startup(function() {
     });
 
   }).call(this);
+*/
 
   (function() {
     Formbuilder.registerField('dropdown', {
@@ -9212,7 +9215,7 @@ Meteor.startup(function() {
   (function() {
     Formbuilder.registerField('radio', {
       order: 15,
-      view: "<% for (i in (rf.get(Formbuilder.options.mappings.OPTIONS) || [])) { %>\n  <div>\n    <label class='fb-option'>\n      <input id='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].id %>' type='radio' <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].checked && 'checked' %> onclick=\"javascript: return false;\" />\n      <label for='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].id %>' ><%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %></label>\n    </label>\n  </div>\n<% } %>\n\n<% if (rf.get(Formbuilder.options.mappings.INCLUDE_OTHER)) { %>\n  <div class='other-option'>\n    <label class='fb-option'>\n      <input id='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>' type='radio'  <%= rf.get(Formbuilder.options.mappings.INCLUDE_OTHER_CHECKED) && 'checked' %> />\r      <label for='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>'>Other</label>\r    </label>\r    <input type='text' placeholder='<%= rf.get(Formbuilder.options.mappings.INCLUDE_OTHER_VALUE) %>'/>\n  </div>\n<% } %>",
+      view: "<% for (i in (rf.get(Formbuilder.options.mappings.OPTIONS) || [])) { %>\n  <div>\n    <label class='fb-option'>\n      <input id='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].id %>' type='radio' <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].checked && 'checked' %> onclick=\"javascript: return false;\" />\n      <label for='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].id %>' ><%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %></label>\n    </label>\n  </div>\n<% } %>\n\n<% if (rf.get(Formbuilder.options.mappings.INCLUDE_OTHER)) { %>\n  <div class='other-option field'>\n    <label class='fb-option'>\n      <input id='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>' type='radio'  <%= rf.get(Formbuilder.options.mappings.INCLUDE_OTHER_CHECKED) && 'checked' %> />\r      <label for='<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>'>Other</label>\r    </label>\r    <input type='text' placeholder='<%= rf.get(Formbuilder.options.mappings.INCLUDE_OTHER_VALUE) %>'/>\n  </div>\n<% } %>",
       edit: "<%= Formbuilder.templates['edit/options']({ includeOther: true }, rf) %>",
       addButton: "Radio",
       defaultAttributes: function(attrs) {
@@ -9235,13 +9238,13 @@ Meteor.startup(function() {
   }).call(this);
 
 
-  /*
+
   (function() {
     Formbuilder.registerField('range', {
       order: 40,
       view: "<% if (rf.get(Formbuilder.options.mappings.MIN_LABEL)) { %>\n    <span><%= rf.get(Formbuilder.options.mappings.MIN_LABEL) %></span>\n<% } %>\n<input type='range' value=\"<%= rf.get(Formbuilder.options.mappings.VALUE) %>\" min=\"<%= rf.get(Formbuilder.options.mappings.MIN) %>\" max=\"<%= rf.get(Formbuilder.options.mappings.MAX) %>\" />\n<% if (rf.get(Formbuilder.options.mappings.MAX_LABEL)) { %>\n    <span><%= rf.get(Formbuilder.options.mappings.MAX_LABEL) %></span>\n<% } %>",
       edit: "<%= Formbuilder.templates['edit/min_max']() %>\n<%= Formbuilder.templates['edit/min_max_labels']() %>\n<%= Formbuilder.templates['edit/value']() %>",
-      addButton: "<span class=\"symbol\"><span class=\"fa fa-arrows-h\"></span></span> Range",
+      addButton: "Range",
       defaultAttributes: function(attrs) {
         attrs.field_options.min_label = "least";
         attrs.field_options.min = 0;
@@ -9253,15 +9256,15 @@ Meteor.startup(function() {
     });
 
   }).call(this);
-  */
 
+/*
 
   (function() {
     Formbuilder.registerField('range_group', {
       order: 40,
       view: "<% for (i in (rf.get(Formbuilder.options.mappings.OPTIONS) || [])) { %>\n  <div>\n    <% if (rf.get(Formbuilder.options.mappings.OPTIONS)[i].min_label) { %>\n        <span><%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].min_label %></span>\n    <% } %>\n    <input type='range' value=\"<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].value %>\"\n            min=\"<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].min %>\"\n            max=\"<%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].max %>\" />\n    <% if (rf.get(Formbuilder.options.mappings.OPTIONS)[i].max_label) { %>\n        <span class='right'><%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].max_label %></span>\n    <% } %>\n  </div>\n<% } %>\n",
       edit: "<%= Formbuilder.templates['edit/range_group_options']() %>",
-      addButton: "Range",
+      addButton: "Range Group",
       defaultAttributes: function(attrs) {
         attrs.field_options.options = [{
           min_label: "least",
@@ -9275,6 +9278,9 @@ Meteor.startup(function() {
     });
 
   }).call(this);
+
+
+  */
 
   (function() {
     Formbuilder.registerField('section_break', {
@@ -9346,13 +9352,13 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        '<div class=\'fb-edit-section-header\'>Default values</div>\r\n\r\n<div>\r\n\r\n    <input placeholder="Address" type="text" data-rv-input="model.' +
+        '<div class=\'fb-edit-section-header\'>Default values</div>\r\n\r\n<div class="field">\r\n\r\n    <input placeholder="Address" type="text" data-rv-input="model.' +
         ((__t = (Formbuilder.options.mappings.ADDRESS_VALUE)) == null ?
           '' : __t) +
-        '" />\r\n</div>\r\n\r\n<div>\r\n\r\n    <input placeholder="City" type="text" data-rv-input="model.' +
+        '" />\r\n</div>\r\n\r\n<div class="field">\r\n\r\n    <input placeholder="City" type="text" data-rv-input="model.' +
         ((__t = (Formbuilder.options.mappings.CITY_VALUE)) == null ? '' :
           __t) +
-        '" />\r\n</div>\r\n\r\n<div>\r\n\r\n    <input placeholder="Country" type="text" data-rv-input="model.' +
+        '" />\r\n</div>\r\n\r\n<div class="field">\r\n\r\n    <input placeholder="Country" type="text" data-rv-input="model.' +
         ((__t = (Formbuilder.options.mappings.COUNTRY_VALUE)) == null ?
           '' : __t) +
         '" />\r\n</div>\r\n\r\n<div>\r\n\r\n</div>';
@@ -9470,7 +9476,7 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        '<div class=\'fb-edit-section-header\'>Integer only</div>\r\n<label>\r\n  <input type=\'checkbox\' data-rv-checked=\'model.' +
+        '<div class=\'fb-edit-section-header field\'>Integer only</div>\r\n<label>\r\n  <input type=\'checkbox\' data-rv-checked=\'model.' +
         ((__t = (Formbuilder.options.mappings.INTEGER_ONLY)) == null ?
           '' : __t) +
         '\' />\r\n  Only accept integers\r\n</label>\r\n';
@@ -9502,7 +9508,7 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        '<div class=\'fb-edit-section-header\'>Minimum / Maximum</div>\r\n\r\nAbove\r\n<input type="text" data-rv-input="model.' +
+        '<div class=\'fb-edit-section-header field\'>Minimum / Maximum</div>\r\n\r\nAbove\r\n<input type="text" data-rv-input="model.' +
         ((__t = (Formbuilder.options.mappings.MIN)) == null ? '' : __t) +
         '" style="width: 60px" />\r\n\r\n&nbsp;&nbsp;\r\n\r\nBelow\r\n<input type="text" data-rv-input="model.' +
         ((__t = (Formbuilder.options.mappings.MAX)) == null ? '' : __t) +
@@ -9518,10 +9524,10 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        '<div class=\'fb-edit-section-header\'>Minimum / Maximum</div>\r\n\r\nAbove label\r\n<input type="text" data-rv-input="model.' +
+        '<div class=\'fb-edit-section-header field\'>Minimum / Maximum</div>\r\n\r\nAbove label\r\n<input type="text" data-rv-input="model.' +
         ((__t = (Formbuilder.options.mappings.MIN_LABEL)) == null ? '' :
           __t) +
-        '" style="width: 30px" />\r\n\r\n&nbsp;&nbsp;\r\n\r\nBelow label\r\n<input type="text" data-rv-input="model.' +
+        '" style="width: 30px" />\r\n\r\n&nbsp;&nbsp;\r\n\r\n<br />Below label\r\n<input type="text" data-rv-input="model.' +
         ((__t = (Formbuilder.options.mappings.MAX_LABEL)) == null ? '' :
           __t) +
         '" style="width: 30px" />\r\n';
@@ -9536,7 +9542,7 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        '<div class=\'fb-edit-section-header\'>Length Limit</div>\r\n\r\nMin\r\n<input type="text" data-rv-input="model.' +
+        '<div class=\'fb-edit-section-header field\'>Length Limit</div>\r\n\r\nMin\r\n<input type="text" data-rv-input="model.' +
         ((__t = (Formbuilder.options.mappings.MINLENGTH)) == null ? '' :
           __t) +
         '" style="width: 30px" />\r\n\r\n&nbsp;&nbsp;\r\n\r\nMax\r\n<input type="text" data-rv-input="model.' +
@@ -9565,7 +9571,7 @@ Meteor.startup(function() {
     with(obj) {
         // console.dir(rf.attributes.field_type);
         __p +=
-          '<div class=\'fb-edit-section-header\'>Options</div>\r\n\r\n';
+          '<div class=\'fb-edit-section-header field\'>Options</div>\r\n\r\n';
         if (typeof includeBlank !== 'undefined') {;
           __p +=
             '\r\n  <label>\r\n    <input id="includeblank" type=\'checkbox\' data-rv-checked=\'model.' +
@@ -9574,7 +9580,7 @@ Meteor.startup(function() {
             '\' />\r\n    <label for="includeblank">Include blank</label>\r\n  </label>\r\n';
         };
         __p +=
-          '\r\n\r\n<div class=\'option\' data-rv-each-option=\'model.' +
+          '\r\n\r\n<div class=\'option field\' data-rv-each-option=\'model.' +
           ((__t = (Formbuilder.options.mappings.OPTIONS)) == null ? '' :
             __t) +
           '\'>\r\n  <input type="text" data-rv-input="option:label" class=\'option-label-input\'  placeholder="Label"/>\r\n ';
@@ -9582,8 +9588,8 @@ Meteor.startup(function() {
         // console.log("formType: " + formType);
         if (rf.attributes.field_type == "radio" && formType == "test") {
           // console.log("girdi radio");
-          __p += '<div class="checkbox-inline"><label><input  data-rv-checked="option:truechoice"' +
-            '" type="checkbox"  class=\'js-default-updated\' />True</label></div>';
+          __p += '<label><input  data-rv-checked="option:truechoice"' +
+            '" type="checkbox"  class=\'js-default-updated\' />True</label>';
         }
         // console.log("ft: " + rf.attributes.field_type + " fType: " +
         //   formType);
@@ -9591,11 +9597,11 @@ Meteor.startup(function() {
           'test') {
           // console.log("girdi chk");
           __p +=
-            '<div class="checkbox-inline"><label><input name="isTrue"  data-rv-checked="option:truechoice"' +
-            '" type="checkbox"  class=\'js-default-updated\' />True</label></div>';
+            '<label><input name="isTrue"  data-rv-checked="option:truechoice"' +
+            '" type="checkbox"  class=\'js-default-updated\' />True</label>';
         }
         __p +=
-          '<a style="margin-left:4px;" class="js-add-option" title="Add Option"><i class=\'glyphicon glyphicon-plus\'></i></a>\r\n  <a class="js-remove-option" title="Remove Option"><i class=\'glyphicon glyphicon-minus\'></i></a>\r\n</div>\r\n\r\n';
+          '<a style="margin-left:4px;cursor:pointer;" class="js-add-option" title="Add Option"><i class=\'big green plus icon\'></i></a>\r\n  <a class="js-remove-option" title="Remove Option"><i class=\'big red remove icon\'></i></a>\r\n</div>\r\n\r\n';
         if (typeof includeOther !== 'und*00efined') {;
           __p +=
             '\r\n  <label>\r\n    <input id="otheractive" type=\'checkbox\' data-rv-checked=\'model.' +
@@ -9604,13 +9610,13 @@ Meteor.startup(function() {
             '\' />\r\n <label for="otheractive">Other</label></label>\r\n  <input type=\'text\' data-rv-input=\'model.' +
             ((__t = (Formbuilder.options.mappings.INCLUDE_OTHER_VALUE)) ==
               null ? '' : __t) +
-            '\' />\r\n  <label>\r\n    <input id="otherchecked" type=\'checkbox\' data-rv-checked=\'model.' +
+            '\' />\r\n  <label>\r\n    <br /><input id="otherchecked" type=\'checkbox\' data-rv-checked=\'model.' +
             ((__t = (Formbuilder.options.mappings.INCLUDE_OTHER_CHECKED)) ==
               null ? '' : __t) +
             '\' />\r\n    <label for="otherchecked">Other is checked by default</label>\r\n  </label>\r\n';
         };
         __p +=
-          '\r\n\r\n<div class=\'fb-bottom-add\'>\r\n  <a class="js-add-option">Add option</a>\r\n</div>\r\n';
+          '\r\n\r\n<div class=\'fb-bottom-add\'>\r\n  <a class="js-add-option" style="cursor:pointer;">Add option</a>\r\n</div>\r\n';
 
       }
       //console.log(__p);
@@ -9624,10 +9630,10 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        '<div class=\'fb-edit-section-header\'>Ranges</div>\r\n\r\n<div class=\'option\' data-rv-each-option=\'model.' +
+        '<div class=\'fb-edit-section-header\'>Ranges</div>\r\n\r\n<div class=\'option field\' data-rv-each-option=\'model.' +
         ((__t = (Formbuilder.options.mappings.OPTIONS)) == null ? '' :
           __t) +
-        '\'>\r\n  Min: <input type="text" data-rv-input="option:min" class=\'validate option-label-input\' placeholder="Min Value" /><br/>\r\n  Label: <input type="text" data-rv-input="option:min_label" class=\'option-label-input\' placeholder="Min Value Label" /><br/>\r\n  Max: <input type="text" data-rv-input="option:max" class=\'option-label-input\' placeholder="Max Value" /><br/>\r\n  Label: <input type="text" data-rv-input="option:max_label" class=\'option-label-input\' placeholder="Max Value Label" /><br/>\r\n  Value: <input type="text" data-rv-input="option:value" class=\'option-label-input\' placeholder="Default Value" /><br/>\r\n  <a class="js-add-option" title="Add Range"><i class=\'glyphicon glyphicon-plus\'></i></a>\r\n  <a class="js-remove-option" title="Remove Range"><i class=\'glyphicon glyphicon-minus\'></i></a>\r\n</div>\r\n\r\n<div class=\'fb-bottom-add\'>\r\n  <a class="js-add-option">Add range</a>\r\n</div>';
+        '\'>\r\n  Min: <input type="text" data-rv-input="option:min" class=\'validate option-label-input\' placeholder="Min Value" /><br/>\r\n  Label: <input type="text" data-rv-input="option:min_label" class=\'option-label-input\' placeholder="Min Value Label" /><br/>\r\n  Max: <input type="text" data-rv-input="option:max" class=\'option-label-input\' placeholder="Max Value" /><br/>\r\n  Label: <input type="text" data-rv-input="option:max_label" class=\'option-label-input\' placeholder="Max Value Label" /><br/>\r\n  Value: <input type="text" data-rv-input="option:value" class=\'option-label-input\' placeholder="Default Value" /><br/>\r\n  <a class="js-add-option" title="Add Range"><i class=\'big green plus icon\'></i></a>\r\n  <a class="js-remove-option" title="Remove Range"><i class=\'big red remove icon\'></i></a>\r\n</div>\r\n\r\n<div class=\'fb-bottom-add\'>\r\n  <a class="js-add-option">Add range</a>\r\n</div>';
 
     }
     return __p
@@ -9653,7 +9659,7 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        '<div class=\'fb-edit-section-header\'>Step</div>\r\n<input type=\'text\' data-rv-input=\'model.' +
+        '<div class=\'fb-edit-section-header field\'>Step</div>\r\n<input type=\'text\' data-rv-input=\'model.' +
         ((__t = (Formbuilder.options.mappings.STEP)) == null ? '' : __t) +
         '\' />';
 
@@ -9667,7 +9673,7 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        '<div class=\'fb-edit-section-header\'>Units</div>\r\n<input type="text" data-rv-input="model.' +
+        '<div class=\'fb-edit-section-header field\'>Units</div>\r\n<input type="text" data-rv-input="model.' +
         ((__t = (Formbuilder.options.mappings.UNITS)) == null ? '' :
           __t) +
         '" />\r\n';
@@ -9682,7 +9688,7 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        '<div class=\'fb-edit-section-header\'>Initial value</div>\r\n<input type=\'text\' data-rv-input=\'model.' +
+        '<div class=\'fb-edit-section-header field\'>Initial value</div>\r\n<input type=\'text\' data-rv-input=\'model.' +
         ((__t = (Formbuilder.options.mappings.VALUE)) == null ? '' :
           __t) +
         '\' />';
@@ -9697,7 +9703,7 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        '<div class=\'fb-edit-section-header\'>Now default value</div>\r\n<label>\r\n  <input id="setnowdefault" type=\'checkbox\' data-rv-checked=\'model.' +
+        '<div class=\'fb-edit-section-header field\'>Now default value</div>\r\n<label>\r\n  <input id="setnowdefault" type=\'checkbox\' data-rv-checked=\'model.' +
         ((__t = (Formbuilder.options.mappings.VALUE_NOW)) == null ? '' :
           __t) +
         '\' />\r\n  <label for="setnowdefault">Set "now" as the default value</label>\r\n</label>\r\n';
@@ -9712,9 +9718,9 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        ((__t = (Formbuilder.templates['partials/save_button']())) ==
-          null ? '' : __t) +
-        '\r\n' +
+        //((__t = (Formbuilder.templates['partials/save_button']())) ==
+        //  null ? '' : __t) +
+        //'\r\n' +
         ((__t = (Formbuilder.templates['partials/left_side']())) ==
           null ? '' : __t) +
         '\r\n' +
@@ -9741,7 +9747,7 @@ Meteor.startup(function() {
       _.each(_.sortBy(Formbuilder.inputFields, 'order'), function(f) {;
         __p += '\r\n        <a data-field-type="' +
           ((__t = (f.field_type)) == null ? '' : __t) +
-          '" class="btn btn-default ' +
+          '" class="ui button ' +
           ((__t = (Formbuilder.options.BUTTON_CLASS)) == null ? '' :
             __t) +
           '">\r\n          ' +
@@ -9753,7 +9759,7 @@ Meteor.startup(function() {
       _.each(_.sortBy(Formbuilder.nonInputFields, 'order'), function(f) {;
         __p += '\r\n        <a data-field-type="' +
           ((__t = (f.field_type)) == null ? '' : __t) +
-          '" class="btn btn-default ' +
+          '" class="ui button ' +
           ((__t = (Formbuilder.options.BUTTON_CLASS)) == null ? '' :
             __t) +
           '">\r\n          ' +
@@ -9808,6 +9814,8 @@ Meteor.startup(function() {
     return __p
   };
 
+
+  /* //save button
   this["Formbuilder"]["templates"]["partials/save_button"] = function(obj) {
     obj || (obj = {});
     var __t, __p = '',
@@ -9821,6 +9829,8 @@ Meteor.startup(function() {
     }
     return __p
   };
+
+  */
 
   this["Formbuilder"]["templates"]["view/base"] = function(obj) {
     obj || (obj = {});
@@ -9899,7 +9909,7 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        '<div class=\'actions-wrapper\'>\r\n  <a class="js-duplicate" title="Duplicate Field"><i class=\'glyphicon glyphicon-plus\'></i></a>\r\n  <a class="js-clear" title="Remove Field"><i class=\'glyphicon glyphicon-minus\'></i></a>\r\n</div>';
+        '<div class=\'actions-wrapper\'>\r\n  <a class="js-duplicate" title="Duplicate Field"><i class=\'big green plus icon\'></i></a>\r\n  <a class="js-clear" title="Remove Field"><i class=\'big red remove icon\'></i></a>\r\n</div>';
 
     }
     return __p
@@ -9915,14 +9925,14 @@ Meteor.startup(function() {
       __p += __j.call(arguments, '')
     }
     with(obj) {
-      __p += '<label>\r\n  <span>' +
+      __p += '<label>\r\n  <h3>' +
         ((__t = (Formbuilder.helpers.simple_format(rf.get(Formbuilder.options
           .mappings.LABEL)))) == null ? '' : __t) +
         '\r\n  ';
       if (rf.get(Formbuilder.options.mappings.REQUIRED)) {;
         __p += '\r\n    <abbr title=\'required\'>*</abbr>\r\n  ';
       };
-      __p += '\r\n</label>\r\n';
+      __p += '\r\n</h3></label>\r\n';
 
     }
     return __p

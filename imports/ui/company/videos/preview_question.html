@@ -1,11 +1,11 @@
 <template name="CompanyPreviewRecordQuestion">
   <div class="ui container">
-    <div class="preview-question">
+    <div class="preview-question ui segment">
       {{#with question}}
-        <h3>{{ content }}</h3>
-        <span>{{ description }}</span>
+        <h2>{{ content }} <sup><i class="info icon description" data-content="{{ description }}"></i></sup></h2>
+        <div class="ui divider"></div>
 
-        <video id="interview" class="video-js vjs-default-skin"></video>
+        <video id="interview" class="ui raised segment video-js vjs-default-skin" controls></video>
         <!-- lukemuke vide recorder template tag-->
         <!-- {{> lmVideoCapture opts=opts}} -->
       {{/with}}
@@ -16,15 +16,26 @@
 
 <template name="CompanyPreviewAnswerQuestion">
   <div class="ui container">
-    <div class="preview-answer">
-      <video id="preview-answer" class="video-js vjs-default-skin" controls
-        preload="auto">
-        <source src="{{ video_url }}" type="video/webm">
-        <p class="vjs-no-js">
-          To view this video please enable JavaScript, and consider upgrading to a web browser
-          that supports HTML5 video
-        </p>
-      </video>
-    </div>
+      <div class="preview-answer ui segment">
+        <h2>{{ question.content }} <sup><i class="info icon description" data-content="{{ question.description }}"></i></sup></h2>
+        <div class="ui divider"></div>
+
+        {{#if video_url }}
+
+        <video id="preview-answer" class="ui raised segment video-js vjs-default-skin"
+          preload="auto" controls>
+          <source src="{{ video_url }}" type="video/webm">
+          <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a web browser
+            that supports HTML5 video
+          </p>
+        </video>
+
+        {{ else }}
+          <p>
+            There is no answer recorded for this question!
+          </p>
+        {{/if}}
+      </div>
   </div>
 </template>
