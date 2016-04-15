@@ -97,9 +97,9 @@ Template.CompanyPreviewForm.events({
     });
 
     Meteor.call('add_new_response', response, function(err, response_id) {
-      Meteor.call('save_form_response_preview', FlowRouter.getParam('formId'), response_id, function(data) {
+      Meteor.call('save_form_response_preview', FlowRouter.getParam('formId'), response_id, function(err,data) {
         toastr.success("Your response has been saved!");
-        //FlowRouter.go('list_forms');
+        FlowRouter.go('preview_form_response', { formId: FlowRouter.getParam('formId') });
       })
     });
 
@@ -140,6 +140,16 @@ Template.registerHelper('processFormResponseValue', function(type, val) {
     return val.join(',');
   }else if(type == "address") {
     return `${val.address}, ${val.city}, ${val.country}`;
+  }else {
+    return val;
+  }
+});
+
+Template.registerHelper('responseExists', function(type, val) {
+  if (type == "checkboxes") {
+    return val.length > 0;
+  }else if(type == "address") {
+    return val.address || val.city || val.country;
   }else {
     return val;
   }

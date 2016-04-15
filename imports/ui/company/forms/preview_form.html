@@ -151,19 +151,26 @@
         <div class="ui divider"></div>
         <div class="ui items">
 
-          {{#with response}}
-            {{#each fields }}
-              <div class="item">
-                <div class="content">
-                  <a class="header">{{ label }}</a>
-                  <div class="description">
-                    {{ processFormResponseValue type val }}
+          {{#if response}}
+            {{#with response}}
+              {{#each fields }}
+                <div class="item">
+                  <div class="content">
+                    <a class="header">{{ label }}</a>
+                    <div class="description">
+                      {{#if responseExists type val }}
+                        {{ processFormResponseValue type val }}
+                      {{ else }}
+                        <span style="color:red;"> Not answered!</span>
+                      {{/if}}
+                    </div>
                   </div>
                 </div>
-              </div>
-            {{/each}}
-          {{/with}}
-
+              {{/each}}
+            {{/with}}
+          {{ else }}
+            <h3>There is no response for this form!</h3>
+          {{/if}}
         </div>
       </div>
     </div>
