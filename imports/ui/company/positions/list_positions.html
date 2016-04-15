@@ -15,7 +15,7 @@
       {{#each positions}}
         <tr>
           <td>{{ index }}</td>
-          <td><a href="{{ pathFor 'edit_position' positionId=_id }}">{{ title }}</a></td>
+          <td><a href="{{ pathFor 'edit_position' positionId=_id }}"><i class="blue edit icon"></i> {{ title }}</a></td>
           <td>{{ dateFromNow opensAt }}</td>
           <td>{{ dateFromNow endsAt }}</td>
           <td>{{ dateFromNow createdAt }}</td>

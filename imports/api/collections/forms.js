@@ -1,11 +1,12 @@
 export const Forms = new Mongo.Collection('forms');
 
+export const Responses = new Mongo.Collection('responses');
 export const FormResponses = new Mongo.Collection('form_responses');
 
 FormResponses.attachSchema(new SimpleSchema({
   form: { type: String, max: 64 },
   user: { type: String, max: 64},
-  response: { type: Object },
+  response: { type: String, max: 64 },
   createdAt: {
     type: Date,
     autoValue: function() {

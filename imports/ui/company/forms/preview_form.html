@@ -27,26 +27,26 @@
                     {{/if}}</label></h2>
 
                   {{#if equals field_type "paragraph" }}
-                    <div class="field">
+                    <div class="field paragraph">
                       <input type="text" name="{{ cid }}" placeholder="{{ field_options.value }}" required="{{ required }}">
                     </div>
                   {{/if}}
 
                   {{#if equals field_type "number" }}
-                    <div class="field">
+                    <div class="field number">
                       <input type="number" name="{{ cid }}" placeholder="{{ field_options.value }}" step="{{ field_options.step }}" min="{{ field_options.min }}" max="{{ field_options.max }}" required="{{ required }}">
                     </div>
                   {{/if}}
 
                   {{#if equals field_type "address" }}
-                    <div class="field">
+                    <div class="field address">
                       <input type="text" name="{{ cid }}_address" placeholder="{{ field_options.address_value }}" required="{{ required }}">
                     </div>
                     <div class="two fields">
-                      <div class="field">
+                      <div class="field city">
                         <input type="text" name="{{ cid }}_city" placeholder="{{ field_options.city_value }}" required="{{ required }}">
                       </div>
-                      <div class="field">
+                      <div class="field country">
                         <input type="text" name="{{ cid }}_country" placeholder="{{ field_options.country_value }}" required="{{ required }}">
                       </div>
                     </div>
@@ -62,7 +62,7 @@
                             <div class="right aligned column">{{ field_options.max_label }}</div>
                           </div>
                         </div>
-                      	<input class="ui range" type="range" name="{{ cid }}" min="{{ field_options.min }}" max="{{ field_options.max }}" step="1">
+                      	<input class="ui range" type="range" name="{{ cid }}" min="{{ field_options.min }}" max="{{ field_options.max }}" step="1" required="{{ required }}">
                       </div>
                     </div>
                   {{/if}}
@@ -70,7 +70,7 @@
 
 
                   {{#if equals field_type "dropdown" }}
-                    <div class="field">
+                    <div class="field formdropdown">
                       <select class="ui dropdown formdropdown" id="{{ cid }}" name="{{ cid }}">
                         {{#each field_options.options }}
                         <option value="{{ label }}" checked="{{ checked }}">{{ label }}</option>
@@ -84,7 +84,7 @@
 
 
                   {{#if equals field_type "radio" }}
-                    <div class="grouped fields">
+                    <div class="grouped fields formradio">
                       {{#each field_options.options }}
                         <div class="field">
                           <div class="ui radio checkbox formradio">
@@ -101,7 +101,7 @@
 
 
                   {{#if equals field_type "checkboxes" }}
-                    <div class="grouped fields">
+                    <div class="grouped fields formcheckboxes">
                       {{#each field_options.options }}
                         <div class="inline field">
                           <div class="ui checkbox formcheckbox">
@@ -132,4 +132,41 @@
       </div>
     </div>
   </div>
+</template>
+
+
+
+<template name="CompanyPreviewFormResponse">
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
+      <a class="item" href="{{ pathFor 'list_forms'}}">Back to forms</a>
+    </div>
+  </div>
+
+  <div class="ui container company-layout" style="margin-top:60px;">
+    <div class="ui stackable grid centered">
+      <div class="ten wide column">
+        <h2>{{ form_title }}</h2>
+        <div class="ui divider"></div>
+        <div class="ui items">
+
+          {{#with response}}
+            {{#each fields }}
+              <div class="item">
+                <div class="content">
+                  <a class="header">{{ label }}</a>
+                  <div class="description">
+                    {{ processFormResponseValue type val }}
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+          {{/with}}
+
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>

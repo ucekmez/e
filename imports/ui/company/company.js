@@ -56,8 +56,10 @@ companyFormRoutes.route('/edit/:formId', { name: 'edit_form',
   },
   action: function(params) {
     BlazeLayout.render('CompanyEditFormLayout', { nav: 'MainNavigation', main: 'CompanyEditForm' }); } });
-companyFormRoutes.route('/preview/:formId', { name: 'preview_form',
+companyFormRoutes.route('/preview/fill/:formId', { name: 'preview_form',
   action: function(params) { BlazeLayout.render('CompanyPreviewForm'); } });
+companyFormRoutes.route('/preview/response/:formId', { name: 'preview_form_response',
+  action: function(params) { BlazeLayout.render('CompanyPreviewFormResponse'); } });
 companyFormRoutes.route('/list', { name: 'list_forms',
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListForms' }); } });

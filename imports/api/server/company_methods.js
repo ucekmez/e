@@ -1,4 +1,4 @@
-import { Forms } from '/imports/api/collections/forms.js';
+import { Forms, Responses, FormResponses } from '/imports/api/collections/forms.js';
 import { Slides, Keynotes } from '/imports/api/collections/keynotes.js';
 import { Positions } from '/imports/api/collections/positions.js';
 import { InterviewQuestions, PreviewVideos, Videos } from '/imports/api/collections/videos.js';
@@ -35,7 +35,7 @@ Meteor.methods({
   },
 
   add_new_keynote() {
-    var keynote_id = Keynotes.insert({
+    const keynote_id = Keynotes.insert({
       title: "New Keynote",
       createdAt: new Date(),
       user: Meteor.userId()
@@ -114,6 +114,12 @@ Meteor.methods({
     InterviewQuestions.remove(id);
   },
 
+  // form responses
+  add_new_response(response) {
+    const response_id = Responses.insert({ fields: response });
+    return response_id;
+  },
+
   // for preview purpose only
   add_video_to_preview(q_id, user_id, video_id) {
     const already_exists = PreviewVideos.findOne({ $and : [{ question: q_id}, {user: user_id}]});
@@ -131,6 +137,27 @@ Meteor.methods({
       });
       return preview_id;
     }
-  }
+  },
+
+
+
+  save_form_response_preview(form_id, response_id) {
+    const user_id = Meteor.userId();
+    const already_exists = FormResponses.findOne({ $and : [{ form: form_id}, {user: user_id}]});
+    if (already_exists) {
+      Responses.remove(already_exists.response); // remove the previous response
+      FormResponses.update({ $and : [{ form: form_id}, {user: user_id}]}, {
+        $set: { response: response_id } // set the new one
+      });
+      return already_exists._id;
+    } else {
+      const form_response_id = FormResponses.insert({
+        form: form_id,
+        user: user_id,
+        response: response_id
+      });
+      return form_response_id;
+    }
+  },
 
 });

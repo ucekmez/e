@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Forms } from '/imports/api/collections/forms.js'; // Forms collections
+import { Forms, Responses, FormResponses } from '/imports/api/collections/forms.js'; // Forms collections
 
 import './edit_form.html'; // CompanyEditFormLayout CompanyEditForm
 import './list_forms.html'; // CompanyListForms
@@ -16,7 +16,7 @@ Template.CompanyEditForm.onRendered(function() {
     if (form && form.user === Meteor.userId()) {
       fb = new Formbuilder({ selector: '.fb-main', bootstrapData: form.payload ? JSON.parse(form.payload).fields : [], workingFormType: form.type });
       fb.on('save', function(payload) {
-        Meteor.call("update_form_payload", form._id, payload, function(data) {
+        Meteor.call("update_form_payload", form._id, payload, function(err, data) {
           toastr.info("Form updated!");
         });
       });
@@ -64,30 +64,43 @@ Template.CompanyPreviewForm.events({
     fields.forEach(function(field) {
       if (field.field_type === 'paragraph') {
         const text = $(`.paragraph input[name=${field.cid}]`).val();
-        response.push({cid: field.cid, val: text});
-      } else if (field.field_type === 'checkbox') {
-        const checks = $(`.checkbox input[name=${field.cid}]:checked`).map(function() {
+        response.push({label: field.label, cid: field.cid, val: text, type: field.field_type});
+
+      } else if (field.field_type === 'checkboxes') {
+        const checks = $(`.formcheckboxes input[name=${field.cid}]:checked`).map(function() {
           return this.value;
         }).get();
-        response.push({cid: field.cid, val: checks});
+        response.push({label: field.label, cid: field.cid, val: checks, type: field.field_type});
+
       } else if (field.field_type === 'range') {
         const range = $(`.range input[name=${field.cid}]`).val();
-        response.push({cid: field.cid, val: range});
+        response.push({label: field.label, cid: field.cid, val: range, type: field.field_type});
+
       } else if (field.field_type === 'address') {
-        const address = $(`.address input[name=${Fields[3].cid}_address]`).val();
-        const city    = $(`.address input[name=${Fields[3].cid}_city]`).val();
-        const country = $(`.address input[name=${Fields[3].cid}_country]`).val();
-        response.push({cid: field.cid, val: [{address: address, city: city, country: country}]});
+        const address = $(`.address input[name=${field.cid}_address]`).val();
+        const city    = $(`.city input[name=${field.cid}_city]`).val();
+        const country = $(`.country input[name=${field.cid}_country]`).val();
+        response.push({label: field.label, cid: field.cid, val: {address: address, city: city, country: country}, type: field.field_type});
+
       } else if (field.field_type === 'radio') {
-        const selected = $(`.radio input[name=${field.cid}]:checked`).val();
-        response.push({cid: field.cid, val: selected});
+        const selected = $(`.formradio input[name=${field.cid}]:checked`).val();
+        response.push({label: field.label, cid: field.cid, val: selected, type: field.field_type});
+
       } else if (field.field_type === 'dropdown') {
-        const drop_select = $(`.dropdown select[name=${field.cid}]`).val();
-        response.push({cid: field.cid, val: drop_select});
+        const drop_select = $(`.formdropdown select[name=${field.cid}]`).val();
+        response.push({label: field.label, cid: field.cid, val: drop_select, type: field.field_type});
+
       } else if (field.field_type === 'number') {
         const number = $(`.number input[name=${field.cid}]`).val();
-        response.push({cid: field.cid, val: number});
+        response.push({label: field.label, cid: field.cid, val: number, type: field.field_type});
       }
+    });
+
+    Meteor.call('add_new_response', response, function(err, response_id) {
+      Meteor.call('save_form_response_preview', FlowRouter.getParam('formId'), response_id, function(data) {
+        toastr.success("Your response has been saved!");
+        //FlowRouter.go('list_forms');
+      })
     });
 
   }
@@ -100,10 +113,34 @@ Template.CompanyPreviewForm.helpers({
   }
 });
 
+
+//////////////////////// ******************** CompanyPreviewFormResponse
+
+
+Template.CompanyPreviewFormResponse.helpers({
+  form_title() {
+    return Forms.findOne({ _id: FlowRouter.getParam('formId') }).title;
+  },
+  response() {
+    const form_response = FormResponses.findOne({ $and : [{ form: FlowRouter.getParam('formId')}, {user: Meteor.userId()}]});
+    return Responses.findOne(form_response.response);
+  },
+});
+
 Template.registerHelper('toJSON', function(payload){
   return JSON.parse(payload);
 });
 
 Template.registerHelper('equals', function(s1, s2){
   return s1 === s2;
+});
+
+Template.registerHelper('processFormResponseValue', function(type, val) {
+  if (type == "checkboxes") {
+    return val.join(',');
+  }else if(type == "address") {
+    return `${val.address}, ${val.city}, ${val.country}`;
+  }else {
+    return val;
+  }
 });

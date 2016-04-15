@@ -14,7 +14,7 @@
       {{#each keynotes}}
         <tr>
           <td>{{ index }}</td>
-          <td><a href="{{ pathFor 'edit_keynote' keynoteId=_id }}">{{ title }}</a></td>
+          <td><a href="{{ pathFor 'edit_keynote' keynoteId=_id }}"><i class="blue edit icon"></i> {{ title }}</a></td>
           <td>{{ numberOfSlides _id }}</td>
           <td>{{ dateFromNow createdAt }}</td>
           <td><a href="{{ pathFor 'preview_keynote' keynoteId=_id }}"><i class="large blue unhide icon"></i></a></td>
