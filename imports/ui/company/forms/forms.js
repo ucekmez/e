@@ -62,22 +62,22 @@ Template.CompanyPreviewForm.events({
     const fields = JSON.parse(result_form.payload).fields;
     const response = new Array();
 
-    const field_names = {};
+    const field_validations = {};
     fields.forEach(function(field) {
       if (field.required) {
         if (field.field_type === 'checkboxes' || field.field_type === 'radio') {
-          field_names[field.cid] = 'checked'
+          field_validations[field.cid] = 'checked'
         }else {
-          field_names[field.cid] = 'empty'
+          field_validations[field.cid] = 'empty'
         }
 
       }
     });
-    console.log(field_names);
+    //console.log(field_names);
 
     $('.ui.form')
       .form({
-        fields: field_names
+        fields: field_validations
     });
 
     if ($('.ui.form').form('is valid')) {
@@ -159,6 +159,7 @@ Template.CompanyPreviewFormResponse.helpers({
     const form_response = FormResponses.findOne({ $and : [{ form: FlowRouter.getParam('formId')}, {user: Meteor.userId()}]});
     if (form_response) {
       const response = Responses.findOne(form_response.response);
+      //console.log(response);
       return response;
     }
   },

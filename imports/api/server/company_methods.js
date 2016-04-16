@@ -120,6 +120,9 @@ Meteor.methods({
     if (form.type === 'test') { // eger islenecek form test ise
       const fields = JSON.parse(form.payload).fields;
 
+      const max_points_for_one_question = 100.0 / fields.length; // bir sorudan alinabilecek max puan
+      let totalpoints = 0;
+
       response.forEach(function(element, index) {
         if (element.type === "radio") {
           for(let i=0; i<fields[index].field_options.options.length;i++) {
@@ -138,6 +141,12 @@ Meteor.methods({
               }
             }
           }
+          if (element.result) {
+            element.points = max_points_for_one_question;
+          }else {
+            element.points = 0;
+          }
+          totalpoints += element.points; // sonucu toplam skora ekliyoruz
         }else { // eger checkboxes ise, bu durumda birden fazla secenek secili olabilir
           element.result = [];
           for(let i=0; i<fields[index].field_options.options.length;i++) {
@@ -155,11 +164,41 @@ Meteor.methods({
               }
             }
           }
+          // burada checkbox icinde normalde kac dogru vardi onu bulacagiz
+          let number_of_trues = 0;
+          let number_of_falses = 0;
+          for(let x=0; x<fields[index].field_options.options.length;x++) {
+            if (typeof(fields[index].field_options.options[x].truechoice) !== 'undefined' && fields[index].field_options.options[x].truechoice) {
+              number_of_trues++;
+            }else {
+              number_of_falses++;
+            }
+          }
+
+          // burada kullanicinin her bir dogru seciminden kac puan alacagini hesapliyoruz
+          const max_points_for_one_selection = max_points_for_one_question / number_of_trues;
+
+          // simdi kullanicinin cevaplari icin aldigi puanlari toplayacagiz
+          element.points = 0;
+          for(let x=0; x<element.result.length;x++) {
+            if (element.result[x]) {
+              element.points += max_points_for_one_selection;
+            }else {
+              // kullanici dogrularin yaninda yanlislari da isaretlediyse, puan kiracagiz
+              element.points -= max_points_for_one_selection / 2.0;
+            }
+          }
+
+          if (element.points < 0) { element.points = 0; }
+          // puanlari noktadan sonra iki sayi kalacak sekilde yuvarliyoruz
+          element.points = Math.round(element.points * 100) / 100;
+          totalpoints += element.points; // puanlari toplam skora ekliyoruz
+
         }
       });
 
       //console.log(response);
-      const response_id = Responses.insert({ fields: response });
+      const response_id = Responses.insert({ fields: response, totalpoints: totalpoints });
       return response_id;
     }else { // eger islenecek form survey ise
       //console.log(response);
