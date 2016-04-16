@@ -29,6 +29,7 @@ Template.CompanyEditForm.onRendered(function() {
           $("a[data-field-type='dropdown']").remove();
           $("a[data-field-type='section_break']").remove();
       }
+      $('.ui.sticky').sticky({ context: '.fb-main' });
     }
   });
 });

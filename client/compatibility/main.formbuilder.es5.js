@@ -8521,7 +8521,7 @@ Meteor.startup(function() {
         this.$el.html(Formbuilder.templates['page']());
         this.$fbLeft = this.$el.find('.fb-left');
         this.$responseFields = this.$el.find('.fb-response-fields');
-        this.bindWindowScrollEvent();
+        //this.bindWindowScrollEvent();
         this.hideShowNoResponseFields();
         _ref = this.SUBVIEWS;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -8533,7 +8533,7 @@ Meteor.startup(function() {
         return this;
       };
 
-
+      /*
       BuilderView.prototype.bindWindowScrollEvent = function() {
         return $(window).on('scroll', (function(_this) {
           return function() {
@@ -8551,6 +8551,9 @@ Meteor.startup(function() {
           };
         })(this));
       };
+      */
+
+
 
 
       BuilderView.prototype.showTab = function(e) {
@@ -9792,7 +9795,7 @@ Meteor.startup(function() {
       __e = _.escape;
     with(obj) {
       __p +=
-        '<div class=\'fb-left\'>\r\n  <ul class=\'fb-tabs\'>\r\n    <li class=\'active\'><a data-target=\'#addField\'>Add Question</a></li>\r\n    <li><a data-target=\'#editField\'>Edit Question</a></li>\r\n  </ul>\r\n\r\n  <div class=\'fb-tab-content\'>\r\n    ' +
+        '<div class=\'fb-left ui sticky\'>\r\n  <ul class=\'fb-tabs\'>\r\n    <li class=\'active\'><a data-target=\'#addField\'>Add Question</a></li>\r\n    <li><a data-target=\'#editField\'>Edit Question</a></li>\r\n  </ul>\r\n\r\n  <div class=\'fb-tab-content\'>\r\n    ' +
         ((__t = (Formbuilder.templates['partials/add_field']())) ==
           null ? '' : __t) +
         '\r\n    ' +
