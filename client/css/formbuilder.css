@@ -49,3 +49,9 @@
 .form-button-class {
   margin:0px 0px 4px 2px !important;
 }
+
+.company-form-preview li {
+  list-style-type: none;
+  display:inline-block;
+  margin-right:20px;
+}

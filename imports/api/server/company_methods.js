@@ -115,9 +115,57 @@ Meteor.methods({
   },
 
   // form responses
-  add_new_response(response) {
-    const response_id = Responses.insert({ fields: response });
-    return response_id;
+  add_new_response(response, form_id) {
+    const form = Forms.findOne(form_id);
+    if (form.type === 'test') { // eger islenecek form test ise
+      const fields = JSON.parse(form.payload).fields;
+
+      response.forEach(function(element, index) {
+        if (element.type === "radio") {
+          for(let i=0; i<fields[index].field_options.options.length;i++) {
+            // sirayla form yapisini dolasip hangi sorularin elimizdeki
+            // cevaplarla uyustugunu belirliyoruz ( secenekleri kiyasliyoruz )
+            if (element.val === fields[index].field_options.options[i].label) {
+              // eger o form yapisinda truechoice degeri girilmisse bu true veya false olabilir
+              if (typeof(fields[index].field_options.options[i].truechoice) !== 'undefined') {
+                if (fields[index].field_options.options[i].truechoice) { // cevap dogru ise
+                  element.result = true;
+                }else { // cevap yanlis ise
+                  element.result = false;
+                }
+              }else { // dogru-yanlsi degeri yoksa default olarak yanlis sayiyoruz
+                element.result = false;
+              }
+            }
+          }
+        }else { // eger checkboxes ise, bu durumda birden fazla secenek secili olabilir
+          element.result = [];
+          for(let i=0; i<fields[index].field_options.options.length;i++) {
+            for(let j=0; j<element.val.length;j++) {
+              if (element.val[j] === fields[index].field_options.options[i].label) {
+                if (typeof(fields[index].field_options.options[i].truechoice) !== 'undefined') {
+                  if (fields[index].field_options.options[i].truechoice) { // cevap dogru ise
+                    element.result[j] = true;
+                  }else { // cevap yanlis ise
+                    element.result[j] = false;
+                  }
+                }else { // dogru-yanlsi degeri yoksa default olarak yanlis sayiyoruz
+                  element.result[j] = false;
+                }
+              }
+            }
+          }
+        }
+      });
+
+      //console.log(response);
+      const response_id = Responses.insert({ fields: response });
+      return response_id;
+    }else { // eger islenecek form survey ise
+      //console.log(response);
+      const response_id = Responses.insert({ fields: response });
+      return response_id;
+    }
   },
 
   // for preview purpose only

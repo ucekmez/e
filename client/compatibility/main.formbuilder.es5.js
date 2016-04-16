@@ -9222,10 +9222,12 @@ Meteor.startup(function() {
         attrs.field_options.options = [{
           label: "",
           checked: false,
+          id: 0,
           truechoice: true
         }, {
           label: "",
           checked: false,
+          id: 1,
           truechoice: false
         }];
         attrs.field_options.include_other_option_value = '';

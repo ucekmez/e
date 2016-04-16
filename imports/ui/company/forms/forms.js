@@ -85,7 +85,7 @@ Template.CompanyPreviewForm.events({
 
       } else if (field.field_type === 'radio') {
         const selected = $(`.formradio input[name=${field.cid}]:checked`).val();
-        response.push({label: field.label, cid: field.cid, val: selected, type: field.field_type});
+        response.push({label: field.label, cid: field.cid, val: selected || "", type: field.field_type});
 
       } else if (field.field_type === 'dropdown') {
         const drop_select = $(`.formdropdown select[name=${field.cid}]`).val();
@@ -97,7 +97,9 @@ Template.CompanyPreviewForm.events({
       }
     });
 
-    Meteor.call('add_new_response', response, function(err, response_id) {
+    //console.log(response);
+
+    Meteor.call('add_new_response', response, FlowRouter.getParam('formId'), function(err, response_id) {
       Meteor.call('save_form_response_preview', FlowRouter.getParam('formId'), response_id, function(err,data) {
         toastr.success("Your response has been saved!");
         FlowRouter.go('preview_form_response', { formId: FlowRouter.getParam('formId') });
@@ -126,6 +128,7 @@ Template.CompanyPreviewFormResponse.helpers({
   form() {
     const form = Forms.findOne(FlowRouter.getParam('formId'));
     //console.log(form.title);
+    Frm = form; // for development purpose only
     return form;
   },
   response() {
@@ -151,13 +154,29 @@ Template.registerHelper('equals', function(s1, s2){
   return s1 === s2;
 });
 
+// bu checkbox harici cevaplar icin kullaniliyor
 Template.registerHelper('processFormResponseValue', function(type, val) {
-  if (type == "checkboxes") {
-    return val.join(',');
-  }else if(type == "address") {
+  if(type == "address") {
     return `${val.address}, ${val.city}, ${val.country}`;
   }else {
     return val;
+  }
+});
+
+// bu checkbox cevaplari icin kullaniliyor
+Template.registerHelper('processFormResponseValueCheckbox', function(val, result) {
+  if (result){ // eger form tipimiz test ise bu calisacak
+    const overall = new Array();
+    for(let i=0;i<val.length;i++) {
+      overall.push({o_val: val[i], o_result: result[i]});
+    }
+    return overall;
+  }else { // eger form tipimiz survey ise bu calisacak
+    const overall = new Array();
+    for(let i=0;i<val.length;i++) {
+      overall.push({o_val: val[i]});
+    }
+    return overall;
   }
 });
 

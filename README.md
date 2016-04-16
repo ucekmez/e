@@ -12,7 +12,10 @@ company user can add and delete 'forms', 'keynotes', 'positions', 'video questio
 - v 0.2.1 :
 minor bug fixes
 
+- v 0.2.2 :
+form responses can be previewed, some bug fixes
+
 
 
 # meteor packages should be installed to run the project
-meteor add semantic:ui flemay:less-autoprefixer kadira:flow-router kadira:blaze-layout arillo:flow-router-helpers accounts-password useraccounts:semantic-ui aldeed:collection2 pcel:loading chrismbeckett:toastr session alanning:roles backbone rubaxa:sortable froala:editor froala:editor-reactive momentjs:moment momentjs:twix check lukemadera:video-capture
+meteor add semantic:ui flemay:less-autoprefixer kadira:flow-router kadira:blaze-layout arillo:flow-router-helpers accounts-password useraccounts:semantic-ui aldeed:collection2 pcel:loading chrismbeckett:toastr session alanning:roles backbone rubaxa:sortable froala:editor froala:editor-reactive momentjs:moment momentjs:twix check lukemadera:video-capture cfs:standard-packages cfs:gridfs msavin:mongol

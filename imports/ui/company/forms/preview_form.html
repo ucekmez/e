@@ -158,11 +158,27 @@
                   <div class="content">
                     <a class="header">{{ label }}</a>
                     <div class="description">
-                      {{#if responseExists type val }}
-                        {{ processFormResponseValue type val }}
-                      {{ else }}
-                        <span style="color:red;"> Not answered!</span>
-                      {{/if}}
+                      <ul class="company-form-preview">
+                        {{#if responseExists type val }} <!-- eger bir cevap var ise-->
+                          {{#if equals type "checkboxes"}} <!-- eger soru checkbox ise birden fazla cevabimiz olabilir-->
+                            {{#each processFormResponseValueCheckbox val result }}
+                              {{#if o_result}}
+                                <li><span style="color:green;font-weight:bold;">{{ o_val }}</span></li>
+                              {{else}}
+                                <li><span style="color:red;">{{ o_val }}</span></li>
+                              {{/if}}
+                            {{/each}}
+                          {{ else }} <!-- eger soru checkbox degil ise-->
+                            {{#if result }} <!-- eger cevap dogru ise-->
+                              <li><span style="color:green;font-weight:bold;">{{ processFormResponseValue type val }}</span></li>
+                            {{else}} <!-- eger cevap yanlis ise-->
+                              <li><span style="color:red;">{{ processFormResponseValue type val }}</span></li>
+                            {{/if}}
+                          {{/if}}
+                        {{ else }} <!-- eger cevap yok ise-->
+                          <li><span style="color:orange;"> Not answered!</span></li>
+                        {{/if}}
+                      </ul>
                     </div>
                   </div>
                 </div>
