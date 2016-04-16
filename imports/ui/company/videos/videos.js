@@ -59,7 +59,12 @@ Template.CompanyPreviewQuestion.helpers({
 
 Template.CompanyPreviewRecordQuestion.helpers({
   question() {
-    return InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
+    const interview_question = InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
+    if (interview_question.user === Meteor.userId()) {
+      return interview_question;
+    }else {
+      FlowRouter.go('notfound');
+    }
   }
 });
 
@@ -77,7 +82,7 @@ Template.CompanyPreviewRecordQuestion.onRendered(function() {
 
       const question = InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
 
-      if (question) {
+      if (question && question.user === Meteor.userId()) {
         q_player = videojs("interview", {
           // video.js options
           width: 640,
@@ -164,7 +169,12 @@ Template.CompanyPreviewAnswerQuestion.onRendered(function(){
 
 Template.CompanyPreviewAnswerQuestion.helpers({
   question() {
-    return InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
+    const interview_question = InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
+    if (interview_question.user === Meteor.userId()) {
+      return interview_question;
+    }else {
+      FlowRouter.go('notfound');
+    }
   },
   video_url() {
     A = PreviewVideos.findOne({ $and : [{ question: FlowRouter.getParam('questionId')}, {user: Meteor.userId() }]});
@@ -204,7 +214,12 @@ Template.CompanyListQuestions.events({
 
 Template.CompanyEditQuestion.helpers({
   question() {
-    return InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
+    const interview_question = InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
+    if (interview_question.user === Meteor.userId()) {
+      return interview_question;
+    }else {
+      FlowRouter.go('notfound');
+    }
   },
 });
 

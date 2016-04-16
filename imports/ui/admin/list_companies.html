@@ -16,6 +16,8 @@
           <td>{{ email }}</td>
           <td><a id="remove-company" style="cursor:pointer;"><i class="large red remove user icon"></i></a></td>
         </tr>
+      {{else}}
+        <p>There are no companies yet!</p>
       {{/each}}
     </tbody>
   </table>

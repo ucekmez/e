@@ -25,7 +25,7 @@ Template.CompanyEditForm.onRendered(function() {
           $("a[data-field-type='number']").remove();
           $("a[data-field-type='date']").remove();
           $("a[data-field-type='paragraph']").remove();
-          $("a[data-field-type='range_group']").remove();
+          $("a[data-field-type='range']").remove();
           $("a[data-field-type='dropdown']").remove();
           $("a[data-field-type='section_break']").remove();
       }
@@ -57,8 +57,9 @@ Template.CompanyListForms.events({
 
 Template.CompanyPreviewForm.events({
   'click #submit-button'(event, instance) {
-    const fields = JSON.parse(Frm.payload).fields;
 
+    const result_form = Forms.findOne({ _id: FlowRouter.getParam('formId') });
+    const fields = JSON.parse(result_form.payload).fields;
     const response = new Array();
 
     fields.forEach(function(field) {
@@ -108,8 +109,12 @@ Template.CompanyPreviewForm.events({
 
 Template.CompanyPreviewForm.helpers({
   form() {
-    Frm = Forms.findOne({ _id: FlowRouter.getParam('formId') });
-    return Frm;
+    const result_form = Forms.findOne({ _id: FlowRouter.getParam('formId') });
+    if (result_form.user === Meteor.userId()) {
+      return result_form;
+    }else {
+      FlowRouter.go('notfound');
+    }
   }
 });
 
@@ -118,14 +123,25 @@ Template.CompanyPreviewForm.helpers({
 
 
 Template.CompanyPreviewFormResponse.helpers({
-  form_title() {
-    return Forms.findOne({ _id: FlowRouter.getParam('formId') }).title;
+  form() {
+    const form = Forms.findOne(FlowRouter.getParam('formId'));
+    //console.log(form.title);
+    return form;
   },
   response() {
     const form_response = FormResponses.findOne({ $and : [{ form: FlowRouter.getParam('formId')}, {user: Meteor.userId()}]});
-    return Responses.findOne(form_response.response);
+    if (form_response) {
+      const response = Responses.findOne(form_response.response);
+      return response;
+    }
   },
 });
+
+//////////////////////// ******************** CompanyPreviewTestResponse
+
+
+
+//////////////////////// ******************** registerHelpers
 
 Template.registerHelper('toJSON', function(payload){
   return JSON.parse(payload);

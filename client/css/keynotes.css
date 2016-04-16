@@ -111,3 +111,7 @@ textarea {
 .fr-toolbar.ui.segment {
   padding: 0px !important;
 }
+
+.fr-wrapper.ui.segment {
+  padding: 0px !important;
+}

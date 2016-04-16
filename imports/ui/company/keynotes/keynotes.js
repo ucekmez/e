@@ -26,7 +26,13 @@ Template.CompanyListKeynotes.events({
 
 Template.CompanyEditKeynote.helpers({
   slides() {
-    return Slides.find({keynote: FlowRouter.getParam('keynoteId')}, { sort: {order: 1} });
+    const result_keynote = Keynotes.findOne(FlowRouter.getParam('keynoteId'));
+    if (result_keynote.user === Meteor.userId()) {
+      return Slides.find({keynote: FlowRouter.getParam('keynoteId')}, { sort: {order: 1} });
+    }else {
+      FlowRouter.go('notfound');
+    }
+
   },
   sortableOptions() {
     return {
@@ -165,11 +171,17 @@ Template.CompanyKeynotePreviewLayout.helpers({
     return FlowRouter.getParam('keynoteId');
   },
   slides() {
-    return Slides.find({keynote: FlowRouter.getParam('keynoteId')}, { sort: {order: 1} })
-      .map(function(document, index) {
-        document.index = index + 1;
-        return document;
-      });
+    const result_keynote = Keynotes.findOne(FlowRouter.getParam('keynoteId'));
+    if (result_keynote.user === Meteor.userId()) {
+      return Slides.find({keynote: FlowRouter.getParam('keynoteId')}, { sort: {order: 1} })
+        .map(function(document, index) {
+          document.index = index + 1;
+          return document;
+        });
+    }else {
+      FlowRouter.go('notfound');
+    }
+
   },
   getFEContext() {
     const self = this;
