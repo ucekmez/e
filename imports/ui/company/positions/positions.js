@@ -145,10 +145,12 @@ Template.CompanyEditPosition.events({
 Template.CompanyEditPosition.helpers({
   position() {
     const result_position = Positions.findOne(FlowRouter.getParam('positionId'));
-    if (result_position.user === Meteor.userId()) {
-      return result_position;
-    }else {
-      FlowRouter.go('notfound');
+    if (result_position) {
+      if (result_position.user === Meteor.userId()) {
+        return result_position;
+      }else {
+        FlowRouter.go('notfound');
+      }
     }
   },
 

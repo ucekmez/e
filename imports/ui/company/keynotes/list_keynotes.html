@@ -1,28 +1,41 @@
 <template name="CompanyListKeynotes">
-  <table class="ui single line table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Keynote Title</th>
-        <th># of Slides</th>
-        <th>Created At</th>
-        <th>Preview</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
+  <h1>List of Keynotes</h1>
+  <div class="ui divider"></div>
+  <table class="ui very basic padded table">
     <tbody>
       {{#each keynotes}}
         <tr>
-          <td>{{ index }}</td>
-          <td><a href="{{ pathFor 'edit_keynote' keynoteId=_id }}"><i class="blue edit icon"></i> {{ title }}</a></td>
-          <td>{{ numberOfSlides _id }}</td>
-          <td>{{ dateFromNow createdAt }}</td>
-          <td><a href="{{ pathFor 'preview_keynote' keynoteId=_id }}"><i class="large blue unhide icon"></i></a></td>
-          <td><a id="remove-keynote" style="cursor:pointer;"><i class="large red remove icon"></i></a></td>
+          <td>
+            <span class="ui large header" style="margin-right:10px;">{{ index }}</span>
+          </td>
+          <td>
+            <h4 class="ui image header">
+              <div class="content">
+                <a class="list-item-header" href="{{ pathFor 'edit_keynote' keynoteId=_id }}"><i class="blue edit icon"></i> {{ title }}</a>
+                <div class="sub header">
+                  there are <b style="font-size:1.1em;">{{ numberOfSlides _id }}</b> slides, created <b>{{ dateFromNow createdAt }}</b>,
+                  updated <b>{{ dateFromNow updatedAt }}</b>
+                </div>
+              </div>
+            </h4>
+          </td>
+          <td class="single line right aligned">
+            <a id="see-keynote-action" href="{{ pathFor 'preview_keynote' keynoteId=_id }}"><i class="large blue unhide icon" data-content="See it in action!"></i></a>
+            <a id="remove-keynote" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove"></i></a>
+          </td>
         </tr>
       {{else}}
         There are no keynotes yet!
       {{/each}}
+
     </tbody>
   </table>
+  {{#if keynotes}}
+    <script type="text/javascript">
+      setTimeout(function(){
+        $('#see-keynote-action .large.blue.unhide.icon').popup({ hoverable: true, position : 'left center', delay: { show: 100, hide: 300 } });
+        $('#remove-keynote .large.red.remove.icon').popup({ hoverable: true, position : 'right center', delay: { show: 100, hide: 300 } });
+      }, 1000);
+    </script>
+  {{/if}}
 </template>
