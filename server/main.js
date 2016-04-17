@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import '/imports/startup/server';
 import { Slides, Keynotes } from '/imports/api/collections/keynotes.js';
 import { InterviewQuestions, PreviewVideos } from '/imports/api/collections/videos.js';
-import { Forms } from '/imports/api/collections/forms.js';
+import { Forms, FormResponses } from '/imports/api/collections/forms.js';
 
 Sortable.collections = ['slides'];
 

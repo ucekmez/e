@@ -8904,6 +8904,8 @@ Meteor.startup(function() {
 
   }).call(this);
 
+
+/*
   (function() {
 
     Formbuilder.registerField('address', {
@@ -8915,6 +8917,7 @@ Meteor.startup(function() {
 
   }).call(this);
 
+*/
   (function() {
     // console.log("formType : " + formType);
     // console.log("formType : " + workingFormType);

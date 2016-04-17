@@ -83,9 +83,9 @@ Meteor.methods({
 
 
   add_new_interview_question(question, description, responsetime) {
-    let time = 90;
-    if (responsetime == 30) { time = 30; }
-    else if (responsetime == 60) { time = 60; }
+    let time = 30;
+    if (responsetime == 20) { time = 20; }
+    else if (responsetime == 40) { time = 40; }
 
     const question_id = InterviewQuestions.insert({
       content: question,
@@ -230,6 +230,16 @@ Meteor.methods({
 
   save_form_response_preview(form_id, response_id) {
     const user_id = Meteor.userId();
+    const user = Meteor.users.findOne(user_id)
+    let user_name = "";
+    if (user.profile && user.profile.name) {
+      user_name = user.profile.name;
+    }
+    let user_email = "";
+    if (user.emails) {
+      user_email = user.emails[0].address;
+    }
+
     const already_exists = FormResponses.findOne({ $and : [{ form: form_id}, {user: user_id}]});
     if (already_exists) {
       Responses.remove(already_exists.response); // remove the previous response
@@ -241,6 +251,8 @@ Meteor.methods({
       const form_response_id = FormResponses.insert({
         form: form_id,
         user: user_id,
+        user_name: user_name,
+        email: user_email,
         response: response_id
       });
       return form_response_id;

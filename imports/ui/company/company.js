@@ -22,6 +22,7 @@ import './left_menu.html'; // CompanyLeftMenu
 import './forms/forms.js';
 import './keynotes/keynotes.js';
 import './positions/positions.js';
+import './positions/process/process.js';
 import './videos/videos.js';
 
 // ******************** //
@@ -64,6 +65,14 @@ companyFormRoutes.route('/list', { name: 'list_forms',
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListForms' }); } });
 
+companyFormRoutes.route('/list/responses/:formId', { name: 'list_form_responses',
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantResponses' }); } });
+
+companyFormRoutes.route('/response/:responseId/', { name: 'preview_applicant_form_response',
+  action: function(params) { BlazeLayout.render('CompanyPreviewApplicantFormResponse'); } });
+
+
 
 //************ keynotes routes
 
@@ -98,6 +107,9 @@ companyPositions.route('/list', { name: 'list_positions',
 companyPositions.route('/edit/:positionId', { name: 'edit_position',
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditPosition' }); } });
+
+
+
 
 
 //************ interview questions routes

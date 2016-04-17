@@ -20,9 +20,9 @@
             <label>Allowed Response Time </label>
             <select class="ui dropdown" id="responsetime-edit" name="responsetime_edit">
               <option value="">Time (seconds)</option>
+              <option value="20">20 seconds</option>
               <option value="30">30 seconds</option>
-              <option value="60">60 seconds</option>
-              <option value="90">90 seconds</option>
+              <option value="40">40 seconds</option>
             </select>
           </div>
 
@@ -33,5 +33,6 @@
       </div>
       <!-- /form div ends-->
     </div>
+    <script type="text/javascript">$('#responsetime-edit').dropdown();</script>
   {{/with}}
 </template>

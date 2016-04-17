@@ -6,6 +6,8 @@ export const FormResponses = new Mongo.Collection('form_responses');
 FormResponses.attachSchema(new SimpleSchema({
   form: { type: String, max: 64 },
   user: { type: String, max: 64},
+  user_name: { type: String, max: 64, optional: true },
+  email: { type: String, max: 128 },
   response: { type: String, max: 64 },
   createdAt: {
     type: Date,

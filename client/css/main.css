@@ -1,3 +1,4 @@
-.list-item-header {
-  font-size: 1.2em;
-}
+.list-item-header { font-size: 1.2em; }
+
+/* listeleme sayfalarindaki basliklarin genislikleri*/
+.ui.header .content { width:100%; }

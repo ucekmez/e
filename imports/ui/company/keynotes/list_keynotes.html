@@ -6,11 +6,9 @@
       {{#each keynotes}}
         <tr>
           <td>
-            <span class="ui large header" style="margin-right:10px;">{{ index }}</span>
-          </td>
-          <td>
-            <h4 class="ui image header">
+            <h4 class="ui header">
               <div class="content">
+                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
                 <a class="list-item-header" href="{{ pathFor 'edit_keynote' keynoteId=_id }}"><i class="blue edit icon"></i> {{ title }}</a>
                 <div class="sub header">
                   there are <b style="font-size:1.1em;">{{ numberOfSlides _id }}</b> slides, created <b>{{ dateFromNow createdAt }}</b>,
@@ -20,7 +18,7 @@
             </h4>
           </td>
           <td class="single line right aligned">
-            <a id="see-keynote-action" href="{{ pathFor 'preview_keynote' keynoteId=_id }}"><i class="large blue unhide icon" data-content="See it in action!"></i></a>
+            <a id="see-keynote-action" href="{{ pathFor 'preview_keynote' keynoteId=_id }}" style="margin-right:10px;"><i class="large blue unhide icon" data-content="See it in action!"></i></a>
             <a id="remove-keynote" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove"></i></a>
           </td>
         </tr>
@@ -33,8 +31,8 @@
   {{#if keynotes}}
     <script type="text/javascript">
       setTimeout(function(){
-        $('#see-keynote-action .large.blue.unhide.icon').popup({ hoverable: true, position : 'left center', delay: { show: 100, hide: 300 } });
-        $('#remove-keynote .large.red.remove.icon').popup({ hoverable: true, position : 'right center', delay: { show: 100, hide: 300 } });
+        $('#see-keynote-action .large.blue.unhide.icon').popup({ hoverable: true, position : 'left center', delay: { show: 100, hide: 200 } });
+        $('#remove-keynote .large.red.remove.icon').popup({ hoverable: true, position : 'right center', delay: { show: 100, hide: 200 } });
       }, 1000);
     </script>
   {{/if}}

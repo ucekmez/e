@@ -1,11 +1,13 @@
 import { Template } from 'meteor/templating';
 import { Forms, Responses, FormResponses } from '/imports/api/collections/forms.js'; // Forms collections
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import './edit_form.html'; // CompanyEditFormLayout CompanyEditForm
 import './list_forms.html'; // CompanyListForms
 import './preview_form.html'; // CompanyPreviewForm
+import './list_applicant_responses.html'; // CompanyListApplicantResponses
 
-
+import  Clipboard  from 'clipboard'; // from clipboard.js (npm dependency)
 
 //////////////////////// ******************** CompanyEditForm
 
@@ -50,6 +52,22 @@ Template.CompanyListForms.helpers({
 Template.CompanyListForms.events({
   'click #remove-form'(event, instance) {
     Meteor.call('remove_form', this._id);
+  },
+  'click #export-form-to-applicants'(event, instance) {
+    const _this = this;
+    $('.modal.export-form-to-applicant')
+      .modal({
+        //blurring: true,
+        onShow() {
+          new Clipboard('.copytoclipboard');
+          // console.log(_this); // _this = tikladigimiz form tablosuna isaret ediyor.
+          $('.twelve.wide.column.export-form-to-applicant input')
+            .val(FlowRouter.url('user_formresponse') + '/' + _this._id);
+        },
+        onDeny() {},
+        onApprove() {}
+      })
+      .modal('show');
   }
 });
 
@@ -166,9 +184,51 @@ Template.CompanyPreviewFormResponse.helpers({
   },
 });
 
-//////////////////////// ******************** CompanyPreviewTestResponse
+//////////////////////// ******************** CompanyListApplicantResponses
 
 
+Template.CompanyListApplicantResponses.helpers({
+  form() {
+    return Forms.findOne(FlowRouter.getParam('formId'));
+  },
+  responses() {
+    return FormResponses.find({ form: FlowRouter.getParam('formId') }, { sort : {createdAt: -1} })
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
+  }
+});
+
+
+Template.CompanyPreviewApplicantFormResponse.helpers({
+  form() {
+    const form_response = FormResponses.findOne(FlowRouter.getParam('responseId'));
+    const form = Forms.findOne(form_response.form);
+    //console.log(form.title);
+    Frm = form; // for development purpose only
+    return form;
+  },
+  user_info() {
+    const form_response = FormResponses.findOne(FlowRouter.getParam('responseId'));
+    if (form_response) {
+      if (form_response.user_name) {
+        return form_response.user_name;
+      }else {
+        return form_response.email;
+      }
+    }
+  },
+  response() {
+    const form_response = FormResponses.findOne(FlowRouter.getParam('responseId'));
+    if (form_response) {
+      const response = Responses.findOne(form_response.response);
+      //console.log(response);
+      return response;
+    }
+  },
+
+});
 
 //////////////////////// ******************** registerHelpers
 
@@ -215,3 +275,17 @@ Template.registerHelper('responseExists', function(type, val) {
     return val;
   }
 });
+
+Template.registerHelper("getResponseData", function(response_id){
+  return Responses.findOne(response_id);
+});
+
+
+
+
+
+
+
+
+
+//

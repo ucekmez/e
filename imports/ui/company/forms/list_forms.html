@@ -6,11 +6,9 @@
       {{#each forms}}
         <tr>
           <td>
-            <span class="ui large header" style="margin-right:10px;">{{ index }}</span>
-          </td>
-          <td>
-            <h4 class="ui image header">
+            <h4 class="ui header">
               <div class="content">
+                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
                 <a class="list-item-header" href="{{ pathFor 'edit_form' formId=_id }}"><i class="blue edit icon"></i> {{ title }}</a> ({{#if equals type "form"}}survey{{else}}test{{/if}})
                 <div class="sub header">
                   created <b>{{ dateFromNow createdAt }}</b>,
@@ -22,6 +20,8 @@
           <td class="single line right aligned">
             <a id="preview-form-action" href="{{ pathFor 'preview_form' formId=_id }}"><i class="large green keyboard icon" data-content="See it in action!"></i></a>
             <a id="preview-form-response-action" href="{{ pathFor 'preview_form_response' formId=_id }}"><i class="large blue unhide icon" data-content="Preview the response"></i></a>
+            <a id="export-form-to-applicants" style="cursor:pointer;"><i class="large black external share icon" data-content="Export to your applicants"></i></a>
+            <a id="list-applicant-form-responses" href="{{ pathFor 'list_form_responses' formId=_id }}" style="cursor:pointer;margin-right:10px;"><i class="large grey users icon" data-content="List applicant responses"></i></a>
             <a id="remove-form" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove"></i></a>
           </td>
         </tr>
@@ -34,10 +34,33 @@
   {{#if forms}}
     <script type="text/javascript">
       setTimeout(function(){
-        $('#preview-form-action .large.green.keyboard.icon').popup({ hoverable: true, position : 'left center', delay: { show: 100, hide: 300 } });
-        $('#preview-form-response-action .large.blue.unhide.icon').popup({ hoverable: true, position : 'top center', delay: { show: 100, hide: 300 } });
-        $('#remove-form .large.red.remove.icon').popup({ hoverable: true, position : 'right center', delay: { show: 100, hide: 300 } });
+        $('#preview-form-action .large.green.keyboard.icon').popup({ hoverable: true, position : 'left center', delay: { show: 100, hide: 200 } });
+        $('#preview-form-response-action .large.blue.unhide.icon').popup({ hoverable: true, position : 'top center', delay: { show: 100, hide: 200 } });
+        $('#export-form-to-applicants .large.black.external.share.icon').popup({ hoverable: true, position : 'bottom center', delay: { show: 100, hide: 200 } });
+        $('#list-applicant-form-responses .large.grey.users.icon').popup({ hoverable: true, position : 'top center', delay: { show: 100, hide: 200 } });
+        $('#remove-form .large.red.remove.icon').popup({ hoverable: true, position : 'right center', delay: { show: 100, hide: 200 } });
       }, 1000);
     </script>
   {{/if}}
+  {{> CompanyExportFormToApplicant}}
+</template>
+
+
+<template name="CompanyExportFormToApplicant">
+  <div class="ui basic modal export-form-to-applicant">
+    <div class="ui container">
+      <div class="ui grid centered center aligned">
+        <h2 style="color:white;">Share the link belove to spread your form!</h2>
+        <div class="twelve wide column export-form-to-applicant">
+          <div class="ui action fluid input center aligned">
+            <input id="tobecopied" type="text" value="" readonly="readonly">
+            <button class="ui teal right labeled icon button copytoclipboard" data-clipboard-target="#tobecopied">
+              <i class="copy icon"></i>
+              Copy
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

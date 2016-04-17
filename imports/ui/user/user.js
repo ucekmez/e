@@ -8,6 +8,8 @@ import './layout.html'; // UserLayout
 import './dashboard_main.html'; // UserDashboard
 import './left_menu.html'; // UserLeftMenu
 
+import './forms/forms.js';
+
 
 const userRoutes = FlowRouter.group({ prefix: '/user', name: 'user',
   triggersEnter: [function() {
@@ -25,6 +27,10 @@ const userRoutes = FlowRouter.group({ prefix: '/user', name: 'user',
 });
 userRoutes.route('/', { name: 'user_dashboard',
   action() { BlazeLayout.render('UserLayout', { nav: 'MainNavigation', left: 'UserLeftMenu', main: 'UserDashboard' }); } });
+
+userRoutes.route('/form/:formId', { name: 'user_formresponse',
+  action() { BlazeLayout.render('UserFormResponseLayout'); } });
+
 
 
 

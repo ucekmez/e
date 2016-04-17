@@ -13,11 +13,6 @@ import './list_questions.html'; // CompanyListQuestions
 import './edit_question.html'; // CompanyEditQuestion
 import './preview_question.html'; // CompanyPreviewQuestion
 
-
-Template.CompanyAddNewQuestion.onRendered(function() {
-  $('#responsetime').dropdown();
-});
-
 /* // lukemuke video recorder plugin
 Template.lmVideoCapture.events({
   'click .lm-video-capture-record-start-btn'(event, instance) {
@@ -92,7 +87,14 @@ Template.CompanyPreviewRecordQuestion.onRendered(function() {
               record: {
                   image: false,
                   audio: true,
-                  video: true,
+                  video: {
+                    mandatory: {
+                      minWidth: 320,
+                      minHeight: 240
+                    }
+                  },
+                  frameWidth: 320,
+                  frameHeight: 240,
                   maxLength: question.time,
                   debug: false
               }
@@ -200,16 +202,6 @@ Template.CompanyListQuestions.events({
   'click #remove-question'(event, instance) {
     Meteor.call('remove_question', this._id);
   },
-  'click #preview-question'(event, instance) {
-    Session.set("selected_question", this._id);
-    $('.modal.preview-question')
-      .modal({
-        //blurring: true,
-        onDeny() {},
-        onApprove() {}
-      })
-      .modal('show');
-  }
 });
 
 Template.CompanyEditQuestion.helpers({
