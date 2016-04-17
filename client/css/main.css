@@ -2,3 +2,10 @@
 
 /* listeleme sayfalarindaki basliklarin genislikleri*/
 .ui.header .content { width:100%; }
+
+
+.breadcrumb li {
+  list-style-type: none;
+  display:inline-block;
+  margin-right:10px;  
+}

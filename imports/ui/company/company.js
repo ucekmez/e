@@ -43,6 +43,9 @@ const companyRoutes = FlowRouter.group({ prefix: '/company', name: 'company',
   }]
 });
 companyRoutes.route('/', { name: 'company_dashboard',
+  breadcrumb: {
+    title: "Dashboard"
+  },
   action() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyDashboard' }); } });
 
 
@@ -50,6 +53,10 @@ companyRoutes.route('/', { name: 'company_dashboard',
 
 const companyFormRoutes = companyRoutes.group({ prefix: "/forms", name: "companyforms"});
 companyFormRoutes.route('/edit/:formId', { name: 'edit_form',
+  breadcrumb: {
+    parent: "list_forms",
+    title: "Edit Form"
+  },
   subscriptions: function(params, queryParams) {
     if(Meteor.isClient) {
       this.register('getformpreview', Meteor.subscribe("getFormForPreview", params._id));
@@ -62,10 +69,18 @@ companyFormRoutes.route('/preview/fill/:formId', { name: 'preview_form',
 companyFormRoutes.route('/preview/response/:formId', { name: 'preview_form_response',
   action: function(params) { BlazeLayout.render('CompanyPreviewFormResponse'); } });
 companyFormRoutes.route('/list', { name: 'list_forms',
+  breadcrumb: {
+    parent: "company_dashboard",
+    title: "List Form"
+  },
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListForms' }); } });
 
 companyFormRoutes.route('/list/responses/:formId', { name: 'list_form_responses',
+  breadcrumb: {
+    parent: "list_forms",
+    title: "List Responses"
+  },
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantResponses' }); } });
 
@@ -78,9 +93,17 @@ companyFormRoutes.route('/response/:responseId/', { name: 'preview_applicant_for
 
 const companyKeynoteRoutes = companyRoutes.group({ prefix: "/keynotes", name: "companykeynotes"});
 companyKeynoteRoutes.route('/edit/:keynoteId', { name: 'edit_keynote',
+  breadcrumb: {
+    parent: "list_keynotes",
+    title: "Edit Keynote"
+  },
   action: function(params) {
     BlazeLayout.render('CompanyEditKeynoteLayout', { nav: 'MainNavigation', main: 'CompanyEditKeynote' }); } });
 companyKeynoteRoutes.route('/list', { name: 'list_keynotes',
+  breadcrumb: {
+    parent: "company_dashboard",
+    title: "List Keynotes"
+  },
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListKeynotes' }); } });
 companyKeynoteRoutes.route('/preview/:keynoteId', { name: 'preview_keynote',
@@ -102,9 +125,17 @@ companyKeynoteRoutes.route('/preview/:keynoteId', { name: 'preview_keynote',
 
 const companyPositions = companyRoutes.group({ prefix: "/positions", name: "companypositions"});
 companyPositions.route('/list', { name: 'list_positions',
+  breadcrumb: {
+    parent: "company_dashboard",
+    title: "List Positions"
+  },
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListPositions' }); } });
 companyPositions.route('/edit/:positionId', { name: 'edit_position',
+  breadcrumb: {
+    parent: "list_positions",
+    title: "Edit Position"
+  },
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditPosition' }); } });
 
@@ -116,12 +147,24 @@ companyPositions.route('/edit/:positionId', { name: 'edit_position',
 
 const companyQuestions = companyRoutes.group({ prefix: "/questions", name: "companyquestions"});
 companyQuestions.route('/list', { name: 'list_questions',
+  breadcrumb: {
+    parent: "company_dashboard",
+    title: "List Questions"
+  },
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListQuestions' }); } });
 companyQuestions.route('/edit/:questionId', { name: 'edit_question',
+  breadcrumb: {
+    parent: "list_questions",
+    title: "Edit Question"
+  },
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditQuestion' }); } });
 companyQuestions.route('/preview/record/:questionId', { name: 'preview_record_question',
+  breadcrumb: {
+    parent: "list_questions",
+    title: "Record Sample"
+  },
   subscriptions: function(params, queryParams) {
     if(Meteor.isClient) {
       this.register('showquestion', Meteor.subscribe("getInterviewQuestion", params._id));
@@ -136,6 +179,10 @@ companyQuestions.route('/preview/record/:questionId', { name: 'preview_record_qu
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewRecordQuestion' }); } });
 companyQuestions.route('/preview/answer/:questionId', { name: 'preview_answer_question',
+  breadcrumb: {
+    parent: "list_questions",
+    title: "Preview Sample"
+  },
   subscriptions: function(params, queryParams) {
     if(Meteor.isClient) {
       this.register('showquestion', Meteor.subscribe("getInterviewQuestion", params._id));
