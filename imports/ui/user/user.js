@@ -9,6 +9,7 @@ import './dashboard_main.html'; // UserDashboard
 import './left_menu.html'; // UserLeftMenu
 
 import './forms/forms.js';
+import './keynotes/keynotes.js';
 
 
 const userRoutes = FlowRouter.group({ prefix: '/user', name: 'user',
@@ -31,6 +32,18 @@ userRoutes.route('/', { name: 'user_dashboard',
 userRoutes.route('/form/:formId', { name: 'user_formresponse',
   action() { BlazeLayout.render('UserFormResponseLayout'); } });
 
+userRoutes.route('/keynote/:keynoteId', { name: 'user_keynoteresponse',
+  triggersExit: [function() {
+    $('body').removeClass('ofhiddenforslide');
+    $('html').removeClass('ofhiddenforslide');
+    if (typeof Reveal !== 'undefined') { Reveal.removeEventListeners(); }
+  }],
+  subscriptions: function(params, queryParams) {
+    if(Meteor.isClient) {
+      this.register('showslides', Meteor.subscribe("getSlidesOfKeynote", params._id));
+    }
+  },
+  action() { BlazeLayout.render('UserKeynoteResponseLayout'); } });
 
 
 

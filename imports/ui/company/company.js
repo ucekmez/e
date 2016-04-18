@@ -82,7 +82,7 @@ companyFormRoutes.route('/list/responses/:formId', { name: 'list_form_responses'
     title: "List Responses"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantResponses' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantFormResponses' }); } });
 
 companyFormRoutes.route('/response/:responseId/', { name: 'preview_applicant_form_response',
   action: function(params) { BlazeLayout.render('CompanyPreviewApplicantFormResponse'); } });
@@ -119,6 +119,15 @@ companyKeynoteRoutes.route('/preview/:keynoteId', { name: 'preview_keynote',
   },
   action: function() {
     BlazeLayout.render('CompanyKeynotePreviewLayout'); } });
+
+companyKeynoteRoutes.route('/list/responses/:keynoteId', { name: 'list_keynote_responses',
+  breadcrumb: {
+    parent: "list_keynotes",
+    title: "List Responses"
+  },
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantKeynoteResponses' }); } });
+
 
 
 //************ positions routes

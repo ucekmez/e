@@ -1,11 +1,12 @@
 import { Template } from 'meteor/templating';
-import { Slides, Keynotes } from '/imports/api/collections/keynotes.js'; // Keynotes collections
+import { Slides, Keynotes, KeynoteResponses } from '/imports/api/collections/keynotes.js'; // Keynotes collections
 
 import './edit_keynote.html';
 import './list_keynotes.html';
 import './preview_keynote.html';
+import './list_applicant_responses.html';
 
-
+import  Clipboard  from 'clipboard'; // from clipboard.js (npm dependency)
 
 Template.CompanyListKeynotes.helpers({
   keynotes() {
@@ -21,7 +22,24 @@ Template.CompanyListKeynotes.helpers({
 Template.CompanyListKeynotes.events({
   'click #remove-keynote'(event, instance) {
     Meteor.call('remove_keynote', this._id);
+  },
+  'click #export-keynote-to-applicants'(event, instance) {
+    const _this = this;
+    $('.modal.export-keynote-to-applicant')
+      .modal({
+        //blurring: true,
+        onShow() {
+          new Clipboard('.copytoclipboard');
+          // console.log(_this); // _this = tikladigimiz form tablosuna isaret ediyor.
+          $('.twelve.wide.column.export-keynote-to-applicant input')
+            .val(FlowRouter.url('user_keynoteresponse') + '/' + _this._id);
+        },
+        onDeny() {},
+        onApprove() {}
+      })
+      .modal('show');
   }
+
 });
 
 Template.CompanyEditKeynote.helpers({
@@ -214,6 +232,19 @@ Template.CompanyKeynotePreviewLayout.helpers({
   }
 });
 
+
+Template.CompanyListApplicantKeynoteResponses.helpers({
+  keynote() {
+    return Keynotes.findOne(FlowRouter.getParam('keynoteId'));
+  },
+  responses() {
+    return KeynoteResponses.find({ keynote: FlowRouter.getParam('keynoteId') }, { sort : {createdAt: -1} })
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
+  }
+});
 
 
 ///// registerHelper functions

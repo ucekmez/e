@@ -5,7 +5,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import './edit_form.html'; // CompanyEditFormLayout CompanyEditForm
 import './list_forms.html'; // CompanyListForms
 import './preview_form.html'; // CompanyPreviewForm
-import './list_applicant_responses.html'; // CompanyListApplicantResponses
+import './list_applicant_responses.html'; // CompanyListApplicantFormResponses
 
 import  Clipboard  from 'clipboard'; // from clipboard.js (npm dependency)
 
@@ -187,7 +187,7 @@ Template.CompanyPreviewFormResponse.helpers({
 //////////////////////// ******************** CompanyListApplicantResponses
 
 
-Template.CompanyListApplicantResponses.helpers({
+Template.CompanyListApplicantFormResponses.helpers({
   form() {
     return Forms.findOne(FlowRouter.getParam('formId'));
   },

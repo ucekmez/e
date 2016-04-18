@@ -1,5 +1,5 @@
 import { Forms, Responses, FormResponses } from '/imports/api/collections/forms.js';
-import { Slides, Keynotes } from '/imports/api/collections/keynotes.js';
+import { Slides, Keynotes, KeynoteResponses } from '/imports/api/collections/keynotes.js';
 import { Positions } from '/imports/api/collections/positions.js';
 import { InterviewQuestions, PreviewVideos, Videos } from '/imports/api/collections/videos.js';
 
@@ -258,5 +258,35 @@ Meteor.methods({
       return form_response_id;
     }
   },
+
+  save_keynote_response_preview(keynote_id) {
+    const user_id = Meteor.userId();
+    const user = Meteor.users.findOne(user_id)
+    let user_name = "";
+    if (user.profile && user.profile.name) {
+      user_name = user.profile.name;
+    }
+    let user_email = "";
+    if (user.emails) {
+      user_email = user.emails[0].address;
+    }
+
+    const already_exists = KeynoteResponses.findOne({ $and : [{ keynote: keynote_id}, {user: user_id}]});
+    if (already_exists) {
+      KeynoteResponses.update({ $and : [{ keynote: keynote_id}, {user: user_id}]}, {
+        $set: { times: already_exists.times+1 } // set the new one
+      });
+      return already_exists._id;
+    }else {
+      const new_response_id = KeynoteResponses.insert({
+        user: user_id,
+        user_name: user_name,
+        email: user_email,
+        keynote: keynote_id,
+        times: 1
+      });
+      return new_response_id;
+    }
+  }
 
 });
