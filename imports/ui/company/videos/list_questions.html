@@ -19,7 +19,9 @@
           </td>
           <td class="single line right aligned">
             <a id="record-question-action" href="{{ pathFor 'preview_record_question' questionId=_id }}"><i class="large green record icon" data-content="Record a shot!"></i></a>
-            <a id="preview-question-action" href="{{ pathFor 'preview_answer_question' questionId=_id }}" style="margin-right:10px;"><i class="large blue unhide icon" data-content="Preview your record"></i></a>
+            <a id="preview-question-action" href="{{ pathFor 'preview_answer_question' questionId=_id }}"><i class="large blue unhide icon" data-content="Preview your record"></i></a>
+            <a id="export-video-to-applicants" style="cursor:pointer;"><i class="large black external share icon" data-content="Export to your applicants"></i></a>
+            <a id="list-applicant-video-responses" href="{{ pathFor 'list_video_responses' questionId=_id }}" style="cursor:pointer;margin-right:10px;"><i class="large grey users icon" data-content="List applicant responses"></i></a>
             <a id="remove-question" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove"></i></a>
           </td>
         </tr>
@@ -34,8 +36,30 @@
      setTimeout(function(){
        $('#record-question-action .large.green.record.icon').popup({ hoverable: true, position : 'left center', delay: { show: 100, hide: 200 } });
        $('#preview-question-action .large.blue.unhide.icon').popup({ hoverable: true, position : 'top center', delay: { show: 100, hide: 200 } });
+       $('#export-video-to-applicants .large.black.external.share.icon').popup({ hoverable: true, position : 'bottom center', delay: { show: 100, hide: 200 } });
+       $('#list-applicant-video-responses .large.grey.users.icon').popup({ hoverable: true, position : 'top center', delay: { show: 100, hide: 200 } });
        $('#remove-question .large.red.remove.icon').popup({ hoverable: true, position : 'right center', delay: { show: 100, hide: 200 } });
      }, 1000);
     </script>
   {{/if}}
+  {{> CompanyExportVideoToApplicant}}
+</template>
+
+<template name="CompanyExportVideoToApplicant">
+  <div class="ui basic modal export-video-to-applicant">
+    <div class="ui container">
+      <div class="ui grid centered center aligned">
+        <h2 style="color:white;">Share the link belove to spread your question!</h2>
+        <div class="twelve wide column export-video-to-applicant">
+          <div class="ui action fluid input center aligned">
+            <input id="tobecopied" type="text" value="" readonly="readonly">
+            <button class="ui teal right labeled icon button copytoclipboard" data-clipboard-target="#tobecopied">
+              <i class="copy icon"></i>
+              Copy
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

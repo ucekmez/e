@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import '/imports/startup/server';
 import { Slides, Keynotes } from '/imports/api/collections/keynotes.js';
-import { InterviewQuestions, PreviewVideos } from '/imports/api/collections/videos.js';
+import { InterviewQuestions, VideoResponses } from '/imports/api/collections/videos.js';
 import { Forms, FormResponses } from '/imports/api/collections/forms.js';
 
 Sortable.collections = ['slides'];
@@ -17,7 +17,7 @@ Meteor.publish("getInterviewQuestion", function(question_id) {
   return InterviewQuestions.find({ _id: question_id });
 });
 Meteor.publish("getInterviewQuestionVideo", function(question_id, user_id) {
-  return PreviewVideos.find({ $and : [{ question: question_id}, {user: user_id }]});
+  return VideoResponses.find({ $and : [{ question: question_id}, {user: this.userId }]});
 });
 
 

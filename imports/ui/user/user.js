@@ -10,6 +10,7 @@ import './left_menu.html'; // UserLeftMenu
 
 import './forms/forms.js';
 import './keynotes/keynotes.js';
+import './videos/videos.js';
 
 
 const userRoutes = FlowRouter.group({ prefix: '/user', name: 'user',
@@ -44,6 +45,23 @@ userRoutes.route('/keynote/:keynoteId', { name: 'user_keynoteresponse',
     }
   },
   action() { BlazeLayout.render('UserKeynoteResponseLayout'); } });
+
+userRoutes.route('/record/:questionId', { name: 'user_videoresponse',
+  subscriptions: function(params, queryParams) {
+    if(Meteor.isClient) {
+      this.register('showquestion', Meteor.subscribe("getInterviewQuestion", params._id));
+      this.register('showquestionvideo', Meteor.subscribe("getInterviewQuestionVideo", params._id));
+    }
+  },
+  triggersExit: [function() {
+    if (typeof(q_player) !== "undefined") {
+      q_player.recorder.destroy();
+    }
+  }],
+  action: function() {
+    BlazeLayout.render('UserVideoResponseLayout'); } });
+
+
 
 
 

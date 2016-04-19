@@ -204,10 +204,12 @@ Template.CompanyListApplicantFormResponses.helpers({
 Template.CompanyPreviewApplicantFormResponse.helpers({
   form() {
     const form_response = FormResponses.findOne(FlowRouter.getParam('responseId'));
-    const form = Forms.findOne(form_response.form);
-    //console.log(form.title);
-    Frm = form; // for development purpose only
-    return form;
+    if (form_response) {
+      const form = Forms.findOne(form_response.form);
+      //console.log(form.title);
+      Frm = form; // for development purpose only
+      return form;
+    }
   },
   user_info() {
     const form_response = FormResponses.findOne(FlowRouter.getParam('responseId'));

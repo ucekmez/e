@@ -1,7 +1,7 @@
 import { Forms, Responses, FormResponses } from '/imports/api/collections/forms.js';
 import { Slides, Keynotes, KeynoteResponses } from '/imports/api/collections/keynotes.js';
 import { Positions } from '/imports/api/collections/positions.js';
-import { InterviewQuestions, PreviewVideos, Videos } from '/imports/api/collections/videos.js';
+import { InterviewQuestions, VideoResponses, Videos } from '/imports/api/collections/videos.js';
 
 Meteor.methods({
   add_new_form(){
@@ -98,9 +98,9 @@ Meteor.methods({
   },
 
   edit_interview_question(id, question, description, responsetime) {
-    let time = 90;
-    if (responsetime == 30) { time = 30; }
-    else if (responsetime == 60) { time = 60; }
+    let time = 30;
+    if (responsetime == 20) { time = 20; }
+    else if (responsetime == 40) { time = 40; }
 
     InterviewQuestions.update({ _id: id }, {
       $set: {
@@ -207,20 +207,33 @@ Meteor.methods({
     }
   },
 
-  // for preview purpose only
-  add_video_to_preview(q_id, user_id, video_id) {
-    const already_exists = PreviewVideos.findOne({ $and : [{ question: q_id}, {user: user_id}]});
+
+  save_video_response_preview(q_id, video_id) {
+    const already_exists = VideoResponses.findOne({ $and : [{ question: q_id}, {user: Meteor.userId()}]});
     if (already_exists) {
       Videos.remove(already_exists.video); // remove the previous video
-      PreviewVideos.update({ $and : [{ question: q_id}, {user: user_id}]}, {
+      VideoResponses.update({ $and : [{ question: q_id}, {user: Meteor.userId()}]}, {
         $set: { video: video_id } // set the new one
       });
       return already_exists._id;
     }else { // if there is no record before, then create a new one
-      const preview_id = PreviewVideos.insert({
+      const user_id = Meteor.userId();
+      const user = Meteor.users.findOne(user_id)
+      let user_name = "";
+      if (user.profile && user.profile.name) {
+        user_name = user.profile.name;
+      }
+      let user_email = "";
+      if (user.emails) {
+        user_email = user.emails[0].address;
+      }
+
+      const preview_id = VideoResponses.insert({
         question: q_id,
-        user: user_id,
-        video: video_id
+        user: Meteor.userId(),
+        video: video_id,
+        user_name: user_name,
+        email: user_email
       });
       return preview_id;
     }
@@ -229,17 +242,6 @@ Meteor.methods({
 
 
   save_form_response_preview(form_id, response_id) {
-    const user_id = Meteor.userId();
-    const user = Meteor.users.findOne(user_id)
-    let user_name = "";
-    if (user.profile && user.profile.name) {
-      user_name = user.profile.name;
-    }
-    let user_email = "";
-    if (user.emails) {
-      user_email = user.emails[0].address;
-    }
-
     const already_exists = FormResponses.findOne({ $and : [{ form: form_id}, {user: user_id}]});
     if (already_exists) {
       Responses.remove(already_exists.response); // remove the previous response
@@ -248,6 +250,17 @@ Meteor.methods({
       });
       return already_exists._id;
     } else {
+      const user_id = Meteor.userId();
+      const user = Meteor.users.findOne(user_id)
+      let user_name = "";
+      if (user.profile && user.profile.name) {
+        user_name = user.profile.name;
+      }
+      let user_email = "";
+      if (user.emails) {
+        user_email = user.emails[0].address;
+      }
+
       const form_response_id = FormResponses.insert({
         form: form_id,
         user: user_id,
@@ -260,17 +273,6 @@ Meteor.methods({
   },
 
   save_keynote_response_preview(keynote_id) {
-    const user_id = Meteor.userId();
-    const user = Meteor.users.findOne(user_id)
-    let user_name = "";
-    if (user.profile && user.profile.name) {
-      user_name = user.profile.name;
-    }
-    let user_email = "";
-    if (user.emails) {
-      user_email = user.emails[0].address;
-    }
-
     const already_exists = KeynoteResponses.findOne({ $and : [{ keynote: keynote_id}, {user: user_id}]});
     if (already_exists) {
       KeynoteResponses.update({ $and : [{ keynote: keynote_id}, {user: user_id}]}, {
@@ -278,6 +280,17 @@ Meteor.methods({
       });
       return already_exists._id;
     }else {
+      const user_id = Meteor.userId();
+      const user = Meteor.users.findOne(user_id)
+      let user_name = "";
+      if (user.profile && user.profile.name) {
+        user_name = user.profile.name;
+      }
+      let user_email = "";
+      if (user.emails) {
+        user_email = user.emails[0].address;
+      }
+
       const new_response_id = KeynoteResponses.insert({
         user: user_id,
         user_name: user_name,

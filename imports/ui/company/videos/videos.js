@@ -1,17 +1,19 @@
 // disariya export etmek istedigimiz her sey bu dosyada olacak
 
 import { Template } from 'meteor/templating';
-import { InterviewQuestions, PreviewVideos, Videos } from '/imports/api/collections/videos.js'; // Positions collections
+import { InterviewQuestions, VideoResponses, Videos } from '/imports/api/collections/videos.js'; // Positions collections
 
 import  videojs  from 'video.js';
 import  record  from 'videojs-record';
 //import MRecordRTC from 'recordrtc';
 
+import  Clipboard  from 'clipboard'; // from clipboard.js (npm dependency)
 
 import './add_new_question.html'; // CompanyAddNewQuestion
 import './list_questions.html'; // CompanyListQuestions
 import './edit_question.html'; // CompanyEditQuestion
 import './preview_question.html'; // CompanyPreviewQuestion
+import './list_applicant_responses.html'; // CompanyPreviewQuestion
 
 /* // lukemuke video recorder plugin
 Template.lmVideoCapture.events({
@@ -122,7 +124,7 @@ Template.CompanyPreviewRecordQuestion.onRendered(function() {
             data = q_player.recordedData.video; // Chrome
           }
           Videos.insert(data, function(err, fileObj) {
-            Meteor.call('add_video_to_preview', question._id, Meteor.userId(), fileObj._id, function() {
+            Meteor.call('save_video_response_preview', question._id, fileObj._id, function() {
               toastr.info("Your response has been saved!");
             });
           });
@@ -155,7 +157,7 @@ Template.CompanyPreviewAnswerQuestion.onRendered(function(){
           }
         });
 
-      const preview_video = PreviewVideos.findOne({ $and : [{ question: FlowRouter.getParam('questionId')}, {user: Meteor.userId() }]});
+      const preview_video = VideoResponses.findOne({ $and : [{ question: FlowRouter.getParam('questionId')}, {user: Meteor.userId() }]});
 
       if (preview_video) {
         a_player = videojs("preview-answer", {
@@ -179,7 +181,7 @@ Template.CompanyPreviewAnswerQuestion.helpers({
     }
   },
   video_url() {
-    A = PreviewVideos.findOne({ $and : [{ question: FlowRouter.getParam('questionId')}, {user: Meteor.userId() }]});
+    A = VideoResponses.findOne({ $and : [{ question: FlowRouter.getParam('questionId')}, {user: Meteor.userId() }]});
     if (A) {
       return Videos.findOne(A.video).url();
     }
@@ -202,6 +204,22 @@ Template.CompanyListQuestions.events({
   'click #remove-question'(event, instance) {
     Meteor.call('remove_question', this._id);
   },
+  'click #export-video-to-applicants'(event, instance) {
+    const _this = this;
+    $('.modal.export-video-to-applicant')
+      .modal({
+        //blurring: true,
+        onShow() {
+          new Clipboard('.copytoclipboard');
+          // console.log(_this); // _this = tikladigimiz form tablosuna isaret ediyor.
+          $('.twelve.wide.column.export-video-to-applicant input')
+            .val(FlowRouter.url('user_videoresponse') + '/' + _this._id);
+        },
+        onDeny() {},
+        onApprove() {}
+      })
+      .modal('show');
+  }
 });
 
 Template.CompanyEditQuestion.helpers({
@@ -244,6 +262,65 @@ Template.CompanyEditQuestion.events({
       });
     }else {
       toastr.error('Please correct the errors!');
+    }
+  }
+});
+
+
+
+
+Template.CompanyListApplicantVideoResponses.helpers({
+  question() {
+    return InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
+  },
+  responses() {
+    return VideoResponses.find({ question: FlowRouter.getParam('questionId') }, { sort : {createdAt: -1} })
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
+  }
+});
+
+
+// single applicant response
+Template.CompanyPreviewApplicantVideoResponse.onRendered(function(){
+  FlowRouter.subsReady("showquestion", function() {
+    FlowRouter.subsReady("showquestionvideo", function() {
+      $('.info.icon.description').popup({
+          hoverable: true,
+          position : 'right center',
+          delay: {
+            show: 300,
+            hide: 800
+          }
+        });
+
+      const preview_video = VideoResponses.findOne(FlowRouter.getParam('responseId'));
+
+      if (preview_video) {
+        a_player = videojs("user-preview-answer", {
+          "width": 640,
+          "height": 480,
+          "poster": "/img/fililabs_logo.png",
+        });
+      }
+    });
+  });
+});
+
+
+Template.CompanyPreviewApplicantVideoResponse.helpers({
+  question() {
+    const video_response = VideoResponses.findOne(FlowRouter.getParam('responseId'));
+    if (video_response) {
+      return InterviewQuestions.findOne(video_response.question);
+    }
+  },
+  video_url() {
+    A = VideoResponses.findOne(FlowRouter.getParam('responseId'));
+    if (A) {
+      return Videos.findOne(A.video).url();
     }
   }
 });

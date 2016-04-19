@@ -177,7 +177,7 @@ companyQuestions.route('/preview/record/:questionId', { name: 'preview_record_qu
   subscriptions: function(params, queryParams) {
     if(Meteor.isClient) {
       this.register('showquestion', Meteor.subscribe("getInterviewQuestion", params._id));
-      this.register('showquestionvideo', Meteor.subscribe("getInterviewQuestionVideo", params._id, Meteor.userId()));
+      this.register('showquestionvideo', Meteor.subscribe("getInterviewQuestionVideo", params._id));
     }
   },
   triggersExit: [function() {
@@ -195,7 +195,7 @@ companyQuestions.route('/preview/answer/:questionId', { name: 'preview_answer_qu
   subscriptions: function(params, queryParams) {
     if(Meteor.isClient) {
       this.register('showquestion', Meteor.subscribe("getInterviewQuestion", params._id));
-      this.register('showquestionvideo', Meteor.subscribe("getInterviewQuestionVideo", params._id, Meteor.userId()));
+      this.register('showquestionvideo', Meteor.subscribe("getInterviewQuestionVideo", params._id));
     }
   },
   triggersExit: [function() {
@@ -206,6 +206,34 @@ companyQuestions.route('/preview/answer/:questionId', { name: 'preview_answer_qu
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewAnswerQuestion' }); } });
 
+
+companyQuestions.route('/list/responses/:questionId', { name: 'list_video_responses',
+  breadcrumb: {
+    parent: "list_questions",
+    title: "List Responses"
+  },
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantVideoResponses' }); } });
+
+
+companyQuestions.route('/response/:responseId', { name: 'preview_video_response',
+  breadcrumb: {
+    parent: "list_questions",
+    title: "Preview Response"
+  },
+  subscriptions: function(params, queryParams) {
+    if(Meteor.isClient) {
+      this.register('showquestion', Meteor.subscribe("getInterviewQuestion", params._id));
+      this.register('showquestionvideo', Meteor.subscribe("getInterviewQuestionVideo", params._id));
+    }
+  },
+  triggersExit: [function() {
+    if (typeof(a_player) !== "undefined") {
+      a_player.dispose();
+    }
+  }],
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewApplicantVideoResponse' }); } });
 
 
 

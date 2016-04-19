@@ -34,10 +34,35 @@ export const Videos = new FS.Collection("videos", {
 
 /////////////
 
-// for company preview
-export const PreviewVideos = new Mongo.Collection('preview_videos');
 
 
+export const VideoResponses = new Mongo.Collection('video_responses');
+
+VideoResponses.attachSchema(new SimpleSchema({
+  question: { type: String, max: 64 },
+  user: { type: String, max: 64},
+  user_name: { type: String, max: 64, optional: true },
+  email: { type: String, max: 128 },
+  video: { type: String, max: 64 },
+  createdAt : {
+    type: Date,
+    autoValue: function() {
+      if (this.isInsert) { return new Date(); }
+      else if (this.isUpsert) { $setOnInsert: new Date(); }
+      else { this.unset(); }
+    }
+  },
+  updatedAt: {
+    type: Date,
+    autoValue: function() {
+      if (this.isUpdate) {
+        return new Date();
+      }
+    },
+    denyInsert: true,
+    optional: true
+  }
+}));
 
 
 

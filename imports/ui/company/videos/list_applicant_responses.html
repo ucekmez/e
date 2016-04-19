@@ -1,0 +1,75 @@
+<template name="CompanyListApplicantVideoResponses">
+  <h1>List of Applicant Responses for {{ question.content }}</h1>
+  <div class="ui divider"></div>
+
+
+  <table class="ui very basic padded table">
+    <tbody>
+      {{#each responses}}
+        <tr>
+          <td>
+            <h4 class="ui header">
+              <div class="content">
+                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
+                <a class="list-item-header" style="margin-right:10px;">
+                  {{# if user_name }}
+                    {{ user_name }}
+                  {{else}}
+                    {{ email }}
+                  {{/if}}
+                </a>
+                <div class="sub header">
+                  recorded <b>{{ dateFromNow createdAt }}</b>
+                </div>
+              </div>
+            </h4>
+          </td>
+          <td class="single line right aligned">
+            <a id="preview-single-applicant-video-response" href="{{ pathFor 'preview_video_response' responseId=_id }}"><i class="large blue unhide icon" data-content="Preview the response"></i></a>
+          </td>
+        </tr>
+      {{else}}
+        There are no responses yet!
+      {{/each}}
+
+    </tbody>
+  </table>
+
+    {{#if responses}}
+      <script type="text/javascript">
+        setTimeout(function(){
+          $('#preview-single-applicant-video-response .large.blue.unhide.icon').popup({ hoverable: true, position : 'top center', delay: { show: 100, hide: 200 } });
+        }, 1000);
+      </script>
+    {{/if}}
+
+</template>
+
+
+
+
+<template name="CompanyPreviewApplicantVideoResponse">
+  <div class="ui container">
+      <div class="preview-answer ui segment">
+        <h2>{{ question.content }} <sup><i class="info icon description" data-content="{{ question.description }}"></i></sup></h2>
+        <div class="ui divider"></div>
+
+        {{#if video_url }}
+
+        <video id="user-preview-answer" class="ui raised segment video-js vjs-default-skin"
+          preload="auto" controls>
+          <source src="{{ video_url }}" type="video/webm">
+          <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a web browser
+            that supports HTML5 video
+          </p>
+        </video>
+
+        {{ else }}
+          <p>
+            There is no answer recorded for this question!
+          </p>
+        {{/if}}
+      </div>
+  </div>
+</template>
