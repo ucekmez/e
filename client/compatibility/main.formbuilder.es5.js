@@ -9238,7 +9238,7 @@ Meteor.startup(function() {
         }];
         attrs.field_options.include_other_option_value = '';
         attrs.field_options.include_other_option_checked = false;
-        console.dir(attrs);
+        //console.dir(attrs); // console.log
         return attrs;
       }
     });

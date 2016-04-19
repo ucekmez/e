@@ -1,24 +1,33 @@
 <template name="AdminListCompanies">
-  <table class="ui single line table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Company Name</th>
-        <th>Authorized User</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
+  <h1>List of Companies</h1>
+  <div class="ui divider"></div>
+
+  <table class="ui very basic padded table">
     <tbody>
       {{#each companies}}
         <tr>
-          <td>{{ index }}</td>
-          <td>{{ name }}</td>
-          <td>{{ email }}</td>
-          <td><a id="remove-company" style="cursor:pointer;"><i class="large red remove user icon"></i></a></td>
+          <td>
+            <h4 class="ui header">
+              <div class="content">
+                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
+                <a class="list-item-header" href=""><i class="blue edit icon"></i> {{ name }}</a>
+                <div class="sub header">
+                  <b>{{ email }}</b> has
+                  <b>{{ countCompanyForms _id }}</b> forms ({{ countCompanyFormResponses _id }}),
+                  <b>{{ countCompanyKeynotes _id }}</b> keynotes ({{ countCompanyKeynoteResponses _id }}),
+                  <b>{{ countCompanyVideos _id }}</b> video questions ({{ countCompanyVideoResponses _id }})
+                </div>
+              </div>
+            </h4>
+          </td>
+          <td class="single line right aligned">
+            <a id="remove-company" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove"></i></a>
+          </td>
         </tr>
       {{else}}
-        <p>There are no companies yet!</p>
+        There are no companies yet!
       {{/each}}
+
     </tbody>
   </table>
 </template>

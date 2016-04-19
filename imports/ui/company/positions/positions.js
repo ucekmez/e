@@ -7,6 +7,7 @@ import './add_new_position.html'; // CompanyAddNewPosition
 import './list_positions.html'; // CompanyListPositions
 import './edit_position.html'; // CompanyEditPositions
 
+import '../generic_events.js';
 
 Template.CompanyAddNewPosition.onRendered(function() {
   $('.fr-add-new-position .fr-toolbar').addClass("ui segment");
@@ -72,6 +73,9 @@ Template.CompanyListPositions.helpers({
 
 
 Template.CompanyListPositions.events({
+  'click #add_new_position_right'(event, instance) {
+    f_add_new_position(event, instance);
+  },
   'click #remove-position'(event, instance) {
     Meteor.call('remove_position', this._id);
   },

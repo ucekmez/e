@@ -28,6 +28,9 @@ const userRoutes = FlowRouter.group({ prefix: '/user', name: 'user',
   }]
 });
 userRoutes.route('/', { name: 'user_dashboard',
+  breadcrumb: {
+    title: "Dashboard"
+  },
   action() { BlazeLayout.render('UserLayout', { nav: 'MainNavigation', left: 'UserLeftMenu', main: 'UserDashboard' }); } });
 
 userRoutes.route('/form/:formId', { name: 'user_formresponse',

@@ -1,5 +1,15 @@
 <template name="CompanyListQuestions">
-  <h1>List of Questions</h1>
+  <table class="ui very basic table">
+    <tbody >
+      <td style="margin:0;padding:0;"><h1>List of Questions</h1></td>
+      <td style="margin:0;padding:0;" class="right aligned">
+        <button class="ui basic right labeled icon button copytoclipboard" id="add_new_question_right">
+          <i class="plus icon"></i>
+          <span>Question</span>
+        </button>
+      </td>
+    </tbody>
+  </table>
   <div class="ui divider"></div>
   <table class="ui very basic padded table">
     <tbody>
@@ -18,11 +28,11 @@
             </h4>
           </td>
           <td class="single line right aligned">
-            <a id="record-question-action" href="{{ pathFor 'preview_record_question' questionId=_id }}"><i class="large green record icon" data-content="Record a shot!"></i></a>
-            <a id="preview-question-action" href="{{ pathFor 'preview_answer_question' questionId=_id }}"><i class="large blue unhide icon" data-content="Preview your record"></i></a>
-            <a id="export-video-to-applicants" style="cursor:pointer;"><i class="large black external share icon" data-content="Export to your applicants"></i></a>
-            <a id="list-applicant-video-responses" href="{{ pathFor 'list_video_responses' questionId=_id }}" style="cursor:pointer;margin-right:10px;"><i class="large grey users icon" data-content="List applicant responses"></i></a>
-            <a id="remove-question" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove"></i></a>
+            <a id="record-question-action" href="{{ pathFor 'preview_record_question' questionId=_id }}"><i class="large green record icon" data-content="Record a shot!" data-variation="inverted"></i></a>
+            <a id="preview-question-action" href="{{ pathFor 'preview_answer_question' questionId=_id }}"><i class="large blue unhide icon" data-content="Preview your record" data-variation="inverted"></i></a>
+            <a id="export-video-to-applicants" style="cursor:pointer;"><i class="large black external share icon" data-content="Export to your applicants" data-variation="inverted"></i></a>
+            <a id="list-applicant-video-responses" href="{{ pathFor 'list_video_responses' questionId=_id }}" style="cursor:pointer;margin-right:10px;"><i class="large grey users icon" data-content="List applicant responses" data-variation="inverted"></i></a>
+            <a id="remove-question" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove" data-variation="inverted"></i></a>
           </td>
         </tr>
       {{else }}
@@ -55,7 +65,7 @@
             <input id="tobecopied" type="text" value="" readonly="readonly">
             <button class="ui teal right labeled icon button copytoclipboard" data-clipboard-target="#tobecopied">
               <i class="copy icon"></i>
-              Copy
+              <span id="copytext">Copy</span>
             </button>
           </div>
         </div>

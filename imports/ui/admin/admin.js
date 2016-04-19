@@ -3,6 +3,9 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Companies } from '/imports/api/collections/companies.js';
+import { Forms, FormResponses } from '/imports/api/collections/forms.js';
+import { InterviewQuestions, VideoResponses } from '/imports/api/collections/videos.js';
+import { Keynotes, KeynoteResponses } from '/imports/api/collections/keynotes.js';
 
 import '/imports/startup/client/routes/not_found.js'; // BlazeLayout.render('NotFoundLayout');
 
@@ -30,8 +33,15 @@ const adminRoutes = FlowRouter.group({ prefix: '/admin', name: 'admin',
   }]
 });
 adminRoutes.route('/', { name: 'admin_dashboard',
+  breadcrumb: {
+    title: "Dashboard"
+  },
   action() { BlazeLayout.render('AdminLayout', { nav: 'MainNavigation', left: 'AdminLeftMenu', main: 'AdminDashboard' }); } });
 adminRoutes.route('/companies', { name: 'list_companies',
+  breadcrumb: {
+    title: "List Companies",
+    parent: "admin_dashboard"
+  },
   action() { BlazeLayout.render('AdminLayout', { nav: 'MainNavigation', left: 'AdminLeftMenu', main: 'AdminListCompanies' }); } });
 
 
@@ -104,4 +114,72 @@ Template.AdminListCompanies.events({
   'click #remove-company'(event, instance) {
     Meteor.call('remove_company', this._id);
   },
+});
+
+
+
+
+/// registerHelpers
+
+Template.registerHelper('countCompanyForms', function(company_id){
+  const company = Companies.findOne(company_id);
+  if (company) {
+    return Forms.find({ user: company.user }).count();
+  }
+});
+
+Template.registerHelper('countCompanyFormResponses', function(company_id){
+  const company = Companies.findOne(company_id);
+  if (company) {
+    const forms = FormResponses.find({ user: company.user }).fetch();
+    if (forms) {
+      let total_responses = 0;
+      forms.forEach(function(form) {
+        total_responses += FormResponses.find({ form: form._id}).count();
+      });
+      return total_responses;
+    }
+  }
+});
+
+Template.registerHelper('countCompanyKeynotes', function(company_id){
+  const company = Companies.findOne(company_id);
+  if (company) {
+    return Keynotes.find({ user: company.user }).count();
+  }
+});
+
+Template.registerHelper('countCompanyKeynoteResponses', function(company_id){
+  const company = Companies.findOne(company_id);
+  if (company) {
+    const keynotes = Keynotes.find({ user: company.user }).fetch();
+    if (keynotes) {
+      let total_responses = 0;
+      keynotes.forEach(function(keynote) {
+        total_responses += KeynoteResponses.find({ keynote: keynote._id}).count();
+      });
+      return total_responses;
+    }
+  }
+});
+
+Template.registerHelper('countCompanyVideos', function(company_id){
+  const company = Companies.findOne(company_id);
+  if (company) {
+    return InterviewQuestions.find({ user: company.user }).count();
+  }
+});
+
+Template.registerHelper('countCompanyVideoResponses', function(company_id){
+  const company = Companies.findOne(company_id);
+  if (company) {
+    const questions = InterviewQuestions.find({ user: company.user }).fetch();
+    if (questions) {
+      let total_responses = 0;
+      questions.forEach(function(question) {
+        total_responses += VideoResponses.find({ question: question._id}).count();
+      });
+      return total_responses;
+    }
+  }
 });

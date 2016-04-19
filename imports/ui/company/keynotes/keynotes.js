@@ -8,6 +8,9 @@ import './list_applicant_responses.html';
 
 import  Clipboard  from 'clipboard'; // from clipboard.js (npm dependency)
 
+import '../generic_events.js';
+
+
 Template.CompanyListKeynotes.helpers({
   keynotes() {
     return Keynotes.find({ user: Meteor.userId() },{ sort: { createdAt: -1}})
@@ -20,6 +23,9 @@ Template.CompanyListKeynotes.helpers({
 
 
 Template.CompanyListKeynotes.events({
+  'click #add_new_keynote_right'(event, instance) {
+    f_add_new_keynote(event, instance);
+  },
   'click #remove-keynote'(event, instance) {
     Meteor.call('remove_keynote', this._id);
   },
@@ -29,10 +35,16 @@ Template.CompanyListKeynotes.events({
       .modal({
         //blurring: true,
         onShow() {
-          new Clipboard('.copytoclipboard');
+          const clipboard = new Clipboard('.copytoclipboard');
+          clipboard.on('success', function(e) {
+            $('#copytext').html("Copied");
+          });
           // console.log(_this); // _this = tikladigimiz form tablosuna isaret ediyor.
           $('.twelve.wide.column.export-keynote-to-applicant input')
             .val(FlowRouter.url('user_keynoteresponse') + '/' + _this._id);
+        },
+        onHidden() {
+          $('#copytext').html("Copy");
         },
         onDeny() {},
         onApprove() {}
@@ -45,12 +57,11 @@ Template.CompanyListKeynotes.events({
 Template.CompanyEditKeynote.helpers({
   slides() {
     const result_keynote = Keynotes.findOne(FlowRouter.getParam('keynoteId'));
-    if (result_keynote.user === Meteor.userId()) {
+    if (result_keynote && result_keynote.user === Meteor.userId()) {
       return Slides.find({keynote: FlowRouter.getParam('keynoteId')}, { sort: {order: 1} });
     }else {
       FlowRouter.go('notfound');
     }
-
   },
   sortableOptions() {
     return {
@@ -83,15 +94,11 @@ Template.CompanyEditKeynote.events({
 
     const new_empty_slide_id = Slides.insert({
       content : "",
-      created_at : new Date(),
       order : last_order,
-      x: last_order * 1000,
-      y: 0,
-      z: 0,
       keynote : FlowRouter.getParam('keynoteId'),
       user : Meteor.userId(),
     });
-    console.log("yeni slide " + last_order + ". siraya eklendi");
+    //console.log("yeni slide " + last_order + ". siraya eklendi");
   },
   'click #slide-delete-icon': function(event, template) {
     const thisslide = Slides.findOne(this._id);

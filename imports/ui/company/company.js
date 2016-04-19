@@ -24,6 +24,7 @@ import './keynotes/keynotes.js';
 import './positions/positions.js';
 import './positions/process/process.js';
 import './videos/videos.js';
+import './generic_events.js';
 
 // ******************** //
 
@@ -71,7 +72,7 @@ companyFormRoutes.route('/preview/response/:formId', { name: 'preview_form_respo
 companyFormRoutes.route('/list', { name: 'list_forms',
   breadcrumb: {
     parent: "company_dashboard",
-    title: "List Form"
+    title: "List Forms"
   },
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListForms' }); } });
@@ -242,139 +243,22 @@ companyQuestions.route('/response/:responseId', { name: 'preview_video_response'
 
 Template.CompanyLeftMenu.events({
   'click #add-new-form'(event, instance) {
-    Meteor.call('add_new_form', function(err, data) {
-      if (err) {
-        toastr.error('Form cannot be created. Please review it!');
-      }else {
-        FlowRouter.go("edit_form", {formId: data});
-      }
-    });
+    f_add_new_form(event, instance);
   },
   'click #add-new-test'(event, instance) {
-    Meteor.call('add_new_test', function(err, data) {
-      if (err) {
-        toastr.error('Form cannot be created. Please review it!');
-      }else {
-        FlowRouter.go("edit_form", {formId: data});
-      }
-    });
+    f_add_new_test(event, instance);
   },
 
   'click #add-new-keynote'(event, instance) {
-    Meteor.call('add_new_keynote', function(err, data) {
-      if (err) {
-        toastr.error('Keynote cannot be created. Please review it!');
-      }else {
-        Meteor.call('add_new_slide', data, function(err2, data2) {
-          if (err2) {
-            toastr.error('Slide cannot be created. Please review it!');
-          }else {
-            FlowRouter.go("edit_keynote", {keynoteId: data});
-          }
-        });
-      }
-    });
+    f_add_new_keynote(event, instance);
   },
 
   'click #add-new-position'(event, instance) {
-    $('.modal.add-new-position')
-      .modal({
-        //blurring: true,
-        onDeny() {
-          $('.ui.form').form('reset');
-          $('.ui.form').form('clear');
-          Session.set("position-success", false);
-        },
-        onApprove() {
-          $('.ui.form')
-            .form({
-              fields: {
-                positiontitle   : 'empty',
-                opensat         : 'empty',
-                endsat          : 'empty',
-                description     : 'empty',
-              }
-            });
-
-          if ($('.ui.form').form('is valid')) {
-            const positiontitle = $('#positiontitle').val();
-            const opensat = $('#opensat').val();
-            const endsat = $('#endsat').val();
-            const description = $('.fr-element.fr-view').html();
-            Meteor.call('add_new_position', positiontitle, opensat, endsat, description, function (err, data) {
-              if (err) {
-                toastr.error(err.reason);
-                Session.set("position-success", false);
-              }else {
-                Session.set("position-success", false);
-                $(".ui.form").form('reset');
-                $(".ui.form").form('clear');
-                toastr.success('New Position has been added!');
-                $('.modal.add-new-position').modal('hide');
-                FlowRouter.go('list_positions');
-              }
-            });
-
-            if (!Session.get("position-success")) {
-              Session.set("position-success", false);
-              return false;
-            }
-          }else {
-            toastr.error('Please correct the errors!');
-            return false;
-          }
-        }
-      })
-      .modal('show');
+    f_add_new_position(event, instance);
   },
 
   'click #add-new-question'(event, instance) {
-    $('.modal.add-new-question')
-      .modal({
-        //blurring: true,
-        onDeny() {
-          $('.ui.form').form('reset');
-          $('.ui.form').form('clear');
-          Session.set("question-success", false);
-        },
-        onApprove() {
-          $('.ui.form')
-            .form({
-              fields: {
-                question      : 'empty',
-                responsetime  : 'empty',
-              }
-            });
-
-          if ($('.ui.form').form('is valid')) {
-            const question = $('#question').val();
-            const description = $('#description').val();
-            const responsetime = $('#responsetime').val();
-            Meteor.call('add_new_interview_question', question, description, responsetime, function (err, data) {
-              if (err) {
-                toastr.error(err.reason);
-                Session.set("question-success", false);
-              }else {
-                Session.set("question-success", false);
-                $(".ui.form").form('reset');
-                $(".ui.form").form('clear');
-                toastr.success('New Question has been added!');
-                $('.modal.add-new-question').modal('hide');
-                FlowRouter.go('list_questions');
-              }
-            });
-
-            if (!Session.get("question-success")) {
-              Session.set("question-success", false);
-              return false;
-            }
-          }else {
-            toastr.error('Please correct the errors!');
-            return false;
-          }
-        }
-      })
-      .modal('show');
+    f_add_new_question(event, instance);
   },
 });
 
@@ -405,12 +289,14 @@ Template.CompanyDashboard.helpers({
 ////////////// registerhelper functions
 
 Template.registerHelper("scaleText", function(content){
-  var c = content.replace(new RegExp("[1][0-9]px","gm"), "6px");
-  c = c.replace(new RegExp("[2][0-9]px","gm"), "9px");
-  c = c.replace(new RegExp("[3-9][0-9]px","gm"), "12px");
-  c = c.replace(new RegExp("<br>","gm"), "");
-  c = c.replace(new RegExp("<p></p>","gm"), "");
-  return c;
+  if (content) {
+    let c = content.replace(new RegExp("[1][0-9]px","gm"), "6px");
+    c = c.replace(new RegExp("[2][0-9]px","gm"), "9px");
+    c = c.replace(new RegExp("[3-9][0-9]px","gm"), "12px");
+    c = c.replace(new RegExp("<br>","gm"), "");
+    c = c.replace(new RegExp("<p></p>","gm"), "");
+    return c;  
+  }
 });
 
 

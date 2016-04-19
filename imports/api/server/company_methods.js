@@ -7,7 +7,6 @@ Meteor.methods({
   add_new_form(){
     const form_id = Forms.insert({
       title: "New Survey Form",
-      createdAt: new Date(),
       user: Meteor.userId(),
       type: "form"
     });
@@ -18,7 +17,6 @@ Meteor.methods({
   add_new_test(){
     const form_id = Forms.insert({
       title: "New Test Form",
-      createdAt: new Date(),
       user: Meteor.userId(),
       type: "test"
     });
@@ -37,7 +35,6 @@ Meteor.methods({
   add_new_keynote() {
     const keynote_id = Keynotes.insert({
       title: "New Keynote",
-      createdAt: new Date(),
       user: Meteor.userId()
     });
     return keynote_id;
@@ -46,7 +43,6 @@ Meteor.methods({
   add_new_slide(keynote_id) {
     Slides.insert({
       content : '<p><span style="font-size: 24px;"><span style="color: rgb(41, 105, 176);"><span style="font-family: Verdana,Geneva,sans-serif;">Head</span></span></span></p><p><span style="font-size: 24px;"><span style="color: rgb(41, 105, 176);"><span style="font-family: Verdana,Geneva,sans-serif;">Text text text text t<span style="font-size: 24px;"><span style="color: rgb(41, 105, 176);"><span style="font-family: Verdana,Geneva,sans-serif;">ext text text text t<span style="font-size: 24px;"><span style="color: rgb(41, 105, 176);"><span style="font-family: Verdana,Geneva,sans-serif;">ext text text text t<span style="font-size: 24px;"><span style="color: rgb(41, 105, 176);"><span style="font-family: Verdana,Geneva,sans-serif;">ext text text text t<span style="font-size: 24px;"><span style="color: rgb(41, 105, 176);"><span style="font-family: Verdana,Geneva,sans-serif;">ext text text text t<span style="font-size: 24px;"><span style="color: rgb(41, 105, 176);"><span style="font-family: Verdana,Geneva,sans-serif;">ext text text text t<span style="font-size: 24px;"><span style="color: rgb(41, 105, 176);"><span style="font-family: Verdana,Geneva,sans-serif;">ext text text text&nbsp;</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><ul><li>Input List</li><li>Input List</li><li>Input List</li><li>Input list</li></ul><hr>',
-      created_at : new Date(),
       order : 0,
       keynote : keynote_id,
       user : Meteor.userId(),
@@ -209,15 +205,15 @@ Meteor.methods({
 
 
   save_video_response_preview(q_id, video_id) {
-    const already_exists = VideoResponses.findOne({ $and : [{ question: q_id}, {user: Meteor.userId()}]});
+    const user_id = Meteor.userId();
+    const already_exists = VideoResponses.findOne({ $and : [{ question: q_id}, {user: user_id}]});
     if (already_exists) {
       Videos.remove(already_exists.video); // remove the previous video
-      VideoResponses.update({ $and : [{ question: q_id}, {user: Meteor.userId()}]}, {
+      VideoResponses.update({ $and : [{ question: q_id}, {user: user_id}]}, {
         $set: { video: video_id } // set the new one
       });
       return already_exists._id;
     }else { // if there is no record before, then create a new one
-      const user_id = Meteor.userId();
       const user = Meteor.users.findOne(user_id)
       let user_name = "";
       if (user.profile && user.profile.name) {
@@ -230,7 +226,7 @@ Meteor.methods({
 
       const preview_id = VideoResponses.insert({
         question: q_id,
-        user: Meteor.userId(),
+        user: user_id,
         video: video_id,
         user_name: user_name,
         email: user_email
@@ -242,6 +238,7 @@ Meteor.methods({
 
 
   save_form_response_preview(form_id, response_id) {
+    const user_id = Meteor.userId();
     const already_exists = FormResponses.findOne({ $and : [{ form: form_id}, {user: user_id}]});
     if (already_exists) {
       Responses.remove(already_exists.response); // remove the previous response
@@ -250,7 +247,6 @@ Meteor.methods({
       });
       return already_exists._id;
     } else {
-      const user_id = Meteor.userId();
       const user = Meteor.users.findOne(user_id)
       let user_name = "";
       if (user.profile && user.profile.name) {
@@ -273,6 +269,7 @@ Meteor.methods({
   },
 
   save_keynote_response_preview(keynote_id) {
+    const user_id = Meteor.userId();
     const already_exists = KeynoteResponses.findOne({ $and : [{ keynote: keynote_id}, {user: user_id}]});
     if (already_exists) {
       KeynoteResponses.update({ $and : [{ keynote: keynote_id}, {user: user_id}]}, {
@@ -280,7 +277,6 @@ Meteor.methods({
       });
       return already_exists._id;
     }else {
-      const user_id = Meteor.userId();
       const user = Meteor.users.findOne(user_id)
       let user_name = "";
       if (user.profile && user.profile.name) {

@@ -9,6 +9,8 @@ import  record  from 'videojs-record';
 
 import  Clipboard  from 'clipboard'; // from clipboard.js (npm dependency)
 
+import '../generic_events.js';
+
 import './add_new_question.html'; // CompanyAddNewQuestion
 import './list_questions.html'; // CompanyListQuestions
 import './edit_question.html'; // CompanyEditQuestion
@@ -201,6 +203,9 @@ Template.CompanyListQuestions.helpers({
 
 
 Template.CompanyListQuestions.events({
+  'click #add_new_question_right'(event, instance) {
+    f_add_new_question(event, instance);
+  },
   'click #remove-question'(event, instance) {
     Meteor.call('remove_question', this._id);
   },
@@ -210,10 +215,16 @@ Template.CompanyListQuestions.events({
       .modal({
         //blurring: true,
         onShow() {
-          new Clipboard('.copytoclipboard');
+          const clipboard = new Clipboard('.copytoclipboard');
+          clipboard.on('success', function(e) {
+            $('#copytext').html("Copied");
+          });
           // console.log(_this); // _this = tikladigimiz form tablosuna isaret ediyor.
           $('.twelve.wide.column.export-video-to-applicant input')
             .val(FlowRouter.url('user_videoresponse') + '/' + _this._id);
+        },
+        onHidden() {
+          $('#copytext').html("Copy");
         },
         onDeny() {},
         onApprove() {}

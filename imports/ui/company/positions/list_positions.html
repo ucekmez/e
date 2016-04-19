@@ -1,5 +1,15 @@
 <template name="CompanyListPositions">
-  <h1>List of Positions</h1>
+  <table class="ui very basic table">
+    <tbody >
+      <td style="margin:0;padding:0;"><h1>List of Positions</h1></td>
+      <td style="margin:0;padding:0;" class="right aligned">
+        <button class="ui basic right labeled icon button copytoclipboard" id="add_new_position_right">
+          <i class="plus icon"></i>
+          <span>Position</span>
+        </button>
+      </td>
+    </tbody>
+  </table>
   <div class="ui divider"></div>
   <table class="ui very basic padded table">
     <tbody>
@@ -20,8 +30,8 @@
             </h4>
           </td>
           <td class="single line right aligned">
-            <a id="extend-position-action" href="{{ pathFor 'create_new_process' positionId=_id }}" style="margin-right:10px;"><i class="large green keyboard icon" data-content="Create new Process"></i></a>
-            <a id="remove-position" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove"></i></a>
+            <a id="extend-position-action" href="{{ pathFor 'create_new_process' positionId=_id }}" style="margin-right:10px;"><i class="large green wizard icon" data-content="Create new Process" data-variation="inverted"></i></a>
+            <a id="remove-position" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove" data-variation="inverted"></i></a>
           </td>
         </tr>
       {{else}}
@@ -33,7 +43,7 @@
   {{#if positions}}
     <script type="text/javascript">
       setTimeout(function(){
-        $('#extend-position-action .large.green.keyboard.icon').popup({ hoverable: true, position : 'left center', delay: { show: 100, hide: 200 } });
+        $('#extend-position-action .large.green.wizard.icon').popup({ hoverable: true, position : 'left center', delay: { show: 100, hide: 200 } });
         $('#remove-position .large.red.remove.icon').popup({ hoverable: true, position : 'right center', delay: { show: 100, hide: 200 } });
       }, 1000);
     </script>

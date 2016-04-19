@@ -9,6 +9,8 @@ import './list_applicant_responses.html'; // CompanyListApplicantFormResponses
 
 import  Clipboard  from 'clipboard'; // from clipboard.js (npm dependency)
 
+import '../generic_events.js';
+
 //////////////////////// ******************** CompanyEditForm
 
 Template.CompanyEditForm.onRendered(function() {
@@ -50,6 +52,12 @@ Template.CompanyListForms.helpers({
 });
 
 Template.CompanyListForms.events({
+  'click #add_new_form_right'(event, instance) { // ana sayfadaki buton
+    f_add_new_form(event ,instance);
+  },
+  'click #add_new_test_right'(event, instance) { // ana sayfadaki buton
+    f_add_new_test(event ,instance);
+  },
   'click #remove-form'(event, instance) {
     Meteor.call('remove_form', this._id);
   },
@@ -59,16 +67,22 @@ Template.CompanyListForms.events({
       .modal({
         //blurring: true,
         onShow() {
-          new Clipboard('.copytoclipboard');
+          const clipboard = new Clipboard('.copytoclipboard');
+          clipboard.on('success', function(e) {
+            $('#copytext').html("Copied");
+          });
           // console.log(_this); // _this = tikladigimiz form tablosuna isaret ediyor.
           $('.twelve.wide.column.export-form-to-applicant input')
             .val(FlowRouter.url('user_formresponse') + '/' + _this._id);
+        },
+        onHidden() {
+          $('#copytext').html("Copy");
         },
         onDeny() {},
         onApprove() {}
       })
       .modal('show');
-  }
+  },
 });
 
 

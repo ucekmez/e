@@ -6,8 +6,7 @@ Positions.attachSchema(new SimpleSchema({
   description: { type: String, max: 4096, optional: true},
   opensAt: { type: Date, optional: true },
   endsAt: { type: Date, optional: true },
-
-  createdAt : {
+  createdAt: {
     type: Date,
     autoValue: function() {
       if (this.isInsert) { return new Date(); }

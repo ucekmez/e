@@ -5,7 +5,7 @@ InterviewQuestions.attachSchema(new SimpleSchema({
   description: { type: String, max: 256, optional: true },
   user: { type: String, max: 64},
   time: {type: Number, min: 0, max: 120},
-  createdAt : {
+  createdAt: {
     type: Date,
     autoValue: function() {
       if (this.isInsert) { return new Date(); }
@@ -44,7 +44,7 @@ VideoResponses.attachSchema(new SimpleSchema({
   user_name: { type: String, max: 64, optional: true },
   email: { type: String, max: 128 },
   video: { type: String, max: 64 },
-  createdAt : {
+  createdAt: {
     type: Date,
     autoValue: function() {
       if (this.isInsert) { return new Date(); }

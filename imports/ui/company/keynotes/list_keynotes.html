@@ -1,5 +1,15 @@
 <template name="CompanyListKeynotes">
-  <h1>List of Keynotes</h1>
+  <table class="ui very basic table">
+    <tbody >
+      <td style="margin:0;padding:0;"><h1>List of Keynotes</h1></td>
+      <td style="margin:0;padding:0;" class="right aligned">
+        <button class="ui basic right labeled icon button copytoclipboard" id="add_new_keynote_right">
+          <i class="plus icon"></i>
+          <span>Keynote</span>
+        </button>
+      </td>
+    </tbody>
+  </table>
   <div class="ui divider"></div>
   <table class="ui very basic padded table">
     <tbody>
@@ -11,17 +21,18 @@
                 <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
                 <a class="list-item-header" href="{{ pathFor 'edit_keynote' keynoteId=_id }}"><i class="blue edit icon"></i> {{ title }}</a>
                 <div class="sub header">
-                  there are <b style="font-size:1.1em;">{{ numberOfSlides _id }}</b> slides, created <b>{{ dateFromNow createdAt }}</b>,
+                  there are <b style="font-size:1.1em;">{{ numberOfSlides _id }}</b> slides,
+                  created <b>{{ dateFromNow createdAt }}</b>,
                   updated <b>{{ dateFromNow updatedAt }}</b>
                 </div>
               </div>
             </h4>
           </td>
           <td class="single line right aligned">
-            <a id="see-keynote-action" href="{{ pathFor 'preview_keynote' keynoteId=_id }}"><i class="large blue unhide icon" data-content="See it in action!"></i></a>
-            <a id="export-keynote-to-applicants" style="cursor:pointer;"><i class="large black external share icon" data-content="Export to your applicants"></i></a>
-            <a id="list-applicant-keynote-responses" href="{{ pathFor 'list_keynote_responses' keynoteId=_id }}" style="cursor:pointer;margin-right:10px;"><i class="large grey users icon" data-content="List applicant responses"></i></a>
-            <a id="remove-keynote" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove"></i></a>
+            <a id="see-keynote-action" href="{{ pathFor 'preview_keynote' keynoteId=_id }}"><i class="large blue unhide icon" data-content="See it in action!" data-variation="inverted"></i></a>
+            <a id="export-keynote-to-applicants" style="cursor:pointer;"><i class="large black external share icon" data-content="Export to your applicants" data-variation="inverted"></i></a>
+            <a id="list-applicant-keynote-responses" href="{{ pathFor 'list_keynote_responses' keynoteId=_id }}" style="cursor:pointer;margin-right:10px;"><i class="large grey users icon" data-content="List applicant responses" data-variation="inverted"></i></a>
+            <a id="remove-keynote" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove" data-variation="inverted"></i></a>
           </td>
         </tr>
       {{else}}
@@ -54,7 +65,7 @@
             <input id="tobecopied" type="text" value="" readonly="readonly">
             <button class="ui teal right labeled icon button copytoclipboard" data-clipboard-target="#tobecopied">
               <i class="copy icon"></i>
-              Copy
+              <span id="copytext">Copy</span>
             </button>
           </div>
         </div>

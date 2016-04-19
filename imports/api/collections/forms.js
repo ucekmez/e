@@ -1,5 +1,32 @@
 export const Forms = new Mongo.Collection('forms');
 
+Forms.attachSchema(new SimpleSchema({
+  title: { type: String, max: 128 },
+  user: { type: String, max: 64},
+  type: { type: String, max:32 },
+  payload: {type: String, max:16384},
+  createdAt: {
+    type: Date,
+    autoValue: function() {
+      if (this.isInsert) { return new Date(); }
+      else if (this.isUpsert) { $setOnInsert: new Date(); }
+      else { this.unset(); }
+    }
+  },
+  updatedAt: {
+    type: Date,
+    autoValue: function() {
+      if (this.isUpdate) {
+        return new Date();
+      }
+    },
+    denyInsert: true,
+    optional: true
+  }
+}));
+
+
+
 export const Responses = new Mongo.Collection('responses');
 export const FormResponses = new Mongo.Collection('form_responses');
 
