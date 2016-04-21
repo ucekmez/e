@@ -4,7 +4,7 @@ Forms.attachSchema(new SimpleSchema({
   title: { type: String, max: 128 },
   user: { type: String, max: 64},
   type: { type: String, max:32 },
-  payload: {type: String, max:16384},
+  payload: {type: String, max:16384, optional: true},
   createdAt: {
     type: Date,
     autoValue: function() {
