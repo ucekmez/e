@@ -24,6 +24,8 @@ import './keynotes/keynotes.js';
 import './positions/positions.js';
 import './positions/process/process.js';
 import './videos/videos.js';
+import './pis/pis.js';
+
 import './generic_events.js';
 
 // ******************** //
@@ -238,6 +240,30 @@ companyQuestions.route('/response/:responseId', { name: 'preview_video_response'
 
 
 
+///// pis routes
+
+const companyPIsRoutes = companyRoutes.group({ prefix: "/PIs", name: "companypis"});
+companyPIsRoutes.route('/new', { name: 'create_new_pi',
+  breadcrumb: {
+    parent: "company_dashboard",
+    title: "Create New PI"
+  },
+  action: function(params) {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyAddNewPICombination' }); } });
+
+companyPIsRoutes.route('/list', { name: 'list_combinations',
+  breadcrumb: {
+    parent: "company_dashboard",
+    title: "List Combinations"
+  },
+  action: function(params) {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListPICombinations' }); } });
+
+companyPIsRoutes.route('/preview/fill/:piId', { name: 'preview_pi',
+  action: function(params) { BlazeLayout.render('CompanyPreviewPI'); } });
+
+
+
 //////////// Template events, helpers
 
 
@@ -295,7 +321,7 @@ Template.registerHelper("scaleText", function(content){
     c = c.replace(new RegExp("[3-9][0-9]px","gm"), "12px");
     c = c.replace(new RegExp("<br>","gm"), "");
     c = c.replace(new RegExp("<p></p>","gm"), "");
-    return c;  
+    return c;
   }
 });
 

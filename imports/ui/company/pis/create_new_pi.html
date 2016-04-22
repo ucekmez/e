@@ -1,0 +1,34 @@
+<template name="CompanyAddNewPICombination">
+  <table class="ui very basic table">
+    <tbody>
+      <td style="margin:0;padding:0;"><h1>Create New PI</h1></td>
+    </tbody>
+  </table>
+  <div class="ui divider"></div>
+
+  <div class="ui form">
+    <div class="field">
+      <label>Combination Name</label>
+      <input type="text" placeholder="Special PI" name="combination_name" id="combination-name" />
+    </div>
+  </div>
+
+  <div class="ui divider"></div>
+
+  {{#if pis }}
+    {{#each pis }}
+      <div class="field" style="float:left;margin-bottom:8px;">
+        <div class="ui toggle checkbox check-pis">
+          <input type="checkbox" name="check_pi" class="hidden check-pis" tabindex="0" value="{{ _id }}">
+          <label style="margin-right:30px;">{{ scale }}</label>
+        </div>
+      </div>
+    {{/each}}
+    <script type="text/javascript">
+      $('.ui.checkbox.check-pis').checkbox();
+    </script>
+  {{/if}}
+
+  <button class="ui fluid teal button" id="create_pi_combination">Create Combination from Selected Scales</button>
+
+</template>

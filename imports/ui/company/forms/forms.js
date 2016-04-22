@@ -246,6 +246,7 @@ Template.CompanyPreviewApplicantFormResponse.helpers({
 
 });
 
+
 //////////////////////// ******************** registerHelpers
 
 Template.registerHelper('toJSON', function(payload){

@@ -22,8 +22,10 @@
                 <a class="list-item-header" href="{{ pathFor 'edit_keynote' keynoteId=_id }}"><i class="blue edit icon"></i> {{ title }}</a>
                 <div class="sub header">
                   there are <b style="font-size:1.1em;">{{ numberOfSlides _id }}</b> slides,
-                  created <b>{{ dateFromNow createdAt }}</b>,
-                  updated <b>{{ dateFromNow updatedAt }}</b>
+                  created <b>{{ dateFromNow createdAt }}</b>
+                  {{#if updatedAt }}
+                  , updated <b>{{ dateFromNow updatedAt }}</b>
+                  {{/if}}
                 </div>
               </div>
             </h4>

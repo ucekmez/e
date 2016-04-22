@@ -2,6 +2,7 @@ import { Forms, Responses, FormResponses } from '/imports/api/collections/forms.
 import { Slides, Keynotes, KeynoteResponses } from '/imports/api/collections/keynotes.js';
 import { Positions } from '/imports/api/collections/positions.js';
 import { InterviewQuestions, VideoResponses, Videos } from '/imports/api/collections/videos.js';
+import { PIGroups } from '/imports/api/collections/pis.js';
 
 Meteor.methods({
   add_new_form(){
@@ -24,9 +25,7 @@ Meteor.methods({
     return form_id;
   },
 
-  remove_form(id) {
-    Forms.remove(id);
-  },
+  remove_form(id) { Forms.remove(id); },
 
   update_form_payload(id, payload) {
     Forms.update({ _id: id }, { $set: { payload: payload } });
@@ -73,9 +72,7 @@ Meteor.methods({
     //console.log("editposition: " + id + " " + title + " " + opensat + " " + endsat);
   },
 
-  remove_position(id) {
-    Positions.remove(id);
-  },
+  remove_position(id) { Positions.remove(id); },
 
 
   add_new_interview_question(question, description, responsetime) {
@@ -106,9 +103,7 @@ Meteor.methods({
       }});
   },
 
-  remove_question(id) {
-    InterviewQuestions.remove(id);
-  },
+  remove_question(id) { InterviewQuestions.remove(id); },
 
   // form responses
   add_new_response(response, form_id) {
@@ -296,6 +291,21 @@ Meteor.methods({
       });
       return new_response_id;
     }
-  }
+  },
+
+
+  // personal Inventory
+
+  create_private_pi(chosens, name) {
+    const pi_group_id = PIGroups.insert({
+      user: Meteor.userId(),
+      name: name,
+      type: "private",
+      scales: chosens
+    });
+    return pi_group_id;
+  },
+
+  remove_combination(id) { PIGroups.remove(id); },
 
 });

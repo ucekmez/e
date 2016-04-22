@@ -26,8 +26,10 @@ Forms.attachSchema(new SimpleSchema({
 }));
 
 
-
+// tum cevaplar burada tutulacak
 export const Responses = new Mongo.Collection('responses');
+
+
 export const FormResponses = new Mongo.Collection('form_responses');
 
 FormResponses.attachSchema(new SimpleSchema({
@@ -55,3 +57,8 @@ FormResponses.attachSchema(new SimpleSchema({
     optional: true
   }
 }));
+
+
+
+
+//

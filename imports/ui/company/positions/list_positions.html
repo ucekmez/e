@@ -22,7 +22,9 @@
                 <a class="list-item-header" href="{{ pathFor 'edit_position' positionId=_id }}"><i class="blue edit icon"></i> {{ title }}</a>
                 <div class="sub header">
                   created <b>{{ dateFromNow createdAt }}</b>,
-                  updated <b>{{ dateFromNow updatedAt }}</b>,
+                  {{#if updatedAt }}
+                  , updated <b>{{ dateFromNow updatedAt }}</b>,
+                  {{/if}}
                   opens <b>{{ dateFromNow opensAt }}</b>,
                   ends <b>{{ dateFromNow endsAt }}</b>
                 </div>

@@ -1,0 +1,62 @@
+<template name="CompanyListPICombinations">
+  <table class="ui very basic table">
+    <tbody>
+      <td style="margin:0;padding:0;"><h1>List of Scales</h1></td>
+      <td style="margin:0;padding:0;" class="right aligned">
+        <a href="{{ pathFor 'create_new_pi'}}">
+          <button class="ui basic right labeled icon button copytoclipboard">
+            <i class="plus icon"></i>
+            <span>Combination</span>
+          </button>
+        </a>
+      </td>
+    </tbody>
+  </table>
+  <div class="ui divider"></div>
+
+  <table class="ui very basic padded table">
+    <tbody>
+      {{#each combinations}}
+        <tr>
+          <td>
+            <h4 class="ui header">
+              <div class="content">
+                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
+                <a class="list-item-header" href="#"><i class="blue edit icon"></i> {{ name }}</a>
+                <div class="sub header">
+                  created <b>{{ dateFromNow createdAt }}</b>
+                  {{#if updatedAt }}
+                  , updated <b>{{ dateFromNow updatedAt }}</b>
+                  {{/if}}
+                </div>
+              </div>
+            </h4>
+          </td>
+          <td class="single line right aligned">
+            <a id="preview-pi-action" href="{{ pathFor 'preview_pi' piId=_id }}"><i class="large green keyboard icon" data-content="See it in action!" data-variation="inverted"></i></a>
+            <a id="preview-pi-response-action" href="{{ pathFor 'preview_pi_response' piId=_id }}"><i class="large blue unhide icon" data-content="Preview the response" data-variation="inverted"></i></a>
+            <a id="export-pi-to-applicants" style="cursor:pointer;"><i class="large black external share icon" data-content="Export to your applicants" data-variation="inverted"></i></a>
+            <a id="list-applicant-pi-responses" href="{{ pathFor 'list_pi_responses' piId=_id }}" style="cursor:pointer;margin-right:10px;"><i class="large grey users icon" data-content="List applicant responses" data-variation="inverted"></i></a>
+            <a id="remove-combination" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove" data-variation="inverted"></i></a>
+
+
+          </td>
+        </tr>
+      {{else }}
+        There are no combinations yet!
+      {{/each}}
+
+    </tbody>
+  </table>
+  {{#if combinations}}
+  <script type="text/javascript">
+    setTimeout(function(){
+      $('#preview-pi-action .large.green.keyboard.icon').popup({ hoverable: true, position : 'left center', delay: { show: 100, hide: 100 } });
+      $('#preview-pi-response-action .large.blue.unhide.icon').popup({ hoverable: true, position : 'top center', delay: { show: 100, hide: 100 } });
+      $('#export-pi-to-applicants .large.black.external.share.icon').popup({ hoverable: true, position : 'bottom center', delay: { show: 100, hide: 100 } });
+      $('#list-applicant-pi-responses .large.grey.users.icon').popup({ hoverable: true, position : 'top center', delay: { show: 100, hide: 100 } });
+      $('#remove-combination .large.red.remove.icon').popup({ hoverable: true, position : 'right center', delay: { show: 100, hide: 100 } });
+    }, 1000);
+  </script>
+  {{/if}}
+</template>

@@ -21,8 +21,10 @@
                 <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
                 <a class="list-item-header" href="{{ pathFor 'edit_question' questionId=_id }}"><i class="blue edit icon"></i> {{ content }}</a>
                 <div class="sub header">
-                  created <b>{{ dateFromNow createdAt }}</b>,
-                  updated <b>{{ dateFromNow updatedAt }}</b>
+                  created <b>{{ dateFromNow createdAt }}</b>
+                  {{#if updatedAt }}
+                  , updated <b>{{ dateFromNow updatedAt }}</b>
+                  {{/if}}
                 </div>
               </div>
             </h4>
