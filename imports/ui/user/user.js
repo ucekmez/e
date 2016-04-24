@@ -11,6 +11,7 @@ import './left_menu.html'; // UserLeftMenu
 import './forms/forms.js';
 import './keynotes/keynotes.js';
 import './videos/videos.js';
+import './pis/pis.js';
 
 
 const userRoutes = FlowRouter.group({ prefix: '/user', name: 'user',
@@ -35,6 +36,9 @@ userRoutes.route('/', { name: 'user_dashboard',
 
 userRoutes.route('/form/:formId', { name: 'user_formresponse',
   action() { BlazeLayout.render('UserFormResponseLayout'); } });
+
+userRoutes.route('/PI/:piId', { name: 'user_piresponse',
+  action() { BlazeLayout.render('UserPIResponseLayout'); } });
 
 userRoutes.route('/keynote/:keynoteId', { name: 'user_keynoteresponse',
   triggersExit: [function() {

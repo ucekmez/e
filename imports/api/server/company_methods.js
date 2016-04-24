@@ -2,7 +2,7 @@ import { Forms, Responses, FormResponses } from '/imports/api/collections/forms.
 import { Slides, Keynotes, KeynoteResponses } from '/imports/api/collections/keynotes.js';
 import { Positions } from '/imports/api/collections/positions.js';
 import { InterviewQuestions, VideoResponses, Videos } from '/imports/api/collections/videos.js';
-import { PIGroups } from '/imports/api/collections/pis.js';
+import { PIGroups, PIResponses } from '/imports/api/collections/pis.js';
 
 Meteor.methods({
   add_new_form(){
@@ -307,5 +307,40 @@ Meteor.methods({
   },
 
   remove_combination(id) { PIGroups.remove(id); },
+
+
+  add_new_pi_response(response, group_id) {
+    const user_id = Meteor.userId();
+    const group = PIGroups.findOne(group_id);
+    const already_exists = PIResponses.findOne({ $and : [{ group: group_id}, {user: user_id}]});
+
+    if (already_exists) {
+      PIResponses.update({ $and : [{ group: group_id}, {user: user_id}]}, {
+        $set: { response: JSON.stringify(response) } // set the new one
+      });
+      return already_exists._id;
+    }else {
+      const user = Meteor.users.findOne(user_id);
+      let user_name = "";
+      if (user.profile && user.profile.name) {
+        user_name = user.profile.name;
+      }
+      let user_email = "";
+      if (user.emails) {
+        user_email = user.emails[0].address;
+      }
+
+      const response_id = PIResponses.insert({
+        group: group._id,
+        user: user_id,
+        user_name: user_name,
+        email: user_email,
+        response: JSON.stringify(response)
+      });
+
+      return response_id;
+    }
+  },
+
 
 });

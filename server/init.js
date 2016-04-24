@@ -205,7 +205,6 @@ Meteor.startup(() => {
           "Başkalarının hislerini algılamada iyiyimdir.",
           "İnsanların kendilerini iyi hissetmesi için söyleyeceklerimi bilirim.",
           "Yeni bir durumla nasıl başa çıkabileceğimi bilemem.",
-
         ]
       },
       {
@@ -245,7 +244,6 @@ Meteor.startup(() => {
           "Deneyimlerimi oldukça cansız bir şekilde açıklarım.",
           "Dikkatleri üzerime çekmeyi sevmem.",
           "Çok konuşmayı sevmem.",
-          "Dikkatleri üzerime çekmeyi sevmem.",
           "Yabancıların çevresindeyken sessizimdir.",
           "Başkalarına yanaşmak benim için zordur.",
           "Tanımadığım insanlar arasında bulunmaktan genellikle rahatsız hissederim.",

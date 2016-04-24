@@ -12,7 +12,6 @@ import '../generic_events.js';
 Template.CompanyAddNewPosition.onRendered(function() {
   $('.fr-add-new-position .fr-toolbar').addClass("ui segment");
   $('.fr-add-new-position .fr-wrapper').addClass("ui segment");
-
   $.getScript("/js/datetimepicker.js")
     .done(function(script, textStatus) {
       $('#opensat').datetimepicker({

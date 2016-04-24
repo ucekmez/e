@@ -1,8 +1,7 @@
-<template name="CompanyPreviewPI">
+<template name="UserPIResponseLayout">
     <div class="ui fixed inverted menu">
       <div class="ui container">
         <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
-        <a class="item" href="{{ pathFor 'list_combinations'}}">Back to PIs</a>
       </div>
     </div>
 
@@ -67,48 +66,4 @@
         </div>
       </div>
     </div>
-</template>
-
-
-
-
-
-<template name="CompanyPreviewPIResponse">
-  <div class="ui fixed inverted menu">
-    <div class="ui container">
-      <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
-      <a class="item" href="{{ pathFor 'list_combinations'}}">Back to PIs</a>
-    </div>
-  </div>
-
-  <div class="ui container company-layout" style="margin-top:60px;">
-    <div class="ui stackable grid centered">
-      <div class="ten wide column">
-        <h2>{{ group_name }}</h2>
-        <div class="ui divider"></div>
-        <div class="ui items">
-
-          {{#if response}}
-              {{#each response }}
-                <div class="item">
-                  <div class="content">
-                    <a class="header">{{ scale }}</a>
-                    <div class="description">
-                      <ul class="company-pi-preview">
-                        {{#each phrases }}
-                          <li><span>{{ phrase }} - <b>{{ selected }}</b></span></li>
-                        {{/each}}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              {{/each}}
-          {{ else }}
-            <h3>There is no response for this PI!</h3>
-          {{/if}}
-        </div>
-      </div>
-    </div>
-  </div>
-
 </template>

@@ -1,0 +1,87 @@
+<template name="CompanyListApplicantPIResponses">
+  <h1>List of Applicant Responses for {{ group_name }}</h1>
+  <div class="ui divider"></div>
+
+
+  <table class="ui very basic padded table">
+    <tbody>
+      {{#each responses}}
+        <tr>
+          <td>
+            <h4 class="ui header">
+              <div class="content">
+                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
+                <a class="list-item-header" style="margin-right:10px;">
+                  {{# if user_name }}
+                    {{ user_name }}
+                  {{else}}
+                    {{ email }}
+                  {{/if}}
+                </a>
+                <div class="sub header">
+                  responded <b>{{ dateFromNow createdAt }}</b>
+                </div>
+              </div>
+            </h4>
+          </td>
+          <td class="single line right aligned">
+            <a id="preview-single-applicant-pi-response" href="{{ pathFor 'preview_applicant_pi_response' responseId=_id }}"><i class="large blue unhide icon" data-content="Preview the response" data-variation="inverted"></i></a>
+          </td>
+        </tr>
+      {{else}}
+        There are no responses yet!
+      {{/each}}
+
+    </tbody>
+  </table>
+  {{#if responses}}
+    <script type="text/javascript">
+      setTimeout(function(){
+        $('#preview-single-applicant-pi-response .large.blue.unhide.icon').popup({ hoverable: true, position : 'top center', delay: { show: 100, hide: 200 } });
+      }, 1000);
+    </script>
+  {{/if}}
+</template>
+
+
+
+<!-- /imports/ui/company/pis/preview_pi.html = CompanyPreviewPIResponse ile ayni icerik olmali -->
+<template name="CompanyPreviewApplicantPIResponse">
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
+      <a class="item" href="{{ pathFor 'list_pi_responses' piId=pi._id}}">Back to responses</a>
+        <a class="item">{{ user_info }}</a>
+    </div>
+  </div>
+
+  <div class="ui container company-layout" style="margin-top:60px;">
+    <div class="ui stackable grid centered">
+      <div class="ten wide column">
+        <h2>{{ group_name }}</h2>
+        <div class="ui divider"></div>
+        <div class="ui items">
+
+          {{#if response}}
+              {{#each response }}
+                <div class="item">
+                  <div class="content">
+                    <a class="header">{{ scale }}</a>
+                    <div class="description">
+                      <ul class="company-pi-preview">
+                        {{#each phrases }}
+                          <li><span>{{ phrase }} - <b>{{ selected }}</b></span></li>
+                        {{/each}}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              {{/each}}
+          {{ else }}
+            <h3>There is no response for this PI!</h3>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

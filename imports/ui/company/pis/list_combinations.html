@@ -59,4 +59,25 @@
     }, 1000);
   </script>
   {{/if}}
+  {{> CompanyExportPIToApplicant}}
+</template>
+
+
+<template name="CompanyExportPIToApplicant">
+  <div class="ui basic modal export-pi-to-applicant">
+    <div class="ui container">
+      <div class="ui grid centered center aligned">
+        <h2 style="color:white;">Share the link belove to spread your PI!</h2>
+        <div class="twelve wide column export-pi-to-applicant">
+          <div class="ui action fluid input center aligned">
+            <input id="tobecopied" type="text" value="" readonly="readonly">
+            <button class="ui teal right labeled icon button copytoclipboard" data-clipboard-target="#tobecopied">
+              <i class="copy icon"></i>
+              <span id="copytext">Copy</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

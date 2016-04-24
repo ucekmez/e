@@ -153,8 +153,12 @@ Template.CompanyPreviewForm.events({
 
       Meteor.call('add_new_response', response, FlowRouter.getParam('formId'), function(err, response_id) {
         Meteor.call('save_form_response_preview', FlowRouter.getParam('formId'), response_id, function(err,data) {
-          toastr.success("Your response has been saved!");
-          FlowRouter.go('preview_form_response', { formId: FlowRouter.getParam('formId') });
+          if (!err) {
+            toastr.success("Your response has been saved!");
+            FlowRouter.go('preview_form_response', { formId: FlowRouter.getParam('formId') });
+          }else {
+            toastr.warning(err);
+          }
         })
       });
     }else {

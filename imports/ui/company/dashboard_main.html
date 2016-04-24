@@ -2,7 +2,7 @@
   <div class="ui">
     <h3>Hi {{ company.name }}, Welcome to your Dashboard!</h3>
     <div class="ui divider"></div>
-    <div class="ui four statistics">
+    <div class="ui five statistics">
       <div class="statistic">
         <div class="value">
           <a href="{{ pathFor 'list_positions' }}">
@@ -13,6 +13,20 @@
         <div class="label">
           <a href="{{ pathFor 'list_positions' }}">
             Positions
+          </a>
+        </div>
+      </div>
+
+      <div class="statistic">
+        <div class="value">
+          <a href="{{ pathFor 'list_combinations' }}">
+            <i class="pie chart grey icon"></i>
+          {{ saved_combinations }}
+          </a>
+        </div>
+        <div class="label">
+          <a href="{{ pathFor 'list_combinations' }}">
+            Personal Inventories
           </a>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { Slides, Keynotes } from '/imports/api/collections/keynotes.js'; // Keyn
 import { Positions } from '/imports/api/collections/positions.js'; // Positions collections
 import { InterviewQuestions } from '/imports/api/collections/videos.js'; // Videos collections
 import { Forms } from '/imports/api/collections/forms.js'; // Forms collections
+import { PIGroups } from '/imports/api/collections/pis.js'; // PIs collections
 
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
@@ -89,6 +90,44 @@ companyFormRoutes.route('/list/responses/:formId', { name: 'list_form_responses'
 
 companyFormRoutes.route('/response/:responseId/', { name: 'preview_applicant_form_response',
   action: function(params) { BlazeLayout.render('CompanyPreviewApplicantFormResponse'); } });
+
+
+
+///// pis routes
+
+const companyPIsRoutes = companyRoutes.group({ prefix: "/PIs", name: "companypis"});
+companyPIsRoutes.route('/new', { name: 'create_new_pi',
+  breadcrumb: {
+    parent: "company_dashboard",
+    title: "Create New PI"
+  },
+  action: function(params) {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyAddNewPICombination' }); } });
+
+companyPIsRoutes.route('/list', { name: 'list_combinations',
+  breadcrumb: {
+    parent: "company_dashboard",
+    title: "List Combinations"
+  },
+  action: function(params) {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListPICombinations' }); } });
+
+companyPIsRoutes.route('/preview/fill/:piId', { name: 'preview_pi',
+  action: function(params) { BlazeLayout.render('CompanyPreviewPI'); } });
+
+companyPIsRoutes.route('/preview/response/:piId', { name: 'preview_pi_response',
+  action: function(params) { BlazeLayout.render('CompanyPreviewPIResponse'); } });
+
+companyPIsRoutes.route('/list/responses/:piId', { name: 'list_pi_responses',
+  breadcrumb: {
+    parent: "list_combinations",
+    title: "List Responses"
+  },
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantPIResponses' }); } });
+
+companyPIsRoutes.route('/response/:responseId/', { name: 'preview_applicant_pi_response',
+  action: function(params) { BlazeLayout.render('CompanyPreviewApplicantPIResponse'); } });
 
 
 
@@ -239,31 +278,6 @@ companyQuestions.route('/response/:responseId', { name: 'preview_video_response'
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewApplicantVideoResponse' }); } });
 
 
-
-///// pis routes
-
-const companyPIsRoutes = companyRoutes.group({ prefix: "/PIs", name: "companypis"});
-companyPIsRoutes.route('/new', { name: 'create_new_pi',
-  breadcrumb: {
-    parent: "company_dashboard",
-    title: "Create New PI"
-  },
-  action: function(params) {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyAddNewPICombination' }); } });
-
-companyPIsRoutes.route('/list', { name: 'list_combinations',
-  breadcrumb: {
-    parent: "company_dashboard",
-    title: "List Combinations"
-  },
-  action: function(params) {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListPICombinations' }); } });
-
-companyPIsRoutes.route('/preview/fill/:piId', { name: 'preview_pi',
-  action: function(params) { BlazeLayout.render('CompanyPreviewPI'); } });
-
-
-
 //////////// Template events, helpers
 
 
@@ -280,10 +294,16 @@ Template.CompanyLeftMenu.events({
   },
 
   'click #add-new-position'(event, instance) {
+    if($('.modal.add-new-position').length > 1) {
+      $('.modal.add-new-position')[1].remove();
+    }
     f_add_new_position(event, instance);
   },
 
   'click #add-new-question'(event, instance) {
+    if($('.modal.add-new-question').length > 1) {
+      $('.modal.add-new-question')[1].remove();
+    }
     f_add_new_question(event, instance);
   },
 });
@@ -296,6 +316,9 @@ Template.CompanyDashboard.helpers({
   },
   saved_positions() {
     return Positions.find({ user: Meteor.userId() }).count();
+  },
+  saved_combinations() {
+    return PIGroups.find({ user: Meteor.userId() }).count();
   },
   saved_forms() {
     return Forms.find({ user: Meteor.userId() }).count();
