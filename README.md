@@ -4,7 +4,8 @@
 #changelog
 
 
-= v 0.3.0 : forms, keynotes and video question can be exported to applicants (individually) and are listed
+- v 0.3.0 : updated to Meteor 1.3.2.4, personal inventories can be combined and exported
+- v 0.3.0 : forms, keynotes and video question can be exported to applicants (individually) and are listed
 - v 0.2.2 : form responses can be previewed, some bug fixes
 - v 0.2.1 : minor bug fixes
 - v 0.2.0 : company user can add and delete 'forms', 'keynotes', 'positions', 'video questions'
