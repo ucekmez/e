@@ -1,0 +1,77 @@
+<!-- test -->
+
+<template name="CompanyExtendRecruitmentProcessS3">
+  <table class="ui very basic table">
+    <tbody >
+      <td style="margin:0;padding:0;"><h1>Recruitment Process for {{ position.title }}</h1></td>
+      <td style="margin:0;padding:0;" class="right aligned">
+
+      </td>
+    </tbody>
+  </table>
+  <div class="ui divider"></div>
+
+  <div class="ui four small steps">
+    <div class="completed step">
+      <i class="browser icon"></i>
+      <div class="content">
+        <div class="title">Prerequisites</div>
+      </div>
+    </div>
+    <div class="completed step">
+      <i class="browser icon"></i>
+      <div class="content">
+        <div class="title">Survey</div>
+      </div>
+    </div>
+    <div class="active step">
+      <i class="browser icon"></i>
+      <div class="content">
+        <div class="title">Test</div>
+      </div>
+    </div>
+    <div class="disabled step">
+      <i class="pie chart icon"></i>
+      <div class="content">
+        <div class="title">Personal Inventory</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui segment">
+    <div class="ui form test">
+      <div class="field">
+        <label>Select a Test Form</label>
+        <select class="ui dropdown" id="test" name="test">
+          <option value="" class="ui dropdown">Tests</option>
+          {{#each tests }}
+            <option value="{{ _id }}">{{ title }}</option>
+          {{/each }}
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Description</label>
+        <input type="text" placeholder="Describe your form, if needed..." name="test-description" id="test_description" value="{{ description }}"/>
+      </div>
+    </div>
+  </div>
+
+  <table class="ui very basic table">
+    <tbody>
+      <td class="ui left aligned collapsing">
+        <button class="ui basic left labeled icon button copytoclipboard" id="prev-button">
+          <i class="caret left icon"></i>
+          <span>Previous</span>
+        </button>
+      </td>
+      <td class="ui center aligned"><div class="fluid ui button positive submit" id="submit-button">Submit</div></td>
+      <td class="ui right aligned collapsing">
+        <button class="ui basic right labeled icon button copytoclipboard" id="next-button">
+          <i class="caret right icon"></i>
+          <span>Next</span>
+        </button>
+      </td>
+    </tbody>
+  </table>
+</template>

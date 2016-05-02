@@ -9,6 +9,8 @@ import './edit_position.html'; // CompanyEditPositions
 
 import '../generic_events.js';
 
+import './process/process.js';
+
 Template.CompanyAddNewPosition.onRendered(function() {
   $('.fr-add-new-position .fr-toolbar').addClass("ui segment");
   $('.fr-add-new-position .fr-wrapper').addClass("ui segment");

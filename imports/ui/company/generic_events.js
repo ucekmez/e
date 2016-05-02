@@ -21,6 +21,17 @@ f_add_new_test = function(event, instance) {
   });
 };
 
+
+f_add_new_prerequisite = function(event, instance) {
+  Meteor.call('add_new_prerequisite', function(err, data) {
+    if (err) {
+      toastr.error('Form cannot be created. Please review it!');
+    }else {
+      FlowRouter.go("edit_form", {formId: data});
+    }
+  });
+};
+
 f_add_new_keynote = function(event, instance) {
   Meteor.call('add_new_keynote', function(err, data) {
     if (err) {

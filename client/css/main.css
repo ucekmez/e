@@ -7,5 +7,13 @@
 .breadcrumb li {
   list-style-type: none;
   display:inline-block;
-  margin-right:10px;  
+  margin-right:10px;
+}
+
+
+/***********************************************/
+
+.recruitment-process-ul li {
+  list-style-type: none;
+  text-align: right;
 }

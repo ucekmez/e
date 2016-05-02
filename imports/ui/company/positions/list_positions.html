@@ -23,7 +23,7 @@
                 <div class="sub header">
                   created <b>{{ dateFromNow createdAt }}</b>,
                   {{#if updatedAt }}
-                  , updated <b>{{ dateFromNow updatedAt }}</b>,
+                  updated <b>{{ dateFromNow updatedAt }}</b>,
                   {{/if}}
                   opens <b>{{ dateFromNow opensAt }}</b>,
                   ends <b>{{ dateFromNow endsAt }}</b>
@@ -32,7 +32,7 @@
             </h4>
           </td>
           <td class="single line right aligned">
-            <a id="extend-position-action" href="{{ pathFor 'create_new_process' positionId=_id }}" style="margin-right:10px;"><i class="large green wizard icon" data-content="Create new Process" data-variation="inverted"></i></a>
+            <a id="extend-position-action" href="{{ pathFor 'extend_recruitment_positionS1' positionId=_id }}" style="margin-right:10px;"><i class="large green wizard icon" data-content="Extend Recuitment Process" data-variation="inverted"></i></a>
             <a id="remove-position" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove" data-variation="inverted"></i></a>
           </td>
         </tr>

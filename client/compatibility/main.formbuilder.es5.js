@@ -9445,7 +9445,7 @@ Meteor.startup(function() {
           __t) +
         '\' />\r\n  <label for="required">Required</label>\r\n</label>';
       //console.log("formType :" + formType);
-      if (formType == "test") {
+      if (formType == "test" || formType == "prerequisite") {
         __p +=
           '\r\n <br/><input type="number" placeholder="Answer Duration(sec)" id="duration" data-rv-value="model.' +
           ((__t = (Formbuilder.options.mappings.ANSWERDURATION)) ==
@@ -9594,15 +9594,14 @@ Meteor.startup(function() {
           '\'>\r\n  <input type="text" data-rv-input="option:label" class=\'option-label-input\'  placeholder="Label"/>\r\n ';
 
         // console.log("formType: " + formType);
-        if (rf.attributes.field_type == "radio" && formType == "test") {
+        if (rf.attributes.field_type == "radio" && (formType == "test" || formType == "prerequisite")) {
           // console.log("girdi radio");
           __p += '<label><input  data-rv-checked="option:truechoice"' +
             '" type="checkbox"  class=\'js-default-updated\' />True</label>';
         }
         // console.log("ft: " + rf.attributes.field_type + " fType: " +
         //   formType);
-        if (rf.attributes.field_type == "checkboxes" && formType ==
-          'test') {
+        if (rf.attributes.field_type == "checkboxes" && (formType == "test" || formType == "prerequisite")) {
           // console.log("girdi chk");
           __p +=
             '<label><input name="isTrue"  data-rv-checked="option:truechoice"' +

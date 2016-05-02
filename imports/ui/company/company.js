@@ -190,9 +190,29 @@ companyPositions.route('/edit/:positionId', { name: 'edit_position',
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditPosition' }); } });
 
+companyPositions.route('/process/s1/:positionId', { name: 'extend_recruitment_positionS1',
+  breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
+  action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS1' }); } });
 
+companyPositions.route('/process/s2/:positionId', { name: 'extend_recruitment_positionS2',
+  breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
+  action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS2' }); } });
 
+companyPositions.route('/process/s3/:positionId', { name: 'extend_recruitment_positionS3',
+  breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
+  action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS3' }); } });
 
+companyPositions.route('/process/s4/:positionId', { name: 'extend_recruitment_positionS4',
+  breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
+  action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS4' }); } });
+
+companyPositions.route('/process/s5/:positionId', { name: 'extend_recruitment_positionS5',
+  breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
+  action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS5' }); } });
+
+companyPositions.route('/process/s6/:positionId', { name: 'extend_recruitment_positionS6',
+  breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
+  action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS6' }); } });
 
 //************ interview questions routes
 
@@ -287,6 +307,9 @@ Template.CompanyLeftMenu.events({
   },
   'click #add-new-test'(event, instance) {
     f_add_new_test(event, instance);
+  },
+  'click #add-new-prerequisite'(event, instance) {
+    f_add_new_prerequisite(event, instance);
   },
 
   'click #add-new-keynote'(event, instance) {

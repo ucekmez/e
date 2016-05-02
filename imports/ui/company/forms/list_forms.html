@@ -3,13 +3,17 @@
     <tbody >
       <td style="margin:0;padding:0;"><h1>List of Forms</h1></td>
       <td style="margin:0;padding:0;" class="right aligned">
-        <button class="ui basic right labeled icon button copytoclipboard" id="add_new_form_right">
+        <button class="ui basic right labeled icon button copytoclipboard" id="add_new_prerequisite_right">
           <i class="plus icon"></i>
-          <span>Survey</span>
+          <span>Prerequisite</span>
         </button>
         <button class="ui basic right labeled icon button copytoclipboard" id="add_new_test_right">
           <i class="plus icon"></i>
           <span>Test</span>
+        </button>
+        <button class="ui basic right labeled icon button copytoclipboard" id="add_new_form_right">
+          <i class="plus icon"></i>
+          <span>Survey</span>
         </button>
       </td>
     </tbody>
@@ -23,7 +27,7 @@
             <h4 class="ui header">
               <div class="content">
                 <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
-                <a class="list-item-header" href="{{ pathFor 'edit_form' formId=_id }}"><i class="blue edit icon"></i> {{ title }}</a> ({{#if equals type "form"}}survey{{else}}test{{/if}})
+                <a class="list-item-header" href="{{ pathFor 'edit_form' formId=_id }}"><i class="blue edit icon"></i> {{ title }}</a> ({{#if equals type "form"}}survey{{else}}{{#if equals type "test"}}test{{else}}prerequisite{{/if}}{{/if}})
                 <div class="sub header">
                   created <b>{{ dateFromNow createdAt }}</b>
                   {{#if updatedAt }}

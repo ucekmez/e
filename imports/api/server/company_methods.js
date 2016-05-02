@@ -1,6 +1,6 @@
 import { Forms, Responses, FormResponses } from '/imports/api/collections/forms.js';
 import { Slides, Keynotes, KeynoteResponses } from '/imports/api/collections/keynotes.js';
-import { Positions } from '/imports/api/collections/positions.js';
+import { Positions, RecruitmentProcesses, SingleProcesses } from '/imports/api/collections/positions.js';
 import { InterviewQuestions, VideoResponses, Videos } from '/imports/api/collections/videos.js';
 import { PIGroups, PIResponses } from '/imports/api/collections/pis.js';
 
@@ -24,6 +24,17 @@ Meteor.methods({
 
     return form_id;
   },
+
+  add_new_prerequisite(){
+    const form_id = Forms.insert({
+      title: "New Prerequisite Form",
+      user: Meteor.userId(),
+      type: "prerequisite"
+    });
+
+    return form_id;
+  },
+
 
   remove_form(id) { Forms.remove(id); },
 
@@ -342,5 +353,192 @@ Meteor.methods({
     }
   },
 
+  ///////////// recruitment process methods ///////////////////////
+
+  edit_recruitment_process_prerequisites(position_id, prerequisites, description) {
+    const user_id = Meteor.userId();
+    const already_exists = RecruitmentProcesses.findOne({ $and : [{ position: position_id}, {user: user_id}]});
+    if (already_exists) {
+      if (already_exists.prerequisites) {
+        SingleProcesses.remove(already_exists.prerequisites);
+      }
+      const process_id = SingleProcesses.insert({
+        related_to: [prerequisites],
+        description: description
+      });
+      RecruitmentProcesses.update({ $and : [{ position: position_id}, {user: user_id}]}, {
+        $set: { prerequisites: process_id } // set the new one
+      });
+
+      return already_exists._id;
+    }else {
+      const process_id = SingleProcesses.insert({
+        related_to: [prerequisites],
+        description: description
+      });
+      const rec_process_id = RecruitmentProcesses.insert({
+        position: position_id,
+        user: user_id,
+        prerequisites: process_id
+      });
+
+      return rec_process_id;
+    }
+  },
+
+  edit_recruitment_process_survey(position_id, survey, description) {
+    const user_id = Meteor.userId();
+    const already_exists = RecruitmentProcesses.findOne({ $and : [{ position: position_id}, {user: user_id}]});
+    if (already_exists) {
+      if (already_exists.survey) {
+        SingleProcesses.remove(already_exists.survey);
+      }
+      const process_id = SingleProcesses.insert({
+        related_to: [survey],
+        description: description
+      });
+      RecruitmentProcesses.update({ $and : [{ position: position_id}, {user: user_id}]}, {
+        $set: { survey: process_id } // set the new one
+      });
+
+      return already_exists._id;
+    }else {
+      const process_id = SingleProcesses.insert({
+        related_to: [survey],
+        description: description
+      });
+      const rec_process_id = RecruitmentProcesses.insert({
+        position: position_id,
+        user: user_id,
+        survey: process_id
+      });
+
+      return rec_process_id;
+    }
+  },
+
+  edit_recruitment_process_test(position_id, test, description) {
+    const user_id = Meteor.userId();
+    const already_exists = RecruitmentProcesses.findOne({ $and : [{ position: position_id}, {user: user_id}]});
+    if (already_exists) {
+      if (already_exists.test) {
+        SingleProcesses.remove(already_exists.test);
+      }
+      const process_id = SingleProcesses.insert({
+        related_to: [test],
+        description: description
+      });
+      RecruitmentProcesses.update({ $and : [{ position: position_id}, {user: user_id}]}, {
+        $set: { test: process_id } // set the new one
+      });
+
+      return already_exists._id;
+    }else {
+      const process_id = SingleProcesses.insert({
+        related_to: [test],
+        description: description
+      });
+      const rec_process_id = RecruitmentProcesses.insert({
+        position: position_id,
+        user: user_id,
+        test: process_id
+      });
+
+      return rec_process_id;
+    }
+  },
+
+  edit_recruitment_process_pi(position_id, pi, description) {
+    const user_id = Meteor.userId();
+    const already_exists = RecruitmentProcesses.findOne({ $and : [{ position: position_id}, {user: user_id}]});
+    if (already_exists) {
+      if (already_exists.pi) {
+        SingleProcesses.remove(already_exists.pi);
+      }
+      const process_id = SingleProcesses.insert({
+        related_to: [pi],
+        description: description
+      });
+      RecruitmentProcesses.update({ $and : [{ position: position_id}, {user: user_id}]}, {
+        $set: { pi: process_id } // set the new one
+      });
+
+      return already_exists._id;
+    }else {
+      const process_id = SingleProcesses.insert({
+        related_to: [pi],
+        description: description
+      });
+      const rec_process_id = RecruitmentProcesses.insert({
+        position: position_id,
+        user: user_id,
+        pi: process_id
+      });
+
+      return rec_process_id;
+    }
+  },
+
+  edit_recruitment_process_keynote(position_id, keynote, description) {
+    const user_id = Meteor.userId();
+    const already_exists = RecruitmentProcesses.findOne({ $and : [{ position: position_id}, {user: user_id}]});
+    if (already_exists) {
+      if (already_exists.keynote) {
+        SingleProcesses.remove(already_exists.keynote);
+      }
+      const process_id = SingleProcesses.insert({
+        related_to: [keynote],
+        description: description
+      });
+      RecruitmentProcesses.update({ $and : [{ position: position_id}, {user: user_id}]}, {
+        $set: { keynote: process_id } // set the new one
+      });
+
+      return already_exists._id;
+    }else {
+      const process_id = SingleProcesses.insert({
+        related_to: [keynote],
+        description: description
+      });
+      const rec_process_id = RecruitmentProcesses.insert({
+        position: position_id,
+        user: user_id,
+        keynote: process_id
+      });
+
+      return rec_process_id;
+    }
+  },
+
+  edit_recruitment_process_video(position_id, video, description) {
+    const user_id = Meteor.userId();
+    const already_exists = RecruitmentProcesses.findOne({ $and : [{ position: position_id}, {user: user_id}]});
+    if (already_exists) {
+      if (already_exists.video) {
+        SingleProcesses.remove(already_exists.video);
+      }
+      const process_id = SingleProcesses.insert({
+        related_to: video,
+        description: description
+      });
+      RecruitmentProcesses.update({ $and : [{ position: position_id}, {user: user_id}]}, {
+        $set: { video: process_id } // set the new one
+      });
+
+      return already_exists._id;
+    }else {
+      const process_id = SingleProcesses.insert({
+        related_to: video,
+        description: description
+      });
+      const rec_process_id = RecruitmentProcesses.insert({
+        position: position_id,
+        user: user_id,
+        video: process_id
+      });
+
+      return rec_process_id;
+    }
+  },
 
 });
