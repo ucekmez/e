@@ -12,6 +12,7 @@ import './forms/forms.js';
 import './keynotes/keynotes.js';
 import './videos/videos.js';
 import './pis/pis.js';
+import './positions/positions.js';
 
 
 const userRoutes = FlowRouter.group({ prefix: '/user', name: 'user',
@@ -20,7 +21,7 @@ const userRoutes = FlowRouter.group({ prefix: '/user', name: 'user',
     else {
       if (Meteor.userId() && Meteor.user()) {
         if (!Roles.userIsInRole(Meteor.userId(), ['user'])) {
-          FlowRouter.go('notfound');
+          FlowRouter.go('home');
         }
       }else {
         FlowRouter.go('notfound');
@@ -67,6 +68,36 @@ userRoutes.route('/record/:questionId', { name: 'user_videoresponse',
   }],
   action: function() {
     BlazeLayout.render('UserVideoResponseLayout'); } });
+
+
+userRoutes.route('/position/:positionId', { name: 'user_positionapply', action() { BlazeLayout.render('UserPositionResponseApplyLayout'); } });
+
+userRoutes.route('/application/:applicationId/S1/:formId', { name: 'user_position_applicationS1',
+  action: function() { BlazeLayout.render('UserApplicationPrerequisitesLayout'); } });
+
+userRoutes.route('/application/:applicationId/S2/:formId', { name: 'user_position_applicationS2',
+  action: function() { BlazeLayout.render('UserApplicationSurveyLayout'); } });
+
+userRoutes.route('/application/:applicationId/S3/:formId', { name: 'user_position_applicationS3',
+  action: function() { BlazeLayout.render('UserApplicationTestLayout'); } });
+
+userRoutes.route('/application/:applicationId/S4/:piId', { name: 'user_position_applicationS4',
+  action: function() { BlazeLayout.render('UserApplicationPILayout'); } });
+
+userRoutes.route('/application/:applicationId/S5/:keynoteId', { name: 'user_position_applicationS5',
+  action: function() { BlazeLayout.render('UserApplicationKeynoteLayout'); } });
+
+userRoutes.route('/application/:applicationId/S6/:questionId', { name: 'user_position_applicationS6',
+  action: function() { BlazeLayout.render('UserApplicationVideoLayout'); } });
+
+
+
+
+
+
+
+
+
 
 
 

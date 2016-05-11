@@ -1,0 +1,25 @@
+<template name="UserApplicationKeynoteLayout">
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
+    </div>
+  </div>
+
+  <div class="ui container preview-keynote">
+    <div class="reveal" style="margin-top:60px;">
+      <div class="slides" style="overflow:hidden;">
+        {{#if subsReady 'showslides'}}
+          {{#each slides }}
+          <section style="padding:40px;">
+            <div class="showsingleslide">{{{ content }}}</div>
+          </section>
+          {{else }}
+          <section>There is no slide in this keynote..</section>
+          {{/each}}
+        {{else }}
+          <section>Loading...</section>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</template>

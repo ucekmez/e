@@ -1,0 +1,134 @@
+<template name="UserApplicationSurveyLayout">
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
+    </div>
+  </div>
+
+
+  <div class="ui container company-layout" style="margin-top:60px;">
+    <div class="ui stackable grid centered">
+      <div class="ten wide column">
+        <div class="ui form">
+          {{#with form }}
+
+            <h1>{{ title }}</h1>
+            <div class="ui divider"></div>
+
+            {{#with toJSON payload}}
+              {{#each fields}}
+                <div class="ui answer {{ field_type }}">
+                  <h2><label for="{{ cid }}">{{ label }}
+                    {{#if required}}<sup style="color:red;">*</sup>{{/if}}
+                    {{#if field_options.description }}
+                    <div class="ui left pointing label">{{ field_options.description}}</div>
+                    {{/if}}</label></h2>
+
+                  {{#if equals field_type "paragraph" }}
+                    <div class="field paragraph">
+                      <input type="text" name="{{ cid }}" placeholder="{{ field_options.value }}" required="{{ required }}">
+                    </div>
+                  {{/if}}
+
+                  {{#if equals field_type "number" }}
+                    <div class="field number">
+                      <input type="number" name="{{ cid }}" placeholder="{{ field_options.value }}" step="{{ field_options.step }}" min="{{ field_options.min }}" max="{{ field_options.max }}" required="{{ required }}">
+                    </div>
+                  {{/if}}
+
+                  {{#if equals field_type "address" }}
+                    <div class="field address">
+                      <input type="text" name="{{ cid }}_address" placeholder="{{ field_options.address_value }}" required="{{ required }}">
+                    </div>
+                    <div class="two fields">
+                      <div class="field city">
+                        <input type="text" name="{{ cid }}_city" placeholder="{{ field_options.city_value }}" required="{{ required }}">
+                      </div>
+                      <div class="field country">
+                        <input type="text" name="{{ cid }}_country" placeholder="{{ field_options.country_value }}" required="{{ required }}">
+                      </div>
+                    </div>
+                  {{/if}}
+
+
+                  {{#if equals field_type "range" }}
+                    <div class="field">
+                      <div class="ui slider range">
+                        <div class="ui grid">
+                          <div class="two column row">
+                            <div class="left aligned column">{{ field_options.min_label }}</div>
+                            <div class="right aligned column">{{ field_options.max_label }}</div>
+                          </div>
+                        </div>
+                        <input class="ui range" type="range" name="{{ cid }}" min="{{ field_options.min }}" max="{{ field_options.max }}" step="1" required="{{ required }}">
+                      </div>
+                    </div>
+                  {{/if}}
+
+
+
+                  {{#if equals field_type "dropdown" }}
+                    <div class="field formdropdown">
+                      <select class="ui dropdown formdropdown" id="{{ cid }}" name="{{ cid }}">
+                        {{#each field_options.options }}
+                        <option value="{{ label }}" checked="{{ checked }}">{{ label }}</option>
+                        {{/each}}
+                      </select>
+                    </div>
+                    <script type="text/javascript">
+                    $('select.dropdown.formdropdown').dropdown();
+                    </script>
+                  {{/if}}
+
+
+                  {{#if equals field_type "radio" }}
+                    <div class="grouped fields formradio">
+                      {{#each field_options.options }}
+                        <div class="field">
+                          <div class="ui radio checkbox formradio">
+                            <input type="radio" name="{{ ../cid }}" checked="{{ checked }}" tabindex="0" class="hidden" value="{{ label }}">
+                            <label>{{ label }}</label>
+                          </div>
+                        </div>
+                      {{/each}}
+                    </div>
+                    <script type="text/javascript">
+                      $('.ui.radio.checkbox.formradio').checkbox();
+                    </script>
+                  {{/if}}
+
+
+                  {{#if equals field_type "checkboxes" }}
+                    <div class="grouped fields formcheckboxes">
+                      {{#each field_options.options }}
+                        <div class="inline field">
+                          <div class="ui checkbox formcheckbox">
+                            <input type="checkbox" name="{{ ../cid }}" checked="{{ checked }}" tabindex="0" class="hidden" value="{{ label }}">
+                            <label>{{ label }}</label>
+                          </div>
+                        </div>
+                      {{/each}}
+                    </div>
+                    <script type="text/javascript">
+                      $('.ui.checkbox.formcheckbox').checkbox();
+                    </script>
+                  {{/if}}
+
+                  <script type="text/javascript">
+                    $('.info.icon.description').popup({
+                      hoverable: true,
+                      position : 'right center',
+                      delay: { show: 300, hide: 800 } });
+                  </script>
+                </div>
+              {{/each}}
+            {{/with}}
+          {{/with}}
+
+          <div class="ui button positive submit" id="application-survey-submit-button">Submit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>

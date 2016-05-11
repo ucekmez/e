@@ -7,8 +7,9 @@ import './add_new_position.html'; // CompanyAddNewPosition
 import './list_positions.html'; // CompanyListPositions
 import './edit_position.html'; // CompanyEditPositions
 
-import '../generic_events.js';
+import  Clipboard  from 'clipboard'; // from clipboard.js (npm dependency)
 
+import '../generic_events.js';
 import './process/process.js';
 
 Template.CompanyAddNewPosition.onRendered(function() {
@@ -80,6 +81,28 @@ Template.CompanyListPositions.events({
   'click #remove-position'(event, instance) {
     Meteor.call('remove_position', this._id);
   },
+  'click #export-position-to-applicants'(event, instance) {
+    const _this = this;
+    $('.modal.export-position-to-applicant')
+      .modal({
+        //blurring: true,
+        onShow() {
+          const clipboard = new Clipboard('.copytoclipboard');
+          clipboard.on('success', function(e) {
+            $('#copytext').html("Copied");
+          });
+          // console.log(_this); // _this = tikladigimiz form tablosuna isaret ediyor.
+          $('.twelve.wide.column.export-position-to-applicant input')
+            .val(FlowRouter.url('user_positionapply') + '/' + _this._id);
+        },
+        onHidden() {
+          $('#copytext').html("Copy");
+        },
+        onDeny() {},
+        onApprove() {}
+      })
+      .modal('show');
+  }
 });
 
 

@@ -32,7 +32,10 @@
             </h4>
           </td>
           <td class="single line right aligned">
-            <a id="extend-position-action" href="{{ pathFor 'extend_recruitment_positionS1' positionId=_id }}" style="margin-right:10px;"><i class="large green wizard icon" data-content="Extend Recuitment Process" data-variation="inverted"></i></a>
+            <a id="extend-position-action" href="{{ pathFor 'extend_recruitment_positionS1' positionId=_id }}"><i class="large green wizard icon" data-content="Extend Recuitment Process" data-variation="inverted"></i></a>
+            <!-- <a id="preview-recruitment-position" href="{{ pathFor 'preview_answer_question' questionId=_id }}"><i class="large blue unhide icon" data-content="Preview your record" data-variation="inverted"></i></a>-->
+            <a id="export-position-to-applicants" style="cursor:pointer;"><i class="large black external share icon" data-content="Export to your applicants" data-variation="inverted"></i></a>
+            <a id="list-applicant-position-responses" href="#" style="cursor:pointer;margin-right:10px;"><i class="large grey users icon" data-content="List applicant responses" data-variation="inverted"></i></a>
             <a id="remove-position" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove" data-variation="inverted"></i></a>
           </td>
         </tr>
@@ -46,8 +49,31 @@
     <script type="text/javascript">
       setTimeout(function(){
         $('#extend-position-action .large.green.wizard.icon').popup({ hoverable: true, position : 'left center', delay: { show: 100, hide: 200 } });
+        $('#export-position-to-applicants .large.black.external.share.icon').popup({ hoverable: true, position : 'bottom center', delay: { show: 100, hide: 200 } });
+        $('#list-applicant-position-responses .large.grey.users.icon').popup({ hoverable: true, position : 'top center', delay: { show: 100, hide: 200 } });
         $('#remove-position .large.red.remove.icon').popup({ hoverable: true, position : 'right center', delay: { show: 100, hide: 200 } });
       }, 1000);
     </script>
   {{/if}}
+  {{> CompanyExportPositionToApplicant}}
+</template>
+
+
+<template name="CompanyExportPositionToApplicant">
+  <div class="ui basic modal export-position-to-applicant">
+    <div class="ui container">
+      <div class="ui grid centered center aligned">
+        <h2 style="color:white;">Share the link belove to spread your position!</h2>
+        <div class="twelve wide column export-position-to-applicant">
+          <div class="ui action fluid input center aligned">
+            <input id="tobecopied" type="text" value="" readonly="readonly">
+            <button class="ui teal right labeled icon button copytoclipboard" data-clipboard-target="#tobecopied">
+              <i class="copy icon"></i>
+              <span id="copytext">Copy</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

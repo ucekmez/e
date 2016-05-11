@@ -1,0 +1,16 @@
+<template name="UserPositionResponseApplyLayout">
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
+    </div>
+  </div>
+
+  <div class="ui container position-introduction-screen" style="padding-top:60px;">
+      <h1>Recruitment Process for {{ position.title }}</h1>
+      <div class="ui divider"></div>
+      <p>
+        {{{ position.description }}}
+      </p>
+      <button class="positive ui button" id="user_position_apply_button">Apply</button>
+  </div>
+</template>
