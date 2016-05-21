@@ -10,15 +10,23 @@
   <div class="ui divider"></div>
   <table class="ui very basic padded table">
     <tbody>
-      {{#each positions}}
+      {{#each applications}}
         <tr>
           <td>
             <h4 class="ui header">
               <div class="content">
                 <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
-                <a class="list-item-header" href="#"><i class="blue edit icon"></i> {{ title }}</a>
+
+                  {{#if doesPositionExist position }}
+                    {{#with fetchPositionInformation position }}
+                      <a class="list-item-header" href="#">{{ title }}</a>
+                    {{/with}}
+                  {{else}}
+                    {{ position_title }}
+                  {{/if}}
+
                 <div class="sub header">
-                  applied <b>{{ dateFromNow appliedAt }}</b>,
+                  applied <b>{{ dateFromNow createdAt }}</b>,
                   {{#if updatedAt }}
                   updated <b>{{ dateFromNow updatedAt }}</b>,
                   {{/if}}
@@ -27,15 +35,11 @@
             </h4>
           </td>
           <td class="single line right aligned">
-            <a id="extend-position-action" href="{{ pathFor 'extend_recruitment_positionS1' positionId=_id }}"><i class="large green wizard icon" data-content="Extend Recuitment Process" data-variation="inverted"></i></a>
-            <!-- <a id="preview-recruitment-position" href="{{ pathFor 'preview_answer_question' questionId=_id }}"><i class="large blue unhide icon" data-content="Preview your record" data-variation="inverted"></i></a>-->
-            <a id="export-position-to-applicants" style="cursor:pointer;"><i class="large black external share icon" data-content="Export to your applicants" data-variation="inverted"></i></a>
-            <a id="list-applicant-position-responses" href="#" style="cursor:pointer;margin-right:10px;"><i class="large grey users icon" data-content="List applicant responses" data-variation="inverted"></i></a>
-            <a id="remove-position" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove" data-variation="inverted"></i></a>
+
           </td>
         </tr>
       {{else}}
-        There are no positions yet!
+        There are no applications yet!
       {{/each}}
 
     </tbody>

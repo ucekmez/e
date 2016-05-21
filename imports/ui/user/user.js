@@ -3,6 +3,8 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
+import { Positions} from '/imports/api/collections/positions.js'; // Positions collections
+
 import '../landing/main_navigation.html' // MainNavigation
 import './layout.html'; // UserLayout
 import './dashboard_main.html'; // UserDashboard
@@ -20,19 +22,13 @@ const userRoutes = FlowRouter.group({ prefix: '/user', name: 'user',
     if (Meteor.loggingIn()) { BlazeLayout.render('LoadingLayout');}
     else {
       if (Meteor.userId() && Meteor.user()) {
-        if (!Roles.userIsInRole(Meteor.userId(), ['user'])) {
-          FlowRouter.go('home');
-        }
-      }else {
-        FlowRouter.go('notfound');
-      }
+        if (!Roles.userIsInRole(Meteor.userId(), ['user'])) { FlowRouter.go('home'); }
+      }else { FlowRouter.go('notfound'); }
     }
   }]
 });
 userRoutes.route('/', { name: 'user_dashboard',
-  breadcrumb: {
-    title: "Dashboard"
-  },
+  breadcrumb: { title: "Dashboard" },
   action() { BlazeLayout.render('UserLayout', { nav: 'MainNavigation', left: 'UserLeftMenu', main: 'UserDashboard' }); } });
 
 userRoutes.route('/form/:formId', { name: 'user_formresponse',
@@ -85,13 +81,40 @@ userRoutes.route('/application/:applicationId/S4/:piId', { name: 'user_position_
   action: function() { BlazeLayout.render('UserApplicationPILayout'); } });
 
 userRoutes.route('/application/:applicationId/S5/:keynoteId', { name: 'user_position_applicationS5',
+  triggersExit: [function() {
+    $('body').removeClass('ofhiddenforslide');
+    $('html').removeClass('ofhiddenforslide');
+    if (typeof Reveal !== 'undefined') { Reveal.removeEventListeners(); }
+  }],
+  subscriptions: function(params, queryParams) {
+    if(Meteor.isClient) {
+      this.register('showslides', Meteor.subscribe("getSlidesOfKeynote", params._id));
+    }
+  },
   action: function() { BlazeLayout.render('UserApplicationKeynoteLayout'); } });
 
 userRoutes.route('/application/:applicationId/S6/:questionId', { name: 'user_position_applicationS6',
+  subscriptions: function(params, queryParams) {
+    if(Meteor.isClient) {
+      this.register('showquestion', Meteor.subscribe("getInterviewQuestion", params._id));
+      this.register('showquestionvideo', Meteor.subscribe("getInterviewQuestionVideo", params._id));
+    }
+  },
+  triggersExit: [function() {
+    if (typeof(q_player) !== "undefined") {
+      q_player.recorder.destroy();
+    }
+  }],
   action: function() { BlazeLayout.render('UserApplicationVideoLayout'); } });
 
 
+userRoutes.route('/application/:applicationId/thanks', { name: 'user_position_application_thanks',
+  action: function() { BlazeLayout.render('UserApplicationThanksLayout'); } });
 
+
+userRoutes.route('/appliedpositions/', { name: 'user_applied_positions',
+  breadcrumb: { parent: "user_dashboard", title: "Applied Positions" },
+  action() { BlazeLayout.render('UserLayout', { nav: 'MainNavigation', left: 'UserLeftMenu', main: 'UserAppliedPositions' }); } });
 
 
 
@@ -104,3 +127,12 @@ userRoutes.route('/application/:applicationId/S6/:questionId', { name: 'user_pos
 
 
 //////////// Template events, helpers
+
+Template.registerHelper("fetchPositionInformation", function(position_id){
+  return Positions.findOne(position_id);
+});
+
+
+Template.registerHelper("doesPositionExist", function(position_id){
+  return Positions.findOne(position_id);
+});

@@ -14,3 +14,18 @@
       <button class="positive ui button" id="user_position_apply_button">Apply</button>
   </div>
 </template>
+
+
+<template name="UserApplicationThanksLayout">
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
+    </div>
+  </div>
+
+  <div class="ui container position-introduction-screen" style="padding-top:60px;">
+      <h1>Recruitment Process for {{ position.title }} has been successful</h1>
+      <div class="ui divider"></div>
+      <a href="{{ pathFor 'home' }}"><button class="positive ui button">Go Home</button></a>
+  </div>
+</template>

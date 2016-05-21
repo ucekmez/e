@@ -90,15 +90,18 @@ RecruitmentProcesses.attachSchema(new SimpleSchema({
 export const Applications = new Mongo.Collection('user_applications');
 
 Applications.attachSchema(new SimpleSchema({
-  position      : { type: String },
-  user          : { type: String, max: 64},
+  position        : { type: String },
+  position_title  : { type: String, optional: true },
+  user            : { type: String, max: 64},
+  user_name       : { type: String, max: 64, optional: true },
+  email           : { type: String, max: 128 },
 
-  prerequisites_response : { type: String, optional: true }, // FormResponses ID
-  test_response          : { type: String, optional: true }, // FormResponses ID
-  survey_response        : { type: String, optional: true }, // FormResponses ID
-  pi_response            : { type: String, optional: true }, // PIResponses ID
-  keynote_response       : { type: String, optional: true }, // KeynoteResponses ID
-  video_response         : { type: String, optional: true }, // VideoResponses ID
+  prerequisites_responses : { type: [String], optional: true }, // FormResponses ID
+  test_responses          : { type: [String], optional: true }, // FormResponses ID
+  survey_responses        : { type: [String], optional: true }, // FormResponses ID
+  pi_responses            : { type: [String], optional: true }, // PIResponses ID
+  keynote_responses       : { type: [String], optional: true }, // KeynoteResponses ID
+  video_responses         : { type: [String], optional: true }, // VideoResponses ID
 
 
   createdAt: {

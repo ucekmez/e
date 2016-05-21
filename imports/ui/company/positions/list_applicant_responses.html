@@ -1,0 +1,44 @@
+<template name="CompanyListApplicantPositionResponses">
+  <h1>List of Applicant Responses for <i>{{ position_title }}</i></h1>
+  <div class="ui divider"></div>
+
+
+  <table class="ui very basic padded table">
+    <tbody>
+      {{#each responses}}
+        <tr>
+          <td>
+            <h4 class="ui header">
+              <div class="content">
+                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
+                <a class="list-item-header" style="margin-right:10px;">
+                  {{# if user_name }}
+                    {{ user_name }}
+                  {{else}}
+                    {{ email }}
+                  {{/if}}
+                </a>
+                <div class="sub header">
+                  responded <b>{{ dateFromNow createdAt }}</b>
+                </div>
+              </div>
+            </h4>
+          </td>
+          <td class="single line right aligned">
+            <a id="preview-single-applicant-position-response" href="#"><i class="large blue unhide icon" data-content="Preview the response" data-variation="inverted"></i></a>
+          </td>
+        </tr>
+      {{else}}
+        There are no responses yet!
+      {{/each}}
+
+    </tbody>
+  </table>
+  {{#if responses}}
+    <script type="text/javascript">
+      setTimeout(function(){
+        $('#preview-single-applicant-position-response .large.blue.unhide.icon').popup({ hoverable: true, position : 'top center', delay: { show: 100, hide: 200 } });
+      }, 1000);
+    </script>
+  {{/if}}
+</template>

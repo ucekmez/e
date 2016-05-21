@@ -1,11 +1,12 @@
 // disariya export etmek istedigimiz her sey bu dosyada olacak
 
 import { Template } from 'meteor/templating';
-import { Positions } from '/imports/api/collections/positions.js'; // Positions collections
+import { Positions, Applications } from '/imports/api/collections/positions.js'; // Positions collections
 
 import './add_new_position.html'; // CompanyAddNewPosition
 import './list_positions.html'; // CompanyListPositions
 import './edit_position.html'; // CompanyEditPositions
+import './list_applicant_responses.html'; // CompanyListApplicantPositionResponses
 
 import  Clipboard  from 'clipboard'; // from clipboard.js (npm dependency)
 
@@ -211,4 +212,25 @@ Template.CompanyEditPosition.helpers({
       },
     };
   }
+});
+
+
+
+/////////////////   CompanyListApplicantPositionResponses
+
+Template.CompanyListApplicantPositionResponses.helpers({
+  position_title() {
+    return Positions.findOne(FlowRouter.getParam('positionId')).title;
+  },
+  responses() {
+    return Applications.find({ position: FlowRouter.getParam('positionId') })
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
+  }
+});
+
+Template.CompanyListApplicantPositionResponses.events({
+
 });

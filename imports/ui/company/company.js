@@ -214,6 +214,18 @@ companyPositions.route('/process/s6/:positionId', { name: 'extend_recruitment_po
   breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
   action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS6' }); } });
 
+
+companyPositions.route('/list/responses/:positionId', { name: 'list_position_responses',
+  breadcrumb: { parent: "list_positions", title: "List Responses" },
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantPositionResponses' }); } });
+
+
+
+
+
+
+
 //************ interview questions routes
 
 const companyQuestions = companyRoutes.group({ prefix: "/questions", name: "companyquestions"});
