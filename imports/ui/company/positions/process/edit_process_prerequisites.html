@@ -42,12 +42,25 @@
     <div class="ui form prerequisites">
       <div class="field">
         <label>Select a Prerequisites Form</label>
-        <select class="ui dropdown" id="prerequisites" name="prerequisites">
-          <option value="" class="ui dropdown">Prerequisites</option>
-          {{#each prerequisites }}
-            <option value="{{ _id }}">{{ title }}</option>
-          {{/each }}
-        </select>
+
+        <table class="ui very basic padded striped table" style="padding:0px !important;margin:0px;">
+          <tbody>
+            <tr>
+              <td style="padding:0px !important;" class="position-form">
+                <select class="ui dropdown" id="prerequisites" name="prerequisites">
+                  <option value="" class="ui dropdown">Prerequisites</option>
+                  {{#each prerequisites }}
+                    <option value="{{ _id }}">{{ title }}</option>
+                  {{/each }}
+                </select>
+              </td>
+              <td class="single line right aligned" style="padding:0px !important;width:50px;">
+                <i class="big plus icon"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
       </div>
 
       <div class="field">

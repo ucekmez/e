@@ -269,6 +269,10 @@ Template.registerHelper('equals', function(s1, s2){
   return s1 === s2;
 });
 
+Template.registerHelper('equalsOr', function(s1, s2, s3){
+  return s1 === s2 || s1 === s3;
+});
+
 // bu checkbox harici cevaplar icin kullaniliyor
 Template.registerHelper('processFormResponseValue', function(type, val) {
   if(type == "address") {
@@ -311,7 +315,13 @@ Template.registerHelper("getResponseData", function(response_id){
 
 
 
+Template.registerHelper("coming_from_single_forms", function(){
+  return Session.get("coming_from") === "single_forms";
+});
 
+Template.registerHelper("current_application_id", function(){
+  return Session.get("current_application_id");
+});
 
 
 

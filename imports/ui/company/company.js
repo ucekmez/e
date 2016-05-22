@@ -81,6 +81,7 @@ companyFormRoutes.route('/list', { name: 'list_forms',
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListForms' }); } });
 
 companyFormRoutes.route('/list/responses/:formId', { name: 'list_form_responses',
+  triggersEnter: [function() { Session.set("coming_from", "single_forms"); }],
   breadcrumb: {
     parent: "list_forms",
     title: "List Responses"
@@ -89,6 +90,7 @@ companyFormRoutes.route('/list/responses/:formId', { name: 'list_form_responses'
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantFormResponses' }); } });
 
 companyFormRoutes.route('/response/:responseId/', { name: 'preview_applicant_form_response',
+  triggersExit: [function() { Session.set("coming_from", null); }],
   action: function(params) { BlazeLayout.render('CompanyPreviewApplicantFormResponse'); } });
 
 
@@ -119,6 +121,7 @@ companyPIsRoutes.route('/preview/response/:piId', { name: 'preview_pi_response',
   action: function(params) { BlazeLayout.render('CompanyPreviewPIResponse'); } });
 
 companyPIsRoutes.route('/list/responses/:piId', { name: 'list_pi_responses',
+  triggersEnter: [function() { Session.set("coming_from", "single_pis"); }],
   breadcrumb: {
     parent: "list_combinations",
     title: "List Responses"
@@ -220,6 +223,14 @@ companyPositions.route('/list/responses/:positionId', { name: 'list_position_res
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantPositionResponses' }); } });
 
+companyPositions.route('/list/responses/single/:applicationId', { name: 'single_applicant_position_responses',
+  triggersEnter: [function(params) { Session.set("coming_from", "positionresponse");}],
+  breadcrumb: { parent: "list_positions", title: "Applicant Response" },
+  action: function(params, queryParams) {
+    Session.set("current_application_id", params.applicationId);
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListSingleApplicantPositionResponses' }); } });
+
+
 
 
 
@@ -282,6 +293,7 @@ companyQuestions.route('/preview/answer/:questionId', { name: 'preview_answer_qu
 
 
 companyQuestions.route('/list/responses/:questionId', { name: 'list_video_responses',
+  triggersEnter: [function() { Session.set("coming_from", "single_videos"); }],
   breadcrumb: {
     parent: "list_questions",
     title: "List Responses"
@@ -307,7 +319,7 @@ companyQuestions.route('/response/:responseId', { name: 'preview_video_response'
     }
   }],
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewApplicantVideoResponse' }); } });
+    BlazeLayout.render('CompanyPreviewApplicantVideoResponse'); } });
 
 
 //////////// Template events, helpers

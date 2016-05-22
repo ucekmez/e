@@ -2,11 +2,16 @@
 
 import { Template } from 'meteor/templating';
 import { Positions, Applications } from '/imports/api/collections/positions.js'; // Positions collections
+import { Responses, FormResponses } from '/imports/api/collections/forms.js'; // Forms collections
+import { KeynoteResponses } from '/imports/api/collections/keynotes.js'; // Keynotes collection
+import { PIResponses } from '/imports/api/collections/pis.js'; // PIs collection
+import { VideoResponses } from '/imports/api/collections/videos.js'; // Videos collection
 
 import './add_new_position.html'; // CompanyAddNewPosition
 import './list_positions.html'; // CompanyListPositions
 import './edit_position.html'; // CompanyEditPositions
 import './list_applicant_responses.html'; // CompanyListApplicantPositionResponses
+import './list_single_applicant_responses.html' // CompanyListSingleApplicantPositionResponses
 
 import  Clipboard  from 'clipboard'; // from clipboard.js (npm dependency)
 
@@ -231,6 +236,45 @@ Template.CompanyListApplicantPositionResponses.helpers({
   }
 });
 
-Template.CompanyListApplicantPositionResponses.events({
 
+Template.CompanyListSingleApplicantPositionResponses.helpers({
+  response() {
+    return Applications.findOne(FlowRouter.getParam('applicationId'));
+  }
+});
+
+
+////////////////// registerHelpers
+
+Template.registerHelper("get_form_response", function(response_id){
+  return Responses.findOne(response_id);
+});
+
+Template.registerHelper("get_form_response_itself", function(response_id){
+  return FormResponses.findOne({ response: response_id });
+});
+
+Template.registerHelper("get_number_of_questions", function(fields){
+  return fields.length;
+});
+
+Template.registerHelper("form_response_dateFromNow", function(response_id){
+  const formresponse = FormResponses.findOne({ response: response_id });
+  if (formresponse) {
+    Session.get('time');
+    return moment(formresponse.createdAt).fromNow();
+  }
+});
+
+Template.registerHelper("get_keynote_response", function(response_id){
+  return KeynoteResponses.findOne(response_id);
+});
+
+Template.registerHelper("get_pi_response", function(response_id){
+  return PIResponses.findOne(response_id);
+});
+
+
+Template.registerHelper("get_video_response", function(response_id){
+  return VideoResponses.findOne(response_id);
 });

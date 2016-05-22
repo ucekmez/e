@@ -267,3 +267,11 @@ f_get_pi_response = function(pi_response) {
   });
   return result;
 }
+
+Template.registerHelper("coming_from_single_pis", function(){
+  return Session.get("coming_from") === "single_pis";
+});
+
+Template.registerHelper("current_application_id", function(){
+  return Session.get("current_application_id");
+});

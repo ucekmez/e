@@ -322,6 +322,16 @@ Template.CompanyPreviewApplicantVideoResponse.onRendered(function(){
 
 
 Template.CompanyPreviewApplicantVideoResponse.helpers({
+  user_info() {
+    const video_response = VideoResponses.findOne(FlowRouter.getParam('responseId'));
+    if (video_response) {
+      if (video_response.user_name) {
+        return video_response.user_name;
+      }else {
+        return video_response.email;
+      }
+    }
+  },
   question() {
     const video_response = VideoResponses.findOne(FlowRouter.getParam('responseId'));
     if (video_response) {
@@ -334,4 +344,14 @@ Template.CompanyPreviewApplicantVideoResponse.helpers({
       return Videos.findOne(A.video).url();
     }
   }
+});
+
+
+
+Template.registerHelper("coming_from_single_videos", function(){
+  return Session.get("coming_from") === "single_videos";
+});
+
+Template.registerHelper("current_application_id", function(){
+  return Session.get("current_application_id");
 });

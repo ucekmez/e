@@ -50,7 +50,11 @@
   <div class="ui fixed inverted menu">
     <div class="ui container">
       <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
-      <a class="item" href="{{ pathFor 'list_pi_responses' piId=pi._id}}">Back to responses</a>
+      {{#if coming_from_single_pis }}
+        <a class="item" href="{{ pathFor 'list_pi_responses' piId=pi._id}}">Back to responses</a>
+      {{else }}
+        <a class="item" href="{{ pathFor 'single_applicant_position_responses' applicationId=current_application_id }}">Back to applicant</a>
+      {{/if}}
         <a class="item">{{ user_info }}</a>
     </div>
   </div>

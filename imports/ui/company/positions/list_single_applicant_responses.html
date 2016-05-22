@@ -1,0 +1,141 @@
+<template name="CompanyListSingleApplicantPositionResponses">
+  {{#with response }}
+    <h1>Responses of <i>
+      {{# if user_name }}
+        {{ user_name }}
+      {{else}}
+        {{ email }}
+      {{/if}}
+      </i>
+      for <i>{{ position_title }}</i>
+    </h1>
+  {{/with}}
+  <div class="ui divider"></div>
+
+
+  <table class="ui very basic padded table">
+    <tbody>
+      {{#with response}}
+        <div class="ui relaxed divided list">
+
+          {{#if prerequisites_responses}}
+            <div class="item">
+              <i class="big browser icon"></i>
+              <div class="content">
+                <a class="header">Prerequisites</a>
+                {{#each prerequisites_responses }}
+                  <div class="description">
+                    {{#with get_form_response this}}
+                      responded <b>{{ form_response_dateFromNow _id }}</b>  and has <b>{{ totalpoints }}</b> points in <b>{{ get_number_of_questions fields }}</b> questions
+                    {{/with}}
+                    {{#with get_form_response_itself this}}
+                      <div class="ui teal left pointing label"><a href="{{ pathFor 'preview_applicant_form_response' responseId=_id }}">See the response</a></div>
+                    {{/with}}
+                  </div>
+                {{/each}}
+              </div>
+            </div>
+          {{/if}}
+
+          {{#if test_responses}}
+            <div class="item">
+              <i class="big browser icon"></i>
+              <div class="content">
+                <a class="header">Test</a>
+                {{#each test_responses}}
+                  <div class="description">
+                    {{#with get_form_response this}}
+                      responded <b>{{ form_response_dateFromNow _id }}</b>  and has <b>{{ totalpoints }}</b> points in <b>{{ get_number_of_questions fields }}</b> questions
+                    {{/with}}
+                    {{#with get_form_response_itself this}}
+                      <div class="ui teal left pointing label"><a href="{{ pathFor 'preview_applicant_form_response' responseId=_id }}">See the response</a></div>
+                    {{/with}}
+                  </div>
+                {{/each}}
+              </div>
+            </div>
+          {{/if}}
+
+          {{#if survey_responses}}
+            <div class="item">
+              <i class="big browser icon"></i>
+              <div class="content">
+                <a class="header">Survey</a>
+                {{#each survey_responses}}
+                  <div class="description">
+                    {{#with get_form_response this}}
+                      responded <b>{{ form_response_dateFromNow _id }}</b>  and filled in <b>{{ get_number_of_questions fields }}</b> questions
+                    {{/with}}
+                    {{#with get_form_response_itself this}}
+                      <div class="ui teal left pointing label"><a href="{{ pathFor 'preview_applicant_form_response' responseId=_id }}">See the response</a></div>
+                    {{/with}}
+                  </div>
+                {{/each}}
+              </div>
+            </div>
+          {{/if}}
+
+          {{#if keynote_responses}}
+            <div class="item">
+              <i class="big unordered list icon singleapplicant"></i>
+              <div class="content">
+                <a class="header">Keynote</a>
+                {{#each keynote_responses}}
+                  <div class="description">
+                    {{#with get_keynote_response this}}
+                      viewed <b>{{ times }}</b> times,
+                      first <b>{{ dateFromNow createdAt }}</b>, last <b>{{ dateFromNow updatedAt }}</b>
+                    {{/with}}
+                  </div>
+                {{/each}}
+              </div>
+            </div>
+          {{/if}}
+
+          {{#if pi_responses}}
+            <div class="item">
+              <i class="big pie chart icon"></i>
+              <div class="content">
+                <a class="header">Personal Inventory</a>
+                {{#each pi_responses}}
+                  <div class="description">
+                    {{#with get_pi_response this}}
+                      responded <b>{{ dateFromNow createdAt }}</b>
+                      <div class="ui teal left pointing label"><a href="{{ pathFor 'preview_applicant_pi_response' responseId=_id }}">See the response</a></div>
+                    {{/with}}
+                  </div>
+                {{/each}}
+              </div>
+            </div>
+          {{/if}}
+
+          {{#if video_responses}}
+            <div class="item">
+              <i class="big video play icon"></i>
+              <div class="content">
+                <a class="header">Video Interview</a>
+                {{#each video_responses}}
+                  <div class="description">
+                    {{#with get_video_response this}}
+                      responded <b>{{ dateFromNow createdAt }}</b>
+                      <div class="ui teal left pointing label"><a href="{{ pathFor 'preview_video_response' responseId=_id }}">See the response</a></div>
+                    {{/with}}
+                  </div>
+                {{/each}}
+              </div>
+            </div>
+          {{/if}}
+
+        </div>
+      {{/with}}
+
+    </tbody>
+  </table>
+  {{#if responses}}
+    <script type="text/javascript">
+      setTimeout(function(){
+        $('#preview-single-applicant-position-response .large.blue.unhide.icon').popup({ hoverable: true, position : 'top center', delay: { show: 100, hide: 200 } });
+      }, 1000);
+    </script>
+  {{/if}}
+</template>

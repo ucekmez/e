@@ -19,13 +19,56 @@
                   {{/if}}
                 </a>
                 <div class="sub header">
-                  responded <b>{{ dateFromNow createdAt }}</b>
+                  first responded <b>{{ dateFromNow createdAt }}</b>
+                  last responded <b>{{ dateFromNow updatedAt }}</b><br />
+
+                  Prerequisites:
+                  {{#if prerequisites_responses}}
+                    <label style="color:green;">OK</label>,
+                  {{else}}
+                    <label style="color:red;">In Progress</label>,
+                  {{/if}}
+
+                  Survey:
+                  {{#if survey_responses}}
+                    <label style="color:green;">OK</label>,
+                  {{else}}
+                    <label style="color:red;">In Progress</label>,
+                  {{/if}}
+
+                  Test:
+                  {{#if test_responses}}
+                    <label style="color:green;">OK</label>,
+                  {{else}}
+                    <label style="color:red;">In Progress</label>,
+                  {{/if}}
+
+                  PI:
+                  {{#if pi_responses}}
+                    <label style="color:green;">OK</label>,
+                  {{else}}
+                    <label style="color:red;">In Progress</label>,
+                  {{/if}}
+
+                  Keynote:
+                  {{#if keynote_responses}}
+                    <label style="color:green;">OK</label>,
+                  {{else}}
+                    <label style="color:red;">In Progress</label>,
+                  {{/if}}
+
+                  Video:
+                  {{#if video_responses}}
+                    <label style="color:green;">OK</label>,
+                  {{else}}
+                    <label style="color:red;">In Progress</label>,
+                  {{/if}}
                 </div>
               </div>
             </h4>
           </td>
           <td class="single line right aligned">
-            <a id="preview-single-applicant-position-response" href="#"><i class="large blue unhide icon" data-content="Preview the response" data-variation="inverted"></i></a>
+            <a id="preview-single-applicant-position-response" href="{{ pathFor 'single_applicant_position_responses' applicationId=_id }}"><i class="large blue unhide icon" data-content="Preview the response" data-variation="inverted"></i></a>
           </td>
         </tr>
       {{else}}

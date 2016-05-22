@@ -42,12 +42,25 @@
     <div class="ui form keynote">
       <div class="field">
         <label>Select a Keynote</label>
-        <select value="" class="ui dropdown" id="keynote" name="keynote">
-          <option value="" class="default text">Keynotes</option>
-          {{#each keynotes }}
-            <option value="{{ _id }}">{{ title }}</option>
-          {{/each }}
-        </select>
+
+        <table class="ui very basic padded striped table" style="padding:0px !important;margin:0px;">
+          <tbody>
+            <tr>
+              <td style="padding:0px !important;" class="position-form">
+                <select value="" class="ui dropdown" id="keynote" name="keynote">
+                  <option value="" class="default text">Keynotes</option>
+                  {{#each keynotes }}
+                    <option value="{{ _id }}">{{ title }}</option>
+                  {{/each }}
+                </select>
+              </td>
+              <td class="single line right aligned" style="padding:0px !important;width:50px;">
+                <i class="big plus icon"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
       </div>
 
       <div class="field">

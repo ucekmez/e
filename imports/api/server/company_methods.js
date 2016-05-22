@@ -119,7 +119,7 @@ Meteor.methods({
   // form responses
   add_new_response(response, form_id) {
     const form = Forms.findOne(form_id);
-    if (form.type === 'test') { // eger islenecek form test ise
+    if (form.type === 'test' || form.type === 'prerequisite') { // eger islenecek form test ise
       const fields = JSON.parse(form.payload).fields;
 
       const max_points_for_one_question = 100.0 / fields.length; // bir sorudan alinabilecek max puan
@@ -518,7 +518,7 @@ Meteor.methods({
         SingleProcesses.remove(already_exists.video);
       }
       const process_id = SingleProcesses.insert({
-        related_to: video,
+        related_to: [video], // video seklinde degistirirsek diger taraftan da multiple yapmaliyiz
         description: description
       });
       RecruitmentProcesses.update({ $and : [{ position: position_id}, {user: user_id}]}, {

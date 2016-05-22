@@ -27,6 +27,7 @@ Meteor.methods({
       // bu durumda kullanici zaten formu doldurmustur, bir daha guncelleyemez
     }
   },
+
   add_position_to_user_profile(position_id){
     const already_exists = Applications.findOne({ $and : [{ user: Meteor.userId()}, {position: position_id}]});
 

@@ -42,12 +42,26 @@
     <div class="ui form video">
       <div class="field">
         <label>Select a Video Question</label>
-        <select multiple="" class="ui dropdown" id="video" name="video">
-          <option value="">Video Questions</option>
-          {{#each videos }}
-            <option value="{{ _id }}">{{ content }}</option>
-          {{/each }}
-        </select>
+
+        <table class="ui very basic padded striped table" style="padding:0px !important;margin:0px;">
+          <tbody>
+            <tr>
+              <td style="padding:0px !important;" class="position-form">
+                <!-- <select multiple="" class="ui dropdown" id="video" name="video"> -->
+                <select class="ui dropdown" id="video" name="video">
+                  <option value="">Video Questions</option>
+                  {{#each videos }}
+                    <option value="{{ _id }}">{{ content }}</option>
+                  {{/each }}
+                </select>
+              </td>
+              <td class="single line right aligned" style="padding:0px !important;width:50px;">
+                <i class="big plus icon"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
       </div>
 
       <div class="field">

@@ -6,27 +6,33 @@
   </div>
 
   <div class="ui container preview-keynote">
-    <div class="reveal" style="margin-top:60px;">
-      <div class="slides" style="overflow:hidden;">
-        {{#if subsReady 'showslides'}}
-          {{#each slides }}
-          <section style="padding:40px;">
-            <div class="showsingleslide">{{{ content }}}</div>
-          </section>
+
+    {{#if user_is_able_to_see}}
+      <div class="reveal" style="margin-top:60px;">
+        <div class="slides" style="overflow:hidden;">
+          {{#if subsReady 'showslides'}}
+            {{#each slides }}
+            <section style="padding:40px;">
+              <div class="showsingleslide">{{{ content }}}</div>
+            </section>
+            {{else }}
+            <section>There is no slide in this keynote..</section>
+            {{/each}}
+            <section style="padding:40px;">
+              <div class="showsingleslide">
+                <h3>I carefully read the keynotes</h3>
+                <div class="ui divider"></div>
+                <div class="ui button positive submit" id="application-keynote-submit-button">Submit</div>
+              </div>
+            </section>
           {{else }}
-          <section>There is no slide in this keynote..</section>
-          {{/each}}
-          <section style="padding:40px;">
-            <div class="showsingleslide">
-              <h3>I carefully read the keynotes</h3>
-              <div class="ui divider"></div>
-              <div class="ui button positive submit" id="application-keynote-submit-button">Submit</div>
-            </div>
-          </section>
-        {{else }}
-          <section>Loading...</section>
-        {{/if}}
+            <section>Loading...</section>
+          {{/if}}
+        </div>
       </div>
-    </div>
+    {{else}}
+      <h3>You do not have permission to see this page!</h3>
+    {{/if}}
+
   </div>
 </template>

@@ -6,24 +6,29 @@
     </div>
   </div>
 
-  <div class="ui container centered" style="margin-top:50px;">
-    {{#with question }}
+  {{#if user_is_able_to_see}}
+    <div class="ui container centered" style="margin-top:50px;">
+      {{#with question }}
+        <div class="ui stackable grid centered">
+          <div class="ui ten wide column text centered center aligned">
+            <h2>{{ content }} <sup><i class="info icon description" data-content="{{ description }}"></i></sup></h2>
+            <div class="ui divider"></div>
+          </div>
+        </div>
+      {{/with}}
+    </div>
+
+    <div class="ui container company-layout">
       <div class="ui stackable grid centered">
-        <div class="ui ten wide column text centered center aligned">
-          <h2>{{ content }} <sup><i class="info icon description" data-content="{{ description }}"></i></sup></h2>
-          <div class="ui divider"></div>
+        <div class="preview-question ui">
+            <video id="user-interview" class="ui raised segment video-js vjs-default-skin" controls></video>
+            <!-- lukemuke vide recorder template tag-->
+            <!-- {{> lmVideoCapture opts=opts}} -->
         </div>
       </div>
-    {{/with}}
-  </div>
-
-  <div class="ui container company-layout">
-    <div class="ui stackable grid centered">
-      <div class="preview-question ui">
-          <video id="user-interview" class="ui raised segment video-js vjs-default-skin" controls></video>
-          <!-- lukemuke vide recorder template tag-->
-          <!-- {{> lmVideoCapture opts=opts}} -->
-      </div>
     </div>
-  </div>
+    <div class="fluid ui button positive submit" id="application-video-submit-button" style="margin-top:30px;display:none;z-index:999;">Submit</div>
+  {{else}}
+    <h3>You do not have permission to see this page!</h3>
+  {{/if}}
 </template>

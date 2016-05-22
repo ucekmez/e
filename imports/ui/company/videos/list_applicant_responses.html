@@ -49,27 +49,52 @@
 
 
 <template name="CompanyPreviewApplicantVideoResponse">
-  <div class="ui container">
-      <div class="preview-answer ui segment">
-        <h2>{{ question.content }} <sup><i class="info icon description" data-content="{{ question.description }}"></i></sup></h2>
-        <div class="ui divider"></div>
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
+      {{#if coming_from_single_videos }}
+        <a class="item" href="{{ pathFor 'list_video_responses' questionId=question._id}}">Back to responses</a>
+      {{else }}
+        <a class="item" href="{{ pathFor 'single_applicant_position_responses' applicationId=current_application_id }}">Back to applicant</a>
+      {{/if}}
+        <a class="item">{{ user_info }}</a>
+    </div>
+  </div>
 
+  <div class="ui container centered" style="margin-top:50px;">
+    {{#with question }}
+      <div class="ui stackable grid centered">
+        <div class="ui ten wide column text centered center aligned">
+          <h2>{{ content }} <sup><i class="info icon description" data-content="{{ description }}"></i></sup></h2>
+          <div class="ui divider"></div>
+        </div>
+      </div>
+    {{/with}}
+  </div>
+
+
+  <div class="ui container company-layout">
+    <div class="ui stackable grid centered">
+      <div class="preview-question ui">
         {{#if video_url }}
-
-        <video id="user-preview-answer" class="ui raised segment video-js vjs-default-skin"
-          preload="auto" controls>
-          <source src="{{ video_url }}" type="video/webm">
-          <p class="vjs-no-js">
-            To view this video please enable JavaScript, and consider upgrading to a web browser
-            that supports HTML5 video
-          </p>
-        </video>
+          <video id="user-preview-answer" class="ui raised segment video-js vjs-default-skin"
+            preload="auto" controls>
+            <source src="{{ video_url }}" type="video/webm">
+            <p class="vjs-no-js">
+              To view this video please enable JavaScript, and consider upgrading to a web browser
+              that supports HTML5 video
+            </p>
+          </video>
 
         {{ else }}
           <p>
             There is no answer recorded for this question!
           </p>
         {{/if}}
+          <!-- lukemuke vide recorder template tag-->
+          <!-- {{> lmVideoCapture opts=opts}} -->
       </div>
+    </div>
   </div>
+
 </template>

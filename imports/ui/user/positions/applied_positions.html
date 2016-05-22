@@ -19,7 +19,7 @@
 
                   {{#if doesPositionExist position }}
                     {{#with fetchPositionInformation position }}
-                      <a class="list-item-header" href="#">{{ title }}</a>
+                      <a class="list-item-header" href="{{ pathFor 'user_positionapply' positionId=_id }}">{{ title }}</a>
                     {{/with}}
                   {{else}}
                     {{ position_title }}

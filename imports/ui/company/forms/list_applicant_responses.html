@@ -18,7 +18,7 @@
                     {{ email }}
                   {{/if}}
                 </a>
-                {{#if equals form.type "test"}}
+                {{#if equalsOr form.type "test" "prerequisite"}}
                   {{#with getResponseData response }}
                     {{#if equals totalpoints 0 }}
                       <div class="ui red tag label">{{ totalpoints }} point!</div>
@@ -59,7 +59,11 @@
   <div class="ui fixed inverted menu">
     <div class="ui container">
       <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
-      <a class="item" href="{{ pathFor 'list_form_responses' formId=form._id}}">Back to responses</a>
+      {{#if coming_from_single_forms }}
+        <a class="item" href="{{ pathFor 'list_form_responses' formId=form._id}}">Back to responses</a>
+      {{else }}
+        <a class="item" href="{{ pathFor 'single_applicant_position_responses' applicationId=current_application_id }}">Back to applicant</a>
+      {{/if}}
         <a class="item">{{ user_info }}</a>
     </div>
   </div>
@@ -68,7 +72,7 @@
     <div class="ui stackable grid centered">
       <div class="ten wide column">
         <h2>{{ form.title }}
-          {{#if equals form.type "test"}}
+          {{#if equalsOr form.type "test" "prerequisite"}}
             {{#if response}}
               {{#if equals response.totalpoints 0 }}
                 <div class="ui red tag label">You have {{ response.totalpoints }} point!</div>
@@ -87,7 +91,7 @@
                 <div class="item">
                   <div class="content">
                     <a class="header">{{ label }}</a>
-                    {{#if equals form.type "test"}}
+                    {{#if equalsOr form.type "test" "prerequisite"}}
                       {{#if equals points 0}}
                         <div class="ui left pointing red basic label">You have {{ points }} point!</div>
                       {{else}}
@@ -96,7 +100,7 @@
                     {{/if}}
                     <div class="description">
                       <ul class="company-form-preview">
-                        {{#if equals form.type "test"}} <!-- eger test ise-->
+                        {{#if equalsOr form.type "test" "prerequisite"}} <!-- eger test ise-->
                           {{#if responseExists type val }} <!-- eger bir cevap var ise-->
                             {{#if equals type "checkboxes"}} <!-- eger soru checkbox ise birden fazla cevabimiz olabilir-->
                               {{#each processFormResponseValueCheckbox val result }}

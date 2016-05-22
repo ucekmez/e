@@ -17,3 +17,11 @@
   list-style-type: none;
   text-align: right;
 }
+
+.big.unordered.list.icon.singleapplicant {
+  padding-left: 0px !important;
+}
+
+.position-form .ui.dropdown.selection {
+  width:100%;
+}

@@ -40,7 +40,7 @@ Template.UserPositionResponseApplyLayout.events({
       if (!err1) {
         toastr.info("Application process has been started!");
 
-        const application = Applications.findOne({ position: FlowRouter.getParam('positionId')}); // applicationu aldik
+        const application = Applications.findOne({ $and : [{ position: FlowRouter.getParam('positionId')}, {user: Meteor.userId()}]}); // applicationu aldik
         if (application) {
           const recruitment_process = RecruitmentProcesses.findOne({ position: application.position }); // ilgili ise alim surecini aldik
           if (recruitment_process) {
@@ -96,7 +96,7 @@ Template.UserPositionResponseApplyLayout.events({
                     if (keynote_process) {
                       const keynote = Keynotes.findOne(keynote_process.related_to[0]);
                       if (keynote) {
-                        console.log("simdi keynotea gidiyorum");
+                        //console.log("simdi keynotea gidiyorum");
                         FlowRouter.go('user_position_applicationS5', {applicationId: application._id, keynoteId: keynote._id});
                       }
                     }
@@ -143,6 +143,10 @@ Template.UserApplicationThanksLayout.helpers({
 /////////////////////////////////////////////////////////////// prerequisites side
 
 Template.UserApplicationPrerequisitesLayout.helpers({
+  user_is_able_to_see() {
+    const application = Applications.findOne(FlowRouter.getParam('applicationId'));
+    return application.user === Meteor.userId();
+  },
   form() {
     return Forms.findOne(FlowRouter.getParam('formId'));
   }
@@ -305,6 +309,10 @@ Template.UserApplicationPrerequisitesLayout.events({
 //////////////////////////////////// survey step
 
 Template.UserApplicationSurveyLayout.helpers({
+  user_is_able_to_see() {
+    const application = Applications.findOne(FlowRouter.getParam('applicationId'));
+    return application.user === Meteor.userId();
+  },
   form() {
     return Forms.findOne(FlowRouter.getParam('formId'));
   }
@@ -454,6 +462,10 @@ Template.UserApplicationSurveyLayout.events({
 //////////////////////////////////// test step
 
 Template.UserApplicationTestLayout.helpers({
+  user_is_able_to_see() {
+    const application = Applications.findOne(FlowRouter.getParam('applicationId'));
+    return application.user === Meteor.userId();
+  },
   form() {
     return Forms.findOne(FlowRouter.getParam('formId'));
   }
@@ -595,6 +607,10 @@ Template.UserApplicationTestLayout.events({
 
 
 Template.UserApplicationPILayout.helpers({
+  user_is_able_to_see() {
+    const application = Applications.findOne(FlowRouter.getParam('applicationId'));
+    return application.user === Meteor.userId();
+  },
   pi() {
     const combination = PIGroups.findOne(FlowRouter.getParam('piId'));
     if (combination) {
@@ -737,6 +753,10 @@ Template.UserApplicationKeynoteLayout.onRendered(function() {
 
 
 Template.UserApplicationKeynoteLayout.helpers({
+  user_is_able_to_see() {
+    const application = Applications.findOne(FlowRouter.getParam('applicationId'));
+    return application.user === Meteor.userId();
+  },
   keynoteId() {
     return FlowRouter.getParam('keynoteId');
   },
@@ -769,10 +789,10 @@ Template.UserApplicationKeynoteLayout.events({
                     console.log("simdi video soruya gidiyorum");
                     FlowRouter.go('user_position_applicationS6', {applicationId: application._id, questionId: question._id});
                   }
-                }else if(data3 == "none"){
-                  FlowRouter.go('user_position_application_thanks', { applicationId: application._id });
                 }
               });
+            }else if(data3 == "none"){
+              FlowRouter.go('user_position_application_thanks', { applicationId: application._id });
             }
           }else {
             toastr.warning(err3);
@@ -858,6 +878,7 @@ Template.UserApplicationVideoLayout.onRendered(function() {
               });
 
               toastr.info("Your response has been saved!");
+              $('#application-video-submit-button').show();
             });
           });
         })
@@ -878,7 +899,21 @@ Template.UserApplicationVideoLayout.onRendered(function() {
 
 
 Template.UserApplicationVideoLayout.helpers({
+  user_is_able_to_see() {
+    const application = Applications.findOne(FlowRouter.getParam('applicationId'));
+    return application.user === Meteor.userId();
+  },
   question() {
     return InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
   },
+});
+
+Template.UserApplicationVideoLayout.events({
+  // su an bir video sorusu ardindan thanks sayfasina gidiyor, coklu soru cikmasi gerek
+  'click #application-video-submit-button'(event, instance) {
+    const application = Applications.findOne(FlowRouter.getParam('applicationId')); // applicationu aldik
+    if (application) {
+      FlowRouter.go('user_position_application_thanks', { applicationId: application._id });
+    }
+  }
 });
