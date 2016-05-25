@@ -100,9 +100,18 @@ Template.CompanyListPositions.events({
           // console.log(_this); // _this = tikladigimiz form tablosuna isaret ediyor.
           $('.twelve.wide.column.export-position-to-applicant input')
             .val(FlowRouter.url('user_positionapply') + '/' + _this._id);
+
+          const clipboardshort = new Clipboard('.copytoclipboardshort');
+          clipboardshort.on('success', function(e) {
+            $('#copytextshort').html("Copied");
+          });
+          // console.log(_this); // _this = tikladigimiz form tablosuna isaret ediyor.
+          $('.twelve.wide.column.export-position-to-applicant-short input')
+            .val(_this.shortid);
         },
         onHidden() {
           $('#copytext').html("Copy");
+          $('#copytextshort').html("Copy");
         },
         onDeny() {},
         onApprove() {}

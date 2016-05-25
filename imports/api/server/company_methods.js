@@ -4,6 +4,8 @@ import { Positions, RecruitmentProcesses, SingleProcesses } from '/imports/api/c
 import { InterviewQuestions, VideoResponses, Videos } from '/imports/api/collections/videos.js';
 import { PIGroups, PIResponses } from '/imports/api/collections/pis.js';
 
+import  shortid  from 'shortid';
+
 Meteor.methods({
   add_new_form(){
     const form_id = Forms.insert({
@@ -34,6 +36,17 @@ Meteor.methods({
 
     return form_id;
   },
+
+  ///// names
+  edit_company_form_name(form_id, title) {
+    Forms.update({ _id: form_id }, { $set: { title: title } });
+  },
+
+  edit_company_keynote_name(keynote_id, title) {
+    Keynotes.update({ _id: keynote_id }, { $set: { title: title } });
+  },
+
+  //// /names
 
 
   remove_form(id) { Forms.remove(id); },
@@ -66,6 +79,7 @@ Meteor.methods({
 
   add_new_position(positiontitle, opensat, endsat, description){
     const position_id = Positions.insert({
+      shortid: shortid.generate(),
       title: positiontitle,
       description: description,
       opensAt: opensat,
@@ -187,7 +201,10 @@ Meteor.methods({
               element.points += max_points_for_one_selection;
             }else {
               // kullanici dogrularin yaninda yanlislari da isaretlediyse, puan kiracagiz
-              element.points -= max_points_for_one_selection / 2.0;
+              // bu islem sadece testte olacak. prerequisites ise olmayacak
+              if (form.type === 'test') {
+                element.points -= max_points_for_one_selection / 2.0;
+              }
             }
           }
 

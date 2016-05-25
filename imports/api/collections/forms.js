@@ -59,6 +59,7 @@ FormResponses.attachSchema(new SimpleSchema({
 }));
 
 
-
+export const PredefinedLanguageQuestions = new Mongo.Collection('predefined_language_questions');
+export const PredefinedTechnicalQuestions = new Mongo.Collection('predefined_technical_questions');
 
 //

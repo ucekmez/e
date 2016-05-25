@@ -126,7 +126,33 @@ userRoutes.route('/appliedpositions/', { name: 'user_applied_positions',
 
 
 
+
+
 //////////// Template events, helpers
+
+Template.UserLeftMenu.events({
+  'click #user-apply-for-a-position'(event, instance) {
+    $('.modal.user-apply-for-a-position')
+      .modal({
+        //blurring: true,
+        onShow() {},
+        onHidden() {},
+        onApprove() {
+          console.log("ok")
+          const position_short_id = $('#apply-for-a-position-input').val();
+          const position = Positions.findOne({ shortid: position_short_id});
+          if(position) {
+            FlowRouter.go('user_positionapply', { positionId: position._id });
+          }else {
+            toastr.warning("There is no such active position! Please rewise your search.");
+          }
+        },
+        onDeny() {}
+      })
+      .modal('show');
+  },
+});
+
 
 Template.registerHelper("fetchPositionInformation", function(position_id){
   return Positions.findOne(position_id);

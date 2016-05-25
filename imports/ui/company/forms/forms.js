@@ -13,6 +13,33 @@ import '../generic_events.js';
 
 //////////////////////// ******************** CompanyEditForm
 
+Template.CompanyEditForm.helpers({
+  form() {
+    return Forms.findOne({_id: FlowRouter.getParam('formId')});
+  }
+});
+
+Template.CompanyEditForm.events({
+  'click .show-edit-name'(event, instance) {
+    $('.show-edit-name').hide();
+    $('.item.edit-name-form').show();
+  },
+  'click .button.save-new-name'(event, instance) {
+    const new_name = $('#new-name-value').val();
+    Meteor.call('edit_company_form_name', FlowRouter.getParam('formId'), new_name, function(err, data) {
+      if (!err) {
+        toastr.info("New name has been saved!");
+        $('.show-edit-name').show();
+        $('.item.edit-name-form').hide();
+      }else {
+        toastr.warning(err);
+      }
+
+    });
+
+  }
+});
+
 Template.CompanyEditForm.onRendered(function() {
   FlowRouter.subsReady("getformpreview", function() {
     const form = Forms.findOne({_id: FlowRouter.getParam('formId')});

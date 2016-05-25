@@ -1,4 +1,5 @@
 import { Positions, Applications, RecruitmentProcesses } from '/imports/api/collections/positions.js';
+import { VideoResponses } from '/imports/api/collections/videos.js';
 
 
 Meteor.methods({
@@ -136,6 +137,13 @@ Meteor.methods({
     }else {
       return "no_process"; // burada da herhangi bir process tanimlanmadiysa gelecek bir hata kodu var
     }
-  }
+  },
+
+  finish_user_video_response(question_id) {
+    const video_response = VideoResponses.update({ $and : [{ user: Meteor.userId()}, {question: question_id}]}, {
+      $set: { finished: true }
+    });
+    return "ok";
+  },
 
 });

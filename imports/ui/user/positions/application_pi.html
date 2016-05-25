@@ -11,58 +11,64 @@
         <div class="fourteen wide column">
           <div class="ui form">
             {{#if user_is_able_to_see }}
-              <table class="ui definition table">
-                <thead>
-                  <tr><th></th>
-                  <th>Kesinlikle Katılmıyorum</th>
-                  <th>Katılmıyorum</th>
-                  <th>Ne Katılıyorum Ne Katılmıyorum</th>
-                  <th>Katılıyorum</th>
-                  <th>Kesinlikle Katılıyorum</th>
-                </tr></thead>
-                <tbody>
-                  {{#each pi }}
-                    <tr>
-                      <td><i class="info icon"></i>{{ phrase }}</td>
-                      <td class="center aligned">
-                        <div class="field">
-                          <div class="ui toggle radio check-question">
-                            <input type="radio" name="{{ scale }}__{{index}}" class="hidden check-question" tabindex="0" value="1">
+
+              {{#if user_passed_pi_before }}
+                <h3>You have already passed this phase!</h3>
+              {{else}}
+
+                <table class="ui definition table">
+                  <thead>
+                    <tr><th></th>
+                    <th>Kesinlikle Katılmıyorum</th>
+                    <th>Katılmıyorum</th>
+                    <th>Ne Katılıyorum Ne Katılmıyorum</th>
+                    <th>Katılıyorum</th>
+                    <th>Kesinlikle Katılıyorum</th>
+                  </tr></thead>
+                  <tbody>
+                    {{#each pi }}
+                      <tr>
+                        <td><i class="info icon"></i>{{ phrase }}</td>
+                        <td class="center aligned">
+                          <div class="field">
+                            <div class="ui toggle radio check-question">
+                              <input type="radio" name="{{ scale }}__{{index}}" class="hidden check-question" tabindex="0" value="1">
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td class="center aligned">
-                        <div class="field">
-                          <div class="ui toggle radio check-question">
-                            <input type="radio" name="{{ scale }}__{{index}}" class="hidden check-question" tabindex="0" value="2">
+                        </td>
+                        <td class="center aligned">
+                          <div class="field">
+                            <div class="ui toggle radio check-question">
+                              <input type="radio" name="{{ scale }}__{{index}}" class="hidden check-question" tabindex="0" value="2">
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td class="center aligned">
-                        <div class="field">
-                          <div class="ui toggle radio check-question">
-                            <input type="radio" name="{{ scale }}__{{index}}" class="hidden check-question" tabindex="0" value="3">
+                        </td>
+                        <td class="center aligned">
+                          <div class="field">
+                            <div class="ui toggle radio check-question">
+                              <input type="radio" name="{{ scale }}__{{index}}" class="hidden check-question" tabindex="0" value="3">
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td class="center aligned">
-                        <div class="field">
-                          <div class="ui toggle radio check-question">
-                            <input type="radio" name="{{ scale }}__{{index}}" class="hidden check-question" tabindex="0" value="4">
+                        </td>
+                        <td class="center aligned">
+                          <div class="field">
+                            <div class="ui toggle radio check-question">
+                              <input type="radio" name="{{ scale }}__{{index}}" class="hidden check-question" tabindex="0" value="4">
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td class="center aligned">
-                        <div class="field">
-                          <div class="ui toggle radio check-question">
-                            <input type="radio" name="{{ scale }}__{{index}}" class="hidden check-question" tabindex="0" value="5">
+                        </td>
+                        <td class="center aligned">
+                          <div class="field">
+                            <div class="ui toggle radio check-question">
+                              <input type="radio" name="{{ scale }}__{{index}}" class="hidden check-question" tabindex="0" value="5">
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                    </tr>
-                  {{/each}}
-              </tbody></table>
-              <div class="ui button positive submit" id="application-pi-submit-button">Submit</div>
+                        </td>
+                      </tr>
+                    {{/each}}
+                </tbody></table>
+                <div class="ui button positive submit" id="application-pi-submit-button">Submit</div>
+              {{/if}}
             {{else}}
               <h3>You do not have permission to see this page!</h3>
             {{/if}}

@@ -2,6 +2,25 @@
   <h3><i class="setting icon"></i> Actions</h3>
   <div class="menu">
     <a href="#" class="item">Edit Profile</a><br />
+    <a id="user-apply-for-a-position" style="cursor:pointer;">Apply for a Position</a> <br />
     <a href="{{ pathFor 'user_applied_positions' }}">Applied Positions</a>
   </div>
+  <!-- modal-->
+    <div class="ui basic modal user-apply-for-a-position">
+      <div class="ui container">
+        <div class="ui grid centered center aligned">
+          <h2 style="color:white;">Enter the code to apply for a position</h2>
+          <div class="twelve wide column user-apply-for-a-position">
+            <div class="ui action fluid input center aligned actions">
+              <input id="apply-for-a-position-input" type="text" value="">
+              <div class="ui teal right labeled icon button button-apply-for-a-position positive">
+                <i class="send icon"></i>
+                <span>Go</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- /modal-->
 </template>

@@ -41,6 +41,9 @@ Template.CompanyExtendRecruitmentProcessS1.helpers({
 });
 
 Template.CompanyExtendRecruitmentProcessS1.events({
+  'click .add-new-process-prerequisites'(event, instance) {
+    f_add_new_prerequisite(event ,instance);
+  },
   'click #next-button'(event, instance) {
     FlowRouter.go('extend_recruitment_positionS2', {positionId: FlowRouter.getParam('positionId')});
   },
@@ -123,6 +126,9 @@ Template.CompanyExtendRecruitmentProcessS2.helpers({
 });
 
 Template.CompanyExtendRecruitmentProcessS2.events({
+  'click .add-new-process-survey'(event, instance) {
+    f_add_new_form(event ,instance);
+  },
   'click #prev-button'(event, instance) {
     FlowRouter.go('extend_recruitment_positionS1', {positionId: FlowRouter.getParam('positionId')});
   },
@@ -205,6 +211,9 @@ Template.CompanyExtendRecruitmentProcessS3.helpers({
 });
 
 Template.CompanyExtendRecruitmentProcessS3.events({
+  'click .add-new-process-test'(event, instance) {
+    f_add_new_test(event ,instance);
+  },
   'click #prev-button'(event, instance) {
     FlowRouter.go('extend_recruitment_positionS2', {positionId: FlowRouter.getParam('positionId')});
   },
@@ -363,6 +372,9 @@ Template.CompanyExtendRecruitmentProcessS5.helpers({
 });
 
 Template.CompanyExtendRecruitmentProcessS5.events({
+  'click .add-new-process-keynote'(event, instance) {
+    f_add_new_keynote(event ,instance);
+  },
   'click #prev-button'(event, instance) {
     FlowRouter.go('extend_recruitment_positionS4', {positionId: FlowRouter.getParam('positionId')});
   },
@@ -441,6 +453,9 @@ Template.CompanyExtendRecruitmentProcessS6.helpers({
 });
 
 Template.CompanyExtendRecruitmentProcessS6.events({
+  'click .add-new-process-video'(event, instance) {
+    f_add_new_question(event ,instance);
+  },
   'click #prev-button'(event, instance) {
     FlowRouter.go('extend_recruitment_positionS5', {positionId: FlowRouter.getParam('positionId')});
   },

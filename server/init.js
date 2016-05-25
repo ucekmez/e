@@ -1,6 +1,8 @@
 import { Accounts } from 'meteor/accounts-base';
 import { PIs } from '/imports/api/collections/pis.js'; // Personal Inventory collections
 
+import  shortid  from 'shortid';
+
 Meteor.startup(() => {
   if (Meteor.users.find().count() === 0) {
     // group : kullanicilar sadece gruplarinin icerisindeki
@@ -471,6 +473,7 @@ Meteor.startup(() => {
       const pi_id = PIs.insert(ifade);
     });
     console.log("PIs are added");
+
   }
 
 });

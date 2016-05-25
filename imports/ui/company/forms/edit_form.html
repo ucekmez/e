@@ -7,6 +7,15 @@
 
 
 <template name="CompanyEditForm">
-  <h3>Edit New Form</h3>
+  <div style="margin-bottom:10px;margin-top:10px;" class="show-edit-name">
+    <h4><i class="edit icon"></i> {{ form.title }}</h4>
+  </div>
+  <div class="item edit-name-form" style="margin-bottom:10px;display:none;">
+    <div class="ui action fluid left icon input">
+      <i class="edit icon"></i>
+      <input type="text" placeholder="Enter a name for your form" id="new-name-value" value="{{ form.title }}" />
+      <button class="ui button save-new-name">OK</button>
+    </div>
+  </div>
   <div class="fb-main"></div>
 </template>

@@ -6,7 +6,17 @@
 </template>
 
 <template name="CompanyEditKeynote">
-  <h3>Edit New Form</h3>
+  <div style="margin-bottom:10px;margin-top:10px;" class="show-edit-name">
+    <h4><i class="edit icon"></i> {{ keynote.title }}</h4>
+  </div>
+  <div class="item edit-name-keynote" style="margin-bottom:10px;display:none;">
+    <div class="ui action fluid left icon input">
+      <i class="edit icon"></i>
+      <input type="text" placeholder="Enter a name for your form" id="new-keynote-name-value" value="{{ keynote.title }}" />
+      <button class="ui button save-new-name">OK</button>
+    </div>
+  </div>
+
   <div class="ui stackable grid">
     <div class="four wide column thumbnails">
       <ul class="keynote-thumbnails">

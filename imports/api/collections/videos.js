@@ -44,6 +44,7 @@ VideoResponses.attachSchema(new SimpleSchema({
   user_name: { type: String, max: 64, optional: true },
   email: { type: String, max: 128 },
   video: { type: String, max: 64 },
+  finished: { type: Boolean, optional: true },
   createdAt: {
     type: Date,
     autoValue: function() {

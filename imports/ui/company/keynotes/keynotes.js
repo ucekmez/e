@@ -55,6 +55,9 @@ Template.CompanyListKeynotes.events({
 });
 
 Template.CompanyEditKeynote.helpers({
+  keynote() {
+    return Keynotes.findOne(FlowRouter.getParam('keynoteId'));
+  },
   slides() {
     const result_keynote = Keynotes.findOne(FlowRouter.getParam('keynoteId'));
     if (result_keynote && result_keynote.user === Meteor.userId()) {
@@ -82,6 +85,23 @@ Template.CompanyEditKeynote.helpers({
 
 
 Template.CompanyEditKeynote.events({
+  'click .show-edit-name'(event, instance) {
+    $('.show-edit-name').hide();
+    $('.item.edit-name-keynote').show();
+  },
+  'click .button.save-new-name'(event, instance) {
+    const new_name = $('#new-keynote-name-value').val();
+    Meteor.call('edit_company_keynote_name', FlowRouter.getParam('keynoteId'), new_name, function(err, data) {
+      if (!err) {
+        toastr.info("New name has been saved!");
+        $('.show-edit-name').show();
+        $('.item.edit-name-keynote').hide();
+      }else {
+        toastr.warning(err);
+      }
+
+    });
+  },
   'click #slide-add-icon': function(event, template) {
     const slides_cursor = Slides.find({keynote: FlowRouter.getParam('keynoteId')});
     const slides_count = slides_cursor.count();

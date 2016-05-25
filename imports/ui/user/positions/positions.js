@@ -143,6 +143,16 @@ Template.UserApplicationThanksLayout.helpers({
 /////////////////////////////////////////////////////////////// prerequisites side
 
 Template.UserApplicationPrerequisitesLayout.helpers({
+  user_passed_prerequisites_before() {
+    const application = Applications.findOne(FlowRouter.getParam('applicationId'));
+    if (application) {
+      if (application.prerequisites_responses && application.prerequisites_responses.length > 0) {
+        return true;
+      }else {
+        return false;
+      }
+    }
+  },
   user_is_able_to_see() {
     const application = Applications.findOne(FlowRouter.getParam('applicationId'));
     return application.user === Meteor.userId();
@@ -309,6 +319,16 @@ Template.UserApplicationPrerequisitesLayout.events({
 //////////////////////////////////// survey step
 
 Template.UserApplicationSurveyLayout.helpers({
+  user_passed_survey_before() {
+    const application = Applications.findOne(FlowRouter.getParam('applicationId'));
+    if (application) {
+      if (application.survey_responses && application.survey_responses.length > 0) {
+        return true;
+      }else {
+        return false;
+      }
+    }
+  },
   user_is_able_to_see() {
     const application = Applications.findOne(FlowRouter.getParam('applicationId'));
     return application.user === Meteor.userId();
@@ -462,6 +482,16 @@ Template.UserApplicationSurveyLayout.events({
 //////////////////////////////////// test step
 
 Template.UserApplicationTestLayout.helpers({
+  user_passed_test_before() {
+    const application = Applications.findOne(FlowRouter.getParam('applicationId'));
+    if (application) {
+      if (application.test_responses && application.test_responses.length > 0) {
+        return true;
+      }else {
+        return false;
+      }
+    }
+  },
   user_is_able_to_see() {
     const application = Applications.findOne(FlowRouter.getParam('applicationId'));
     return application.user === Meteor.userId();
@@ -607,9 +637,19 @@ Template.UserApplicationTestLayout.events({
 
 
 Template.UserApplicationPILayout.helpers({
+  user_passed_pi_before() {
+    const application = Applications.findOne(FlowRouter.getParam('applicationId'));
+    if (application) {
+      if (application.pi_responses && application.pi_responses.length > 0) {
+        return true;
+      }
+    }
+  },
   user_is_able_to_see() {
     const application = Applications.findOne(FlowRouter.getParam('applicationId'));
-    return application.user === Meteor.userId();
+    if (application) {
+      return application.user === Meteor.userId();
+    }
   },
   pi() {
     const combination = PIGroups.findOne(FlowRouter.getParam('piId'));
@@ -755,7 +795,9 @@ Template.UserApplicationKeynoteLayout.onRendered(function() {
 Template.UserApplicationKeynoteLayout.helpers({
   user_is_able_to_see() {
     const application = Applications.findOne(FlowRouter.getParam('applicationId'));
-    return application.user === Meteor.userId();
+    if (application) {
+      return application.user === Meteor.userId();
+    }
   },
   keynoteId() {
     return FlowRouter.getParam('keynoteId');
@@ -826,8 +868,9 @@ Template.UserApplicationVideoLayout.onRendered(function() {
         });
 
       const question = InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
+      const video_response = VideoResponses.findOne({ $and : [{ user: Meteor.userId()}, {question: FlowRouter.getParam('questionId')}]});
 
-      if (question) {
+      if ((question && video_response && typeof(video_response.finished) === 'undefined') || question) {
         q_player = videojs("user-interview", {
           // video.js options
           width: 640,
@@ -899,9 +942,17 @@ Template.UserApplicationVideoLayout.onRendered(function() {
 
 
 Template.UserApplicationVideoLayout.helpers({
+  user_passed_video_before() {
+    const video_response = VideoResponses.findOne({ $and : [{ user: Meteor.userId()}, {question: FlowRouter.getParam('questionId')}]});
+    if (video_response && typeof(video_response.finished) !== 'undefined' ) {
+      return video_response.finished;
+    }
+  },
   user_is_able_to_see() {
     const application = Applications.findOne(FlowRouter.getParam('applicationId'));
-    return application.user === Meteor.userId();
+    if (application) {
+      return application.user === Meteor.userId();
+    }
   },
   question() {
     return InterviewQuestions.findOne(FlowRouter.getParam('questionId'));
@@ -913,7 +964,9 @@ Template.UserApplicationVideoLayout.events({
   'click #application-video-submit-button'(event, instance) {
     const application = Applications.findOne(FlowRouter.getParam('applicationId')); // applicationu aldik
     if (application) {
-      FlowRouter.go('user_position_application_thanks', { applicationId: application._id });
+      Meteor.call("finish_user_video_response", FlowRouter.getParam('questionId'), function(err, data) {
+        FlowRouter.go('user_position_application_thanks', { applicationId: application._id });
+      });
     }
   }
 });

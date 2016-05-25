@@ -1,6 +1,7 @@
 export const Positions = new Mongo.Collection('positions');
 
 Positions.attachSchema(new SimpleSchema({
+  shortid      : { type: String, max: 64 },
   title        : { type: String, max: 256 },
   user         : { type: String, max: 64},
   description  : { type: String, max: 4096, optional: true},
