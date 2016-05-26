@@ -1,10 +1,15 @@
 import { Template } from 'meteor/templating';
-import { Forms, Responses, FormResponses } from '/imports/api/collections/forms.js'; // Forms collections
+import { Forms, Responses, FormResponses, PredefinedLanguageTemplates, PredefinedTechnicalTemplates, PredefinedLanguageQuestions, PredefinedTechnicalQuestions, PredefinedLanguageTestResponses, PredefinedTechnicalTestResponses } from '/imports/api/collections/forms.js'; // Forms collections
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { Sectors } from '/imports/api/collections/positions.js'; // Positions collections
 
 import './edit_form.html'; // CompanyEditFormLayout CompanyEditForm
 import './list_forms.html'; // CompanyListForms
 import './preview_form.html'; // CompanyPreviewForm
+import './preview_language_test.html'; // CompanyPreviewLanguageTest
+import './language_test_resonse.html'; // CompanyLanguageTestResponse
+import './preview_technical_test.html'; // CompanyPreviewTechnicalTest
+import './technical_test_resonse.html'; // CompanyTechnicalTestResponse
 import './list_applicant_responses.html'; // CompanyListApplicantFormResponses
 
 import  Clipboard  from 'clipboard'; // from clipboard.js (npm dependency)
@@ -68,7 +73,27 @@ Template.CompanyEditForm.onRendered(function() {
 
 //////////////////////// ******************** CompanyListForms
 
+Template.CompanyAddTechnicalTest.helpers({
+  sectors() {
+    return Sectors.find();
+  },
+});
+
 Template.CompanyListForms.helpers({
+  predefinedlanguagetemplates() {
+    return PredefinedLanguageTemplates.find({ user: Meteor.userId() },{ sort: { createdAt: -1}})
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
+  },
+  predefinedtechnicaltemplates() {
+    return PredefinedTechnicalTemplates.find({ user: Meteor.userId() },{ sort: { createdAt: -1}})
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
+  },
   forms() {
     return Forms.find({ user: Meteor.userId() },{ sort: { createdAt: -1}})
       .map(function(document, index) {
@@ -79,6 +104,161 @@ Template.CompanyListForms.helpers({
 });
 
 Template.CompanyListForms.events({
+  'click #preview-lang-test-response-action'(event, instance) {
+    const response = PredefinedLanguageTestResponses.findOne({ template: this._id });
+    if (response) {
+      FlowRouter.go('preview_lang_test_response', { responseId: response._id });
+    }else {
+      toastr.warning("There is no response for this test");
+    }
+  },
+  'click #remove-language-test'(event, instance) {
+    Meteor.call('remove_language_test', this._id);
+  },
+
+  //// lang test
+  'click .button.add-lang-test'(event, instance) {
+    $('.modal.add-new-language-test')
+      .modal({
+        //blurring: true,
+        onShow() {},
+        onHidden() {},
+        onDeny() {
+          $('.ui.form.language').form('reset');
+          $('.ui.form.language').form('clear');
+          Session.set("add-lang-test-success", false);
+        },
+        onApprove() {
+          $('.ui.form.language')
+            .form({
+              fields: {
+                langtestname        : 'empty',
+                selecttestlanguage  : 'empty',
+                selectlangtestlevel : 'empty',
+                langnumberofquestions   : 'empty',
+              }
+            });
+
+          if ($('.ui.form.language').form('is valid')) {
+            const testname = $('#langtestname').val();
+            const testlanguage = $('#selecttestlanguage').val();
+            const level = $('#selectlangtestlevel').val();
+            const numberofquestions = $('#langnumberofquestions').val();
+
+            if (numberofquestions <= 20) {
+              Meteor.call('create_new_language_test_template', testname, testlanguage, numberofquestions, level, function (err, data) {
+                if (err) {
+                  toastr.error(err.reason);
+                  Session.set("add-lang-test-success", false);
+                }else {
+                  Session.set("add-lang-test-success", false);
+                  $(".ui.form").form('reset');
+                  $(".ui.form").form('clear');
+                  toastr.success('Language Test has been added!');
+                  $('.modal.add-new-language-test').modal('hide');
+                }
+              });
+
+              if (!Session.get("add-lang-test-success")) {
+                Session.set("add-lang-test-success", false);
+                return false;
+              }
+            }else {
+              toastr.error('Max 20 questions are allowed!');
+              return false;
+            }
+
+
+          }else {
+            toastr.error('Please correct the errors!');
+            return false;
+          }
+        }
+      })
+      .modal('show');
+  },
+
+  //// add tech test
+
+  'click #preview-tech-test-response-action'(event, instance) {
+    const response = PredefinedTechnicalTestResponses.findOne({ template: this._id });
+    if (response) {
+      FlowRouter.go('preview_tech_test_response', { responseId: response._id });
+    }else {
+      toastr.warning("There is no response for this test");
+    }
+  },
+
+
+  'click #remove-technical-test'(event, instance) {
+    Meteor.call('remove_technical_test', this._id);
+  },
+
+  'click .button.add-tech-test'(event, instance) {
+    $('.modal.add-new-technical-test')
+      .modal({
+        //blurring: true,
+        onShow() {},
+        onHidden() {},
+        onDeny() {
+          $('.ui.form.technical').form('reset');
+          $('.ui.form.technical').form('clear');
+          Session.set("add-tech-test-success", false);
+        },
+        onApprove() {
+          $('.ui.form.technical')
+            .form({
+              fields: {
+                techtestname        : 'empty',
+                selecttechtestlevel : 'empty',
+                selecttechsector    : 'empty',
+              }
+            });
+
+          if ($('.ui.form.technical').form('is valid')) {
+            const testname = $('#techtestname').val();
+            const sector = $('#selecttechsector').val();
+            const level = $('#selecttechtestlevel').val();
+            const numberofquestions = $('#technumberofquestions').val();
+
+            if (numberofquestions <= 20) {
+              Meteor.call('create_new_technical_test_template', testname, sector, level, numberofquestions, function (err, data) {
+                if (err) {
+                  toastr.error(err.reason);
+                  Session.set("add-tech-test-success", false);
+                }else {
+                  Session.set("add-tech-test-success", false);
+                  $(".ui.form.technical").form('reset');
+                  $(".ui.form.technical").form('clear');
+                  toastr.success('Technical Test has been added!');
+                  $('.modal.add-new-technical-test').modal('hide');
+                }
+              });
+
+              if (!Session.get("add-tech-test-success")) {
+                Session.set("add-tech-test-success", false);
+                return false;
+              }
+            }else {
+              toastr.error('Max 20 questions are allowed!');
+              return false;
+            }
+
+
+          }else {
+            toastr.error('Please correct the errors!');
+            return false;
+          }
+        }
+      })
+      .modal('show');
+  },
+
+
+  'click .message .close.icon'(event, instance) {
+    $('.ui.info.message').transition('fade');
+  },
+
   'click #add_new_form_right'(event, instance) { // ana sayfadaki buton
     f_add_new_form(event ,instance);
   },
@@ -104,6 +284,52 @@ Template.CompanyListForms.events({
           // console.log(_this); // _this = tikladigimiz form tablosuna isaret ediyor.
           $('.twelve.wide.column.export-form-to-applicant input')
             .val(FlowRouter.url('user_formresponse') + '/' + _this._id);
+        },
+        onHidden() {
+          $('#copytext').html("Copy");
+        },
+        onDeny() {},
+        onApprove() {}
+      })
+      .modal('show');
+  },
+
+  'click #export-langtest-to-applicants'(event, instance) {
+    const _this = this;
+    $('.modal.export-form-to-applicant')
+      .modal({
+        //blurring: true,
+        onShow() {
+          const clipboard = new Clipboard('.copytoclipboard');
+          clipboard.on('success', function(e) {
+            $('#copytext').html("Copied");
+          });
+          // console.log(_this); // _this = tikladigimiz form tablosuna isaret ediyor.
+          $('.twelve.wide.column.export-form-to-applicant input')
+            .val(FlowRouter.url('user_langtestresponse') + '/' + _this._id);
+        },
+        onHidden() {
+          $('#copytext').html("Copy");
+        },
+        onDeny() {},
+        onApprove() {}
+      })
+      .modal('show');
+  },
+
+  'click #export-techtest-to-applicants'(event, instance) {
+    const _this = this;
+    $('.modal.export-form-to-applicant')
+      .modal({
+        //blurring: true,
+        onShow() {
+          const clipboard = new Clipboard('.copytoclipboard');
+          clipboard.on('success', function(e) {
+            $('#copytext').html("Copied");
+          });
+          // console.log(_this); // _this = tikladigimiz form tablosuna isaret ediyor.
+          $('.twelve.wide.column.export-form-to-applicant input')
+            .val(FlowRouter.url('user_techtestresponse') + '/' + _this._id);
         },
         onHidden() {
           $('#copytext').html("Copy");
@@ -340,8 +566,6 @@ Template.registerHelper("getResponseData", function(response_id){
   return Responses.findOne(response_id);
 });
 
-
-
 Template.registerHelper("coming_from_single_forms", function(){
   return Session.get("coming_from") === "single_forms";
 });
@@ -354,4 +578,153 @@ Template.registerHelper("current_application_id", function(){
 
 
 
-//
+// language and technical test previews
+
+Template.CompanyPreviewLanguageTest.helpers({
+  template_title() {
+    const template = PredefinedLanguageTemplates.findOne(FlowRouter.getParam('templateId'));
+    if (template) {
+      return template.title;
+    }
+  },
+  questions() {
+    const template = PredefinedLanguageTemplates.findOne(FlowRouter.getParam('templateId'));
+    if (template) {
+      const all_questions = PredefinedLanguageQuestions.find({ $and : [{ level: template.level }, {language: template.language }]}).fetch();
+      // burada cikan sonuclari shuffle ediyoruz / karistiriyoruz
+      for(let i=0; i<all_questions.length;i++) {
+        const rnd = Math.floor(Math.random() * all_questions.length);
+        const tmp = all_questions[i];
+        all_questions[i] = all_questions[rnd];
+        all_questions[rnd] = tmp;
+      }
+      //console.log(all_questions.slice(0,template.numquestions));
+      return all_questions.slice(0,template.numquestions);
+    }
+  }
+});
+
+Template.CompanyPreviewLanguageTest.events({
+  'click #submit-button'(event, instance) {
+
+    const question_ids = new Array();
+    const selecteds = new Array();
+    const field_validations = {};
+
+    for(let i=0; i<$('label[id=question]').length;i++) {
+      const id = $('label[id=question]')[i].attributes.for.value;
+      const selected = $(`.formradio input[name=${id}]:checked`).val();
+      question_ids.push(id);
+      selecteds.push(parseInt(selected));
+      field_validations[id] = 'checked';
+    }
+
+    $('.ui.form')
+      .form({
+        fields: field_validations
+    });
+
+
+    if ($('.ui.form').form('is valid')) {
+      Meteor.call("calculate_score_for_lang_test", question_ids, selecteds, FlowRouter.getParam('templateId'), function(err, data) {
+        if (!err) {
+          toastr.info("Your response has been saved!");
+          FlowRouter.go('preview_lang_test_response', { responseId: data });
+        }else {
+          toastr.warning(err.reason);
+        }
+      });
+    }else {
+      toastr.warning("Please answer the all questions!");
+    }
+
+  }
+});
+
+Template.CompanyLanguageTestResponse.helpers({
+  template_title() {
+    const response = PredefinedLanguageTestResponses.findOne({ $and : [{ _id: FlowRouter.getParam('responseId')}, {user: Meteor.userId()}]});
+    if (response) {
+      return response.template_title;
+    }
+  },
+  response() {
+    return PredefinedLanguageTestResponses.findOne({ $and : [{ _id: FlowRouter.getParam('responseId')}, {user: Meteor.userId()}]});
+  }
+});
+
+
+
+
+Template.CompanyPreviewTechnicalTest.helpers({
+  template_title() {
+    const template = PredefinedTechnicalTemplates.findOne(FlowRouter.getParam('templateId'));
+    if (template) {
+      return template.title;
+    }
+  },
+  questions() {
+    const template = PredefinedTechnicalTemplates.findOne(FlowRouter.getParam('templateId'));
+    if (template) {
+      const all_questions = PredefinedTechnicalQuestions.find({ $and : [{ level: template.level }, {related_to: template.sector }]}).fetch();
+      // burada cikan sonuclari shuffle ediyoruz / karistiriyoruz
+      for(let i=0; i<all_questions.length;i++) {
+        const rnd = Math.floor(Math.random() * all_questions.length);
+        const tmp = all_questions[i];
+        all_questions[i] = all_questions[rnd];
+        all_questions[rnd] = tmp;
+      }
+      //console.log(all_questions.slice(0,template.numquestions));
+      return all_questions.slice(0,template.numquestions);
+    }
+  }
+});
+
+Template.CompanyPreviewTechnicalTest.events({
+  'click #submit-button'(event, instance) {
+
+    const question_ids = new Array();
+    const selecteds = new Array();
+    const field_validations = {};
+
+    for(let i=0; i<$('label[id=question]').length;i++) {
+      const id = $('label[id=question]')[i].attributes.for.value;
+      const selected = $(`.formradio input[name=${id}]:checked`).val();
+      question_ids.push(id);
+      selecteds.push(parseInt(selected));
+      field_validations[id] = 'checked';
+    }
+
+    $('.ui.form')
+      .form({
+        fields: field_validations
+    });
+
+
+    if ($('.ui.form').form('is valid')) {
+      Meteor.call("calculate_score_for_tech_test", question_ids, selecteds, FlowRouter.getParam('templateId'), function(err, data) {
+        if (!err) {
+          toastr.info("Your response has been saved!");
+          FlowRouter.go('preview_tech_test_response', { responseId: data });
+        }else {
+          toastr.warning(err.reason);
+        }
+      });
+    }else {
+      toastr.warning("Please answer the all questions!");
+    }
+
+  }
+});
+
+Template.CompanyTechnicalTestResponse.helpers({
+  template_title() {
+    const response = PredefinedTechnicalTestResponses.findOne({ $and : [{ _id: FlowRouter.getParam('responseId')}, {user: Meteor.userId()}]});
+    if (response) {
+      return response.template_title;
+    }
+  },
+  response() {
+    return PredefinedTechnicalTestResponses.findOne({ $and : [{ _id: FlowRouter.getParam('responseId')}, {user: Meteor.userId()}]});
+  }
+});

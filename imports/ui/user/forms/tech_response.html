@@ -1,0 +1,47 @@
+<template name="UserTechTestResponseLayout">
+
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
+      <a class="item" href="{{ pathFor 'list_forms'}}">Back to forms</a>
+    </div>
+  </div>
+
+
+  <div class="ui container company-layout" style="margin-top:60px;">
+    <div class="ui stackable grid centered">
+      <div class="ten wide column">
+        <div class="ui form">
+          <h1>{{ template_title }}</h1>
+          <div class="ui divider"></div>
+
+          {{#each questions }}
+
+            <h2><label id="question" for="{{ id }}">{{ question }}</label></h2>
+
+            <div class="grouped fields formradio">
+              {{#each options }}
+                <div class="field">
+                  <div class="ui radio checkbox formradio">
+                    <input type="radio" name="{{ ../id }}" tabindex="0" class="hidden" value="{{ index }}">
+                    <label>{{ option }}</label>
+                  </div>
+                </div>
+              {{/each}}
+            </div>
+            <script type="text/javascript">
+              $('.ui.radio.checkbox.formradio').checkbox();
+            </script>
+
+          {{else}}
+            <h3>There is no question for this test!</h3>
+          {{/each}}
+
+          {{#if questions }}
+            <div class="ui button positive submit" id="submit-button">Submit</div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

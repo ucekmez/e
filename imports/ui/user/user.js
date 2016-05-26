@@ -34,6 +34,11 @@ userRoutes.route('/', { name: 'user_dashboard',
 userRoutes.route('/form/:formId', { name: 'user_formresponse',
   action() { BlazeLayout.render('UserFormResponseLayout'); } });
 
+userRoutes.route('/test/lang/:formId', { name: 'user_langtestresponse',
+  action() { BlazeLayout.render('UserLangTestResponseLayout'); } });
+userRoutes.route('/test/tech/:formId', { name: 'user_techtestresponse',
+  action() { BlazeLayout.render('UserTechTestResponseLayout'); } });
+
 userRoutes.route('/PI/:piId', { name: 'user_piresponse',
   action() { BlazeLayout.render('UserPIResponseLayout'); } });
 

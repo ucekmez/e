@@ -104,6 +104,7 @@ Template.CompanyListPICombinations.events({
 //////////
 
 Template.CompanyPreviewPI.helpers({
+  // burada shuffle ediyoruz
   pi() {
     const combination = PIGroups.findOne(FlowRouter.getParam('piId'));
     if (combination) {

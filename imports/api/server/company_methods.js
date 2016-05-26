@@ -1,4 +1,4 @@
-import { Forms, Responses, FormResponses } from '/imports/api/collections/forms.js';
+import { Forms, Responses, FormResponses, PredefinedLanguageTemplates, PredefinedTechnicalTemplates, PredefinedLanguageQuestions, PredefinedTechnicalQuestions, PredefinedLanguageTestResponses, PredefinedTechnicalTestResponses } from '/imports/api/collections/forms.js';
 import { Slides, Keynotes, KeynoteResponses } from '/imports/api/collections/keynotes.js';
 import { Positions, RecruitmentProcesses, SingleProcesses } from '/imports/api/collections/positions.js';
 import { InterviewQuestions, VideoResponses, Videos } from '/imports/api/collections/videos.js';
@@ -50,6 +50,8 @@ Meteor.methods({
 
 
   remove_form(id) { Forms.remove(id); },
+  remove_language_test(id) { PredefinedLanguageTemplates.remove(id); },
+  remove_technical_test(id) { PredefinedTechnicalTemplates.remove(id); },
 
   update_form_payload(id, payload) {
     Forms.update({ _id: id }, { $set: { payload: payload } });
@@ -557,5 +559,135 @@ Meteor.methods({
       return rec_process_id;
     }
   },
+
+
+  /////////////// predefined tests
+  create_new_language_test_template(testname, testlanguage, numberofquestions, level) {
+    const template_id = PredefinedLanguageTemplates.insert({
+      title: testname,
+      user: Meteor.userId(),
+      language: testlanguage,
+      level: level,
+      numquestions: numberofquestions,
+    });
+
+    return template_id;
+  },
+
+  create_new_technical_test_template(testname, sector, level, numberofquestions) {
+    const template_id = PredefinedTechnicalTemplates.insert({
+      title: testname,
+      user: Meteor.userId(),
+      sector: sector,
+      level: level,
+      numquestions: numberofquestions,
+    });
+
+    return template_id;
+  },
+
+  calculate_score_for_lang_test(question_ids, selecteds, template_id) {
+    const already_exists = PredefinedLanguageTestResponses.findOne({ $and : [{ user: Meteor.userId()}, {template: template_id}]});
+
+    const max_points_for_one_question = 100.0 / question_ids.length; // bir sorudan alinabilecek max puan
+
+    report = new Array();
+    totalpoints = 0;
+    for(let i=0; i<question_ids.length; i++) {
+      const question = PredefinedLanguageQuestions.findOne({id : question_ids[i] });
+
+      answer = {};
+      answer['question'] = question.question;
+      answer['answer'] = question.options[selecteds[i]].option;
+
+      if (question.answer === selecteds[i]) {
+        answer['result'] = true;
+        answer['points'] = max_points_for_one_question.toFixed(2);
+        totalpoints += max_points_for_one_question;
+      }else {
+        answer['result'] = false;
+        answer['points'] = 0;
+      }
+      report.push(answer);
+    }
+
+    const user = Meteor.user();
+    let user_name = "";
+    if (user.profile && user.profile.name) {
+      user_name = user.profile.name;
+    }
+    let user_email = "";
+    if (user.emails) {
+      user_email = user.emails[0].address;
+    }
+
+    const template = PredefinedLanguageTemplates.findOne(template_id);
+
+    const response_id = PredefinedLanguageTestResponses.insert({
+      user: Meteor.userId(),
+      user_name: user_name,
+      email: user_email,
+      report: report,
+      totalpoints: totalpoints.toFixed(2),
+      template: template_id,
+      template_title: template.title,
+      createdAt: new Date(),
+    });
+
+    return response_id;
+  },
+
+  calculate_score_for_tech_test(question_ids, selecteds, template_id) {
+    const already_exists = PredefinedTechnicalTestResponses.remove({ $and : [{ user: Meteor.userId()}, {template: template_id}]});
+
+    const max_points_for_one_question = 100.0 / question_ids.length; // bir sorudan alinabilecek max puan
+
+    report = new Array();
+    totalpoints = 0;
+    for(let i=0; i<question_ids.length; i++) {
+      const question = PredefinedTechnicalQuestions.findOne({id : question_ids[i] });
+
+      answer = {};
+      answer['question'] = question.question;
+      answer['answer'] = question.options[selecteds[i]].option;
+
+      if (question.answer === selecteds[i]) {
+        answer['result'] = true;
+        answer['points'] = max_points_for_one_question.toFixed(2);
+        totalpoints += max_points_for_one_question;
+      }else {
+        answer['result'] = false;
+        answer['points'] = 0;
+      }
+      report.push(answer);
+    }
+
+    const user = Meteor.user();
+    let user_name = "";
+    if (user.profile && user.profile.name) {
+      user_name = user.profile.name;
+    }
+    let user_email = "";
+    if (user.emails) {
+      user_email = user.emails[0].address;
+    }
+
+    const template = PredefinedTechnicalTemplates.findOne(template_id);
+
+
+    const response_id = PredefinedTechnicalTestResponses.insert({
+      user: Meteor.userId(),
+      user_name: user_name,
+      email: user_email,
+      report: report,
+      totalpoints: totalpoints.toFixed(2),
+      template: template_id,
+      template_title: template.title,
+      createdAt: new Date(),
+    });
+
+    return response_id;
+  },
+
 
 });

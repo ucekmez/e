@@ -2,9 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import { Forms } from '/imports/api/collections/forms.js'; // Forms collections
+import { Forms, Responses, FormResponses, PredefinedLanguageTemplates, PredefinedTechnicalTemplates, PredefinedLanguageQuestions, PredefinedTechnicalQuestions, PredefinedLanguageTestResponses, PredefinedTechnicalTestResponses } from '/imports/api/collections/forms.js'; // Forms collections
 
 import './form_response.html'; // UserFormResponseLayout
+import './lang_response.html'; // UserLangTestResponseLayout
+import './tech_response.html'; // UserTechTestResponseLayout
 
 
 Template.UserFormResponseLayout.helpers({
@@ -84,6 +86,72 @@ Template.UserFormResponseLayout.events({
       });
     }else {
       toastr.warning("Please answer the required questions!");
+    }
+
+  }
+});
+
+
+
+
+///////// lang and tech tests
+
+Template.UserLangTestResponseLayout.helpers({
+  template_title() {
+    const template = PredefinedLanguageTemplates.findOne(FlowRouter.getParam('templateId'));
+    if (template) {
+      return template.title;
+    }
+  },
+  questions() {
+    const template = PredefinedLanguageTemplates.findOne(FlowRouter.getParam('templateId'));
+    if (template) {
+      const all_questions = PredefinedLanguageQuestions.find({ $and : [{ level: template.level }, {language: template.language }]}).fetch();
+      // burada cikan sonuclari shuffle ediyoruz / karistiriyoruz
+      for(let i=0; i<all_questions.length;i++) {
+        const rnd = Math.floor(Math.random() * all_questions.length);
+        const tmp = all_questions[i];
+        all_questions[i] = all_questions[rnd];
+        all_questions[rnd] = tmp;
+      }
+      //console.log(all_questions.slice(0,template.numquestions));
+      return all_questions.slice(0,template.numquestions);
+    }
+  }
+});
+
+Template.UserLangTestResponseLayout.events({
+  'click #submit-button'(event, instance) {
+
+    const question_ids = new Array();
+    const selecteds = new Array();
+    const field_validations = {};
+
+    for(let i=0; i<$('label[id=question]').length;i++) {
+      const id = $('label[id=question]')[i].attributes.for.value;
+      const selected = $(`.formradio input[name=${id}]:checked`).val();
+      question_ids.push(id);
+      selecteds.push(parseInt(selected));
+      field_validations[id] = 'checked';
+    }
+
+    $('.ui.form')
+      .form({
+        fields: field_validations
+    });
+
+
+    if ($('.ui.form').form('is valid')) {
+      Meteor.call("calculate_score_for_lang_test", question_ids, selecteds, FlowRouter.getParam('templateId'), function(err, data) {
+        if (!err) {
+          toastr.info("Your response has been saved!");
+          FlowRouter.go('preview_lang_test_response', { responseId: data });
+        }else {
+          toastr.warning(err.reason);
+        }
+      });
+    }else {
+      toastr.warning("Please answer the all questions!");
     }
 
   }

@@ -19,8 +19,62 @@
     </tbody>
   </table>
   <div class="ui divider"></div>
+
+
+  <div class="ui info message">
+    <i class="close icon"></i>
+    <div class="header">
+      Boost your recruitment process with pre-defined language and technical tests!
+    </div>
+    <div class="ui divider"></div>
+    <div class="inline field">
+      <div class="ui button add-lang-test">
+        Create a Language Test
+      </div>
+      <div class="ui button add-tech-test">
+        Create a Technical Test
+      </div>
+    </div>
+  </div>
+
+  <div class="ui three cards">
+    {{#each predefinedlanguagetemplates}}
+      <div class="fluid card">
+        <div class="content">
+          <div class="header">{{ title }}</div>
+          <div class="meta">Language Test</div>
+          <div class="description">
+            <a>{{ numquestions }}</a>-question <a>{{ level }}</a>-level <a>{{ language}}</a> test, created <a>{{ dateFromNow createdAt }}</a><br />
+            <a id="preview-lang-test-action" href="{{ pathFor 'preview_lang_test' templateId=_id }}"><i class="large green keyboard icon" data-content="See it in action!" data-variation="inverted"></i></a>
+            <a id="preview-lang-test-response-action"><i class="large blue unhide icon" data-content="Preview the response" data-variation="inverted"></i></a>
+            <a id="export-langtest-to-applicants" style="cursor:pointer;"><i class="large black external share icon" data-content="Export to your applicants" data-variation="inverted"></i></a>
+            <a id="list-applicant-form-responses" href="{{ pathFor 'list_form_responses' formId=_id }}" style="cursor:pointer;margin-right:10px;"><i class="large grey users icon" data-content="List applicant responses" data-variation="inverted"></i></a>
+            <a id="remove-language-test" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove" data-variation="inverted"></i></a>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+    {{#each predefinedtechnicaltemplates}}
+      <div class="fluid card">
+        <div class="content">
+          <div class="header">{{ title }}</div>
+          <div class="meta">Technical Test</div>
+          <div class="description">
+            <a>{{ numquestions }}</a>-question <a>{{ level }}</a>-level <a>{{ sector }}</a> test, created <a>{{ dateFromNow createdAt }}</a><br />
+            <a id="preview-form-action" href="{{ pathFor 'preview_tech_test' templateId=_id }}"><i class="large green keyboard icon" data-content="See it in action!" data-variation="inverted"></i></a>
+            <a id="preview-tech-test-response-action"><i class="large blue unhide icon" data-content="Preview the response" data-variation="inverted"></i></a>
+            <a id="export-techtest-to-applicants" style="cursor:pointer;"><i class="large black external share icon" data-content="Export to your applicants" data-variation="inverted"></i></a>
+            <a id="list-applicant-form-responses" href="{{ pathFor 'list_form_responses' formId=_id }}" style="cursor:pointer;margin-right:10px;"><i class="large grey users icon" data-content="List applicant responses" data-variation="inverted"></i></a>
+            <a id="remove-technical-test" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove" data-variation="inverted"></i></a>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
   <table class="ui very basic padded table">
     <tbody>
+
       {{#each forms}}
         <tr>
           <td>
@@ -62,7 +116,9 @@
       }, 1000);
     </script>
   {{/if}}
-  {{> CompanyExportFormToApplicant}}
+  {{> CompanyExportFormToApplicant }}
+  {{> CompanyAddLanguageTest }}
+  {{> CompanyAddTechnicalTest }}
 </template>
 
 
@@ -83,4 +139,110 @@
       </div>
     </div>
   </div>
+</template>
+
+
+
+
+<template name="CompanyAddLanguageTest">
+  <div class="ui basic modal add-new-language-test">
+    <div class="ui container">
+      <div class="ui grid centered">
+        <div class="twelve wide column add-new-language-test">
+          <!-- form div starts-->
+          <div class="ui inverted segment">
+            <div class="ui inverted form language">
+              <div class="field">
+                <label>Test Name</label>
+                <input type="text" placeholder="New Language Test" name="langtestname" id="langtestname" />
+              </div>
+
+              <div class="field">
+                <label>Choose Language </label>
+                <select class="ui dropdown" id="selecttestlanguage" name="selecttestlanguage">
+                  <option value="">Language</option>
+                  <option value="english">English</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Choose Level </label>
+                <select class="ui dropdown" id="selectlangtestlevel" name="selectlangtestlevel">
+                  <option value="">Level</option>
+                  <option value="easy">Easy</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>How many questions?</label>
+                <input type="number" placeholder="5" value="5" min="1" max="20" name="langnumberofquestions" id="langnumberofquestions" />
+              </div>
+
+              <div class="actions">
+                <div class="ui button cancel" id="dismiss-button">Dismiss</div>
+                <div class="ui button positive submit" id="submit-button">Create</div>
+              </div>
+            </div>
+          </div>
+          <!-- /form div ends-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">$('#selecttestlanguage').dropdown();$('#selectlangtestlevel').dropdown();</script>
+</template>
+
+
+<template name="CompanyAddTechnicalTest">
+  <div class="ui basic modal add-new-technical-test">
+    <div class="ui container">
+      <div class="ui grid centered">
+        <div class="twelve wide column add-new-technical-test">
+          <!-- form div starts-->
+          <div class="ui inverted segment">
+            <div class="ui inverted form technical">
+              <div class="field">
+                <label>Test Name</label>
+                <input type="text" placeholder="New Technical Test" name="techtestname" id="techtestname" />
+              </div>
+
+              <div class="field">
+                <label>Choose Sector</label>
+                <select class="ui dropdown" id="selecttechsector" name="selecttechsector">
+                  <option value="">Sector</option>
+                  {{#each sectors }}
+                    <option value="{{ slug }}">{{ name }}</option>
+                  {{/each}}
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Choose Level </label>
+                <select class="ui dropdown" id="selecttechtestlevel" name="selecttechtestlevel">
+                  <option value="">Level</option>
+                  <option value="easy">Easy</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>How many questions?</label>
+                <input type="number" placeholder="5" value="5" min="1" max="20" name="technumberofquestions" id="technumberofquestions" />
+              </div>
+
+              <div class="actions">
+                <div class="ui button cancel" id="dismiss-button">Dismiss</div>
+                <div class="ui button positive submit" id="submit-button">Create</div>
+              </div>
+            </div>
+          </div>
+          <!-- /form div ends-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">$('#selecttechtestlevel').dropdown();$('#selecttechsector').dropdown();</script>
 </template>

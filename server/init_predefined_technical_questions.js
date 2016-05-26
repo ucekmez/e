@@ -7,11 +7,11 @@ Meteor.startup(() => {
     technical_software_questions = [
       { question: "Which language is not a true object-oriented programming language?",
         options: [
-        	"VB.NET",
-        	"VB 6",
-        	"C++",
-        	"C#",
-        	"Java"
+        	{index: 0, option: "VB.NET"},
+        	{index: 1, option: "VB 6"},
+        	{index: 2, option: "C++"},
+        	{index: 3, option: "C#"},
+        	{index: 4, option: "Java"}
         ],
         answer: 1,
         level: "easy",
@@ -20,11 +20,11 @@ Meteor.startup(() => {
       },
       { question: "A GUI",
         options: [
-          "uses buttons, menus, and icons.",
-          "should be easy for a user to manipulate.",
-          "stands for Graphic Use Interaction.",
-          "Both a and b.",
-          "All of the above."
+          {index: 0, option: "uses buttons, menus, and icons."},
+          {index: 1, option: "should be easy for a user to manipulate."},
+          {index: 2, option: "stands for Graphic Use Interaction."},
+          {index: 3, option: "Both a and b."},
+          {index: 4, option: "All of the above."}
         ],
         answer: 3,
         level: "easy",
@@ -33,11 +33,11 @@ Meteor.startup(() => {
       },
       { question: "What does IDE stand for?",
         options: [
-          "Integrated Development Environment",
-          "Integrated Design Environment",
-          "Interior Development Environment",
-          "Interior Design Environment",
-          "None of the above."
+          {index: 0, option: "Integrated Development Environment"},
+          {index: 1, option: "Integrated Design Environment"},
+          {index: 2, option: "Interior Development Environment"},
+          {index: 3, option: "Interior Design Environment"},
+          {index: 4, option: "None of the above."}
         ],
         answer: 0,
         level: "easy",
@@ -46,11 +46,11 @@ Meteor.startup(() => {
       },
       { question: "Visual Studio .NET provides which feature:",
         options: [
-          "debugging.",
-          "application deployment.",
-          "syntax checking.",
-          "Both a and b.",
-          "All of the above."
+          {index: 0, option: "debugging."},
+          {index: 1, option: "application deployment."},
+          {index: 2, option: "syntax checking."},
+          {index: 3, option: "Both a and b."},
+          {index: 4, option: "All of the above."}
         ],
         answer: 4,
         level: "easy",
@@ -59,11 +59,11 @@ Meteor.startup(() => {
       },
       { question: "Which does the solution explorer not display?",
         options: [
-          "Form Properties",
-          "Reference Folder",
-          "Form File",
-          "Assemble File",
-          "All are part of the solution explorer."
+          {index: 0, option: "Form Properties"},
+          {index: 1, option: "Reference Folder"},
+          {index: 2, option: "Form File"},
+          {index: 3, option: "Assemble File"},
+          {index: 4, option: "All are part of the solution explorer."}
         ],
         answer: 0,
         level: "easy",
@@ -72,11 +72,11 @@ Meteor.startup(() => {
       },
       { question: "Which task is accomplished in the Code editor?",
         options: [
-          "Adding forms to the project",
-          "Adding controls to the form",
-          "Adding event procedures to the form",
-          "Both a and b.",
-          "All of the above."
+          {index: 0, option: "Adding forms to the project"},
+          {index: 1, option: "Adding controls to the form"},
+          {index: 2, option: "Adding event procedures to the form"},
+          {index: 3, option: "Both a and b."},
+          {index: 4, option: "All of the above."}
         ],
         answer: 2,
         level: "easy",
@@ -85,11 +85,11 @@ Meteor.startup(() => {
       },
       { question: "Which is not a feature of a GUI that makes learning a program easy for users?",
         options: [
-          "Online help",
-          "WYSIWYG formatting",
-          "Dialog boxes",
-          "Detailed key strokes and commands",
-          "Icons"
+          {index: 0, option: "Online help"},
+          {index: 1, option: "WYSIWYG formatting"},
+          {index: 2, option: "Dialog boxes"},
+          {index: 3, option: "Detailed key strokes and commands"},
+          {index: 4, option: "Icons"}
         ],
         answer: 3,
         level: "moderate",
@@ -98,11 +98,11 @@ Meteor.startup(() => {
       },
       { question: "An object is composed of:",
         options: [
-          "properties.",
-          "methods.",
-          "events.",
-          "Both a and b.",
-          "All of above."
+          {index: 0, option: "properties."},
+          {index: 1, option: "methods."},
+          {index: 2, option: "events."},
+          {index: 3, option: "Both a and b."},
+          {index: 4, option: "All of above."}
         ],
         answer: 4,
         level: "moderate",
@@ -111,11 +111,11 @@ Meteor.startup(() => {
       },
       { question: "Which statement about objects is true?",
         options: [
-          "One object is used to create one class. ",
-          "One class is used to create one object.",
-          "One object can create many classes.",
-          "One class can create many objects.",
-          "There is no relationship between objects and classes."
+          {index: 0, option: "One object is used to create one class. "},
+          {index: 1, option: "One class is used to create one object."},
+          {index: 2, option: "One object can create many classes."},
+          {index: 3, option: "One class can create many objects."},
+          {index: 4, option: "There is no relationship between objects and classes."}
         ],
         answer: 3,
         level: "moderate",
@@ -124,11 +124,11 @@ Meteor.startup(() => {
       },
       { question: "Which is not true about forms and controls in Visual Basic?",
         options: [
-          "They are pre-built.",
-          "They are graphical objects.",
-          "New versions of the classes must be created with each project.",
-          "Buttons can be created with the drag and drop method.",
-          "All of the above are true."
+          {index: 0, option: "They are pre-built."},
+          {index: 1, option: "They are graphical objects."},
+          {index: 2, option: "New versions of the classes must be created with each project."},
+          {index: 3, option: "Buttons can be created with the drag and drop method."},
+          {index: 4, option: "All of the above are true."}
         ],
         answer: 2,
         level: "moderate",
@@ -137,11 +137,11 @@ Meteor.startup(() => {
       },
       { question: "Which is not a property of the Common control class?",
         options: [
-          "Show",
-          "BackColor",
-          "Font",
-          "ForeColor",
-          "Name"
+          {index: 0, option: "Show"},
+          {index: 1, option: "BackColor"},
+          {index: 2, option: "Font"},
+          {index: 3, option: "ForeColor"},
+          {index: 4, option: "Name"}
         ],
         answer: 0,
         level: "moderate",
@@ -150,11 +150,11 @@ Meteor.startup(() => {
       },
       { question: "Which property determines whether a control is displayed to the user?",
         options: [
-          "Hide",
-          "Show",
-          "Visible",
-          "Enabled",
-          "Cursor"
+          {index: 0, option: "Hide"},
+          {index: 1, option: "Show"},
+          {index: 2, option: "Visible"},
+          {index: 3, option: "Enabled"},
+          {index: 4, option: "Cursor"}
         ],
         answer: 2,
         level: "moderate",
@@ -163,11 +163,11 @@ Meteor.startup(() => {
       },
       { question: "The CancelButton property belongs to which object?",
         options: [
-          "Button",
-          "Form",
-          "Label",
-          "TextBox",
-          "Timer"
+          {index: 0, option: "Button"},
+          {index: 1, option: "Form"},
+          {index: 2, option: "Label"},
+          {index: 3, option: "TextBox"},
+          {index: 4, option: "Timer"}
         ],
         answer: 1,
         level: "moderate",
@@ -176,11 +176,11 @@ Meteor.startup(() => {
       },
       { question: "In event-driven programming an event is generated by:",
         options: [
-          "the system.",
-          "a user’s action.",
-          "the program itself.",
-          "Both a and b.",
-          "All of the above."
+          {index: 0, option: "the system."},
+          {index: 1, option: "a user’s action."},
+          {index: 2, option: "the program itself."},
+          {index: 3, option: "Both a and b."},
+          {index: 4, option: "All of the above."}
         ],
         answer: 4,
         level: "moderate",
@@ -189,11 +189,11 @@ Meteor.startup(() => {
       },
       { question: "Which is not a common control event?",
         options: [
-          "Click",
-          "SingleClick",
-          "DoubleClick",
-          "MouseMove",
-          "MouseDown"
+          {index: 0, option: "Click"},
+          {index: 1, option: "SingleClick"},
+          {index: 2, option: "DoubleClick"},
+          {index: 3, option: "MouseMove"},
+          {index: 4, option: "MouseDown"}
         ],
         answer: 1,
         level: "moderate",
@@ -202,11 +202,11 @@ Meteor.startup(() => {
       },
       { question: "The Activated event is found only in which object?",
         options: [
-          "Form",
-          "Button ",
-          "TextBox",
-          "Label",
-          "Timer"
+          {index: 0, option: "Form"},
+          {index: 1, option: "Button "},
+          {index: 2, option: "TextBox"},
+          {index: 3, option: "Label"},
+          {index: 4, option: "Timer"}
         ],
         answer: 0,
         level: "hard",
@@ -215,11 +215,11 @@ Meteor.startup(() => {
       },
       { question: "The analysis phase of software development involves:",
         options: [
-          "collecting the requirements about what the program will accomplish.",
-          "creating a detailed plan on how the program will accomplish the requirements.",
-          "writing the software with a program such as VB.NET.",
-          "Both a and b.",
-          "All of the above."
+          {index: 0, option: "collecting the requirements about what the program will accomplish."},
+          {index: 1, option: "creating a detailed plan on how the program will accomplish the requirements."},
+          {index: 2, option: "writing the software with a program such as VB.NET."},
+          {index: 3, option: "Both a and b."},
+          {index: 4, option: "All of the above."}
         ],
         answer: 0,
         level: "hard",
@@ -228,11 +228,11 @@ Meteor.startup(() => {
       },
       { question: "Which phase of project development typically costs the most?",
         options: [
-          "Analysis",
-          "Design",
-          "Implementation",
-          "Maintenance",
-          "Documentation"
+          {index: 0, option: "Analysis"},
+          {index: 1, option: "Design"},
+          {index: 2, option: "Implementation"},
+          {index: 3, option: "Maintenance"},
+          {index: 4, option: "Documentation"}
         ],
         answer: 3,
         level: "hard",
@@ -241,11 +241,11 @@ Meteor.startup(() => {
       },
       { question: "The Rnd statement will generate a(n):",
         options: [
-          "decimal value between 0.01 and 1.00.",
-          "integer value between 0.01 and 1.00.",
-          "decimal value between 0.0 and 1.0.",
-          "integer value between 0.0 and 1.0.",
-          "decimal value between 0.0 and up to 1.0, but not including 1.0."
+          {index: 0, option: "decimal value between 0.01 and 1.00."},
+          {index: 1, option: "integer value between 0.01 and 1.00."},
+          {index: 2, option: "decimal value between 0.0 and 1.0."},
+          {index: 3, option: "integer value between 0.0 and 1.0."},
+          {index: 4, option: "decimal value between 0.0 and up to 1.0, but not including 1.0."}
         ],
         answer: 4,
         level: "hard",
@@ -254,11 +254,11 @@ Meteor.startup(() => {
       },
       { question: "A click event procedure stud for the label control can be created by:",
         options: [
-          "selecting the object and event from the code editor window’s drop-down boxes.",
-          "typing the code in the code editor window.",
-          "by double clicking the control.",
-          "Both a and b.",
-          "All of the above."
+          {index: 0, option: "selecting the object and event from the code editor window’s drop-down boxes."},
+          {index: 1, option: "typing the code in the code editor window."},
+          {index: 2, option: "by double clicking the control."},
+          {index: 3, option: "Both a and b."},
+          {index: 4, option: "All of the above."}
         ],
         answer: 4,
         level: "hard",

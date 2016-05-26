@@ -7,9 +7,9 @@ Meteor.startup(() => {
     foreign_language_english_questions = [
       { question: "_____  name is Robert.",
         options: [
-        	"Me",
-        	"I",
-        	"My"
+        	{index: 0, option: "Me"},
+        	{index: 1, option: "I"},
+        	{index: 2, option: "My"}
         ],
         answer: 2,
         level: "easy",
@@ -18,9 +18,9 @@ Meteor.startup(() => {
       },
       { question: "They _____  from Spain.",
         options: [
-          "is",
-          "are",
-          "do"
+          {index: 0, option: "is"},
+          {index: 1, option: "are"},
+          {index: 2, option: "do"}
         ],
         answer: 1,
         level: "easy",
@@ -29,9 +29,9 @@ Meteor.startup(() => {
       },
       { question: "_____  are you from?",
         options: [
-          "What",
-          "Who",
-          "Where"
+          {index: 0, option: "What"},
+          {index: 1, option: "Who"},
+          {index: 2, option: "Where"}
         ],
         answer: 2,
         level: "easy",
@@ -40,9 +40,9 @@ Meteor.startup(() => {
       },
       { question: "What do you do? I’m _____  student.",
         options: [
-          "a",
-          "the",
-          "one"
+          {index: 0, option: "a"},
+          {index: 1, option: "the"},
+          {index: 2, option: "one"}
         ],
         answer: 0,
         level: "easy",
@@ -51,9 +51,9 @@ Meteor.startup(() => {
       },
       { question: "Peter _____  at seven o’clock.",
         options: [
-          "goes up",
-          "gets up",
-          "gets"
+          {index: 0, option: "goes up"},
+          {index: 1, option: "gets up"},
+          {index: 2, option: "gets"}
         ],
         answer: 1,
         level: "easy",
@@ -62,9 +62,9 @@ Meteor.startup(() => {
       },
       { question: "_____  you like this DVD?",
         options: [
-          "Are",
-          "Have",
-          "Do"
+          {index: 0, option: "Are"},
+          {index: 1, option: "Have"},
+          {index: 2, option: "Do"}
         ],
         answer: 2,
         level: "easy",
@@ -73,9 +73,9 @@ Meteor.startup(() => {
       },
       { question: "We _____  live in a flat.",
         options: [
-          "don't",
-          "hasn't",
-          "doesn't"
+          {index: 0, option: "don't"},
+          {index: 1, option: "hasn't"},
+          {index: 2, option: "doesn't"}
         ],
         answer: 0,
         level: "easy",
@@ -84,9 +84,9 @@ Meteor.startup(() => {
       },
       { question: "Wednesday, Thursday, Friday, _____ ",
         options: [
-          "Saturday",
-          "Tuesday",
-          "Monday"
+          {index: 0, option: "Saturday"},
+          {index: 1, option: "Tuesday"},
+          {index: 2, option: "Monday"}
         ],
         answer: 0,
         level: "easy",
@@ -95,9 +95,9 @@ Meteor.startup(() => {
       },
       { question: "_____  he play tennis?",
         options: [
-          "Where",
-          "Does",
-          "Do"
+          {index: 0, option: "Where"},
+          {index: 1, option: "Does"},
+          {index: 2, option: "Do"}
         ],
         answer: 1,
         level: "easy",
@@ -106,9 +106,9 @@ Meteor.startup(() => {
       },
       { question: "Have you _____  a car?",
         options: [
-          "any",
-          "have",
-          "got"
+          {index: 0, option: "any"},
+          {index: 1, option: "have"},
+          {index: 2, option: "got"}
         ],
         answer: 2,
         level: "easy",

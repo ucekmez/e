@@ -93,6 +93,18 @@ companyFormRoutes.route('/response/:responseId/', { name: 'preview_applicant_for
   triggersExit: [function() { Session.set("coming_from", null); }],
   action: function(params) { BlazeLayout.render('CompanyPreviewApplicantFormResponse'); } });
 
+// preview pre-defined tests
+companyFormRoutes.route('/preview/lang/:templateId', { name: 'preview_lang_test',
+  action: function(params) { BlazeLayout.render('CompanyPreviewLanguageTest'); } });
+companyFormRoutes.route('/preview/tech/:templateId', { name: 'preview_tech_test',
+  action: function(params) { BlazeLayout.render('CompanyPreviewTechnicalTest'); } });
+
+companyFormRoutes.route('/response/lang/:responseId', { name: 'preview_lang_test_response',
+  action: function(params) { BlazeLayout.render('CompanyLanguageTestResponse'); } });
+companyFormRoutes.route('/response/tech/:responseId', { name: 'preview_tech_test_response',
+  action: function(params) { BlazeLayout.render('CompanyTechnicalTestResponse'); } });
+
+
 
 
 ///// pis routes
