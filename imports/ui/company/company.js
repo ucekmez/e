@@ -104,6 +104,23 @@ companyFormRoutes.route('/response/lang/:responseId', { name: 'preview_lang_test
 companyFormRoutes.route('/response/tech/:responseId', { name: 'preview_tech_test_response',
   action: function(params) { BlazeLayout.render('CompanyTechnicalTestResponse'); } });
 
+companyFormRoutes.route('/list/lang/responses/:templateId', { name: 'list_lang_test_responses',
+  triggersEnter: [function() { Session.set("coming_from", "single_forms"); }],
+  breadcrumb: {
+    parent: "list_forms",
+    title: "List Responses"
+  },
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListLangApplicantFormResponses' }); } });
+
+companyFormRoutes.route('/list/tech/responses/:templateId', { name: 'list_tech_test_responses',
+  triggersEnter: [function() { Session.set("coming_from", "single_forms"); }],
+  breadcrumb: {
+    parent: "list_forms",
+    title: "List Responses"
+  },
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListTechApplicantFormResponses' }); } });
 
 
 

@@ -145,7 +145,69 @@ Template.UserLangTestResponseLayout.events({
       Meteor.call("calculate_score_for_lang_test", question_ids, selecteds, FlowRouter.getParam('templateId'), function(err, data) {
         if (!err) {
           toastr.info("Your response has been saved!");
-          FlowRouter.go('preview_lang_test_response', { responseId: data });
+          FlowRouter.go('home');
+        }else {
+          toastr.warning(err.reason);
+        }
+      });
+    }else {
+      toastr.warning("Please answer the all questions!");
+    }
+
+  }
+});
+
+
+Template.UserTechTestResponseLayout.helpers({
+  template_title() {
+    const template = PredefinedTechnicalTemplates.findOne(FlowRouter.getParam('templateId'));
+    if (template) {
+      return template.title;
+    }
+  },
+  questions() {
+    const template = PredefinedTechnicalTemplates.findOne(FlowRouter.getParam('templateId'));
+    if (template) {
+      const all_questions = PredefinedTechnicalQuestions.find({ $and : [{ level: template.level }, {related_to: template.sector }]}).fetch();
+      // burada cikan sonuclari shuffle ediyoruz / karistiriyoruz
+      for(let i=0; i<all_questions.length;i++) {
+        const rnd = Math.floor(Math.random() * all_questions.length);
+        const tmp = all_questions[i];
+        all_questions[i] = all_questions[rnd];
+        all_questions[rnd] = tmp;
+      }
+      //console.log(all_questions.slice(0,template.numquestions));
+      return all_questions.slice(0,template.numquestions);
+    }
+  }
+});
+
+Template.UserTechTestResponseLayout.events({
+  'click #submit-button'(event, instance) {
+
+    const question_ids = new Array();
+    const selecteds = new Array();
+    const field_validations = {};
+
+    for(let i=0; i<$('label[id=question]').length;i++) {
+      const id = $('label[id=question]')[i].attributes.for.value;
+      const selected = $(`.formradio input[name=${id}]:checked`).val();
+      question_ids.push(id);
+      selecteds.push(parseInt(selected));
+      field_validations[id] = 'checked';
+    }
+
+    $('.ui.form')
+      .form({
+        fields: field_validations
+    });
+
+
+    if ($('.ui.form').form('is valid')) {
+      Meteor.call("calculate_score_for_tech_test", question_ids, selecteds, FlowRouter.getParam('templateId'), function(err, data) {
+        if (!err) {
+          toastr.info("Your response has been saved!");
+          FlowRouter.go('home');
         }else {
           toastr.warning(err.reason);
         }

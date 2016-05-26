@@ -587,7 +587,7 @@ Meteor.methods({
   },
 
   calculate_score_for_lang_test(question_ids, selecteds, template_id) {
-    const already_exists = PredefinedLanguageTestResponses.findOne({ $and : [{ user: Meteor.userId()}, {template: template_id}]});
+    PredefinedLanguageTestResponses.remove({ $and : [{ user: Meteor.userId()}, {template: template_id}]});
 
     const max_points_for_one_question = 100.0 / question_ids.length; // bir sorudan alinabilecek max puan
 
@@ -638,7 +638,7 @@ Meteor.methods({
   },
 
   calculate_score_for_tech_test(question_ids, selecteds, template_id) {
-    const already_exists = PredefinedTechnicalTestResponses.remove({ $and : [{ user: Meteor.userId()}, {template: template_id}]});
+    PredefinedTechnicalTestResponses.remove({ $and : [{ user: Meteor.userId()}, {template: template_id}]});
 
     const max_points_for_one_question = 100.0 / question_ids.length; // bir sorudan alinabilecek max puan
 
