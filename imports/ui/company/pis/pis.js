@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating';
-import { PIs, PIGroups, PIResponses } from '/imports/api/collections/pis.js'; // Personal Inventory collections
 import { FlowRouter } from 'meteor/kadira:flow-router';
+
+import { PIs, PIGroups, PIResponses } from '/imports/api/collections/pis.js'; // Personal Inventory collections
+import { Sectors } from '/imports/api/collections/positions.js'; // Positions collections
 
 import './create_new_pi.html';
 import './list_combinations.html';
@@ -72,6 +74,59 @@ Template.CompanyListPICombinations.helpers({
 });
 
 Template.CompanyListPICombinations.events({
+  'click .button.add-sector-pi'(event, instance) {
+    $('.modal.add-new-sectorbased-pi')
+      .modal({
+        //blurring: true,
+        onShow() {},
+        onHidden() {},
+        onDeny() {
+          $('.ui.form.sectorbasedpi').form('reset');
+          $('.ui.form.sectorbasedpi').form('clear');
+          Session.set("add-sectorbasedpi-success", false);
+        },
+        onApprove() {
+          $('.ui.form.technical')
+            .form({
+              fields: {
+                sectorbasedpiname : 'empty',
+                selectpisector    : 'empty',
+              }
+            });
+
+          if ($('.ui.form.technical').form('is valid')) {
+            const piname = $('#sectorbasedpiname').val();
+            const sector = $('#selectpisector').val();
+
+            Meteor.call('create_new_sectorbased_pi', piname, sector, function (err, data) {
+              if (err) {
+                toastr.error(err.reason);
+                Session.set("add-sectorbasedpi-success", false);
+              }else {
+                Session.set("add-sectorbasedpi-success", false);
+                $(".ui.form.sectorbasedpi").form('reset');
+                $(".ui.form.sectorbasedpi").form('clear');
+                toastr.success('New combination has been added!');
+                $('.modal.add-new-sectorbased-pi').modal('hide');
+              }
+            });
+
+            if (!Session.get("add-sectorbasedpi-success")) {
+              Session.set("add-sectorbasedpi-success", false);
+              return false;
+            }
+
+
+          }else {
+            toastr.error('Please correct the errors!');
+            return false;
+          }
+        }
+      })
+      .modal('show');
+  },
+
+
   'click #remove-combination'(event, instance) {
     Meteor.call('remove_combination', this._id);
   },
@@ -243,6 +298,13 @@ Template.CompanyPreviewApplicantPIResponse.helpers({
     if (pi_response) {
       return f_get_pi_response(pi_response);
     }
+  }
+});
+
+
+Template.CompanyAddSectorBasedPI.helpers({
+  sectors() {
+    return Sectors.find();
   }
 });
 

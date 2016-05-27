@@ -199,6 +199,20 @@ Template.CompanyExtendRecruitmentProcessS3.helpers({
         return document;
       });
   },
+  lang_tests() {
+    return PredefinedLanguageTemplates.find({ user: Meteor.userId() },{ sort: { createdAt: -1}})
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
+  },
+  tech_tests() {
+    return PredefinedLanguageTemplates.find({ user: Meteor.userId() },{ sort: { createdAt: -1}})
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
+  },
   description() {
     const rec_process = RecruitmentProcesses.findOne({ position: FlowRouter.getParam('positionId')});
     if (rec_process && rec_process.test) {

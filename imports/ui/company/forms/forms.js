@@ -7,9 +7,9 @@ import './edit_form.html'; // CompanyEditFormLayout CompanyEditForm
 import './list_forms.html'; // CompanyListForms
 import './preview_form.html'; // CompanyPreviewForm
 import './preview_language_test.html'; // CompanyPreviewLanguageTest
-import './language_test_resonse.html'; // CompanyLanguageTestResponse
+import './language_test_response.html'; // CompanyLanguageTestResponse
 import './preview_technical_test.html'; // CompanyPreviewTechnicalTest
-import './technical_test_resonse.html'; // CompanyTechnicalTestResponse
+import './technical_test_response.html'; // CompanyTechnicalTestResponse
 import './list_applicant_responses.html'; // CompanyListApplicantFormResponses
 import './list_lang_applicant_responses.html' // CompanyListLangApplicantFormResponses
 import './list_tech_applicant_responses.html' // CompanyListTechApplicantFormResponses
@@ -644,16 +644,23 @@ Template.CompanyPreviewLanguageTest.events({
 });
 
 Template.CompanyLanguageTestResponse.helpers({
-  template_title() {
-    const response = PredefinedLanguageTestResponses.findOne({ $and : [{ _id: FlowRouter.getParam('responseId')}, {user: Meteor.userId()}]});
-    if (response) {
-      return response.template_title;
-    }
-  },
   response() {
-    return PredefinedLanguageTestResponses.findOne({ $and : [{ _id: FlowRouter.getParam('responseId')}, {user: Meteor.userId()}]});
+    return PredefinedLanguageTestResponses.findOne(FlowRouter.getParam('responseId'));
   }
 });
+
+Template.CompanyPreviewApplicantLangTestResponse.helpers({
+  response() {
+    return PredefinedLanguageTestResponses.findOne(FlowRouter.getParam('responseId'));
+  }
+});
+
+Template.CompanyPreviewApplicantTechTestResponse.helpers({
+  response() {
+    return PredefinedTechnicalTestResponses.findOne(FlowRouter.getParam('responseId'));
+  }
+});
+
 
 
 

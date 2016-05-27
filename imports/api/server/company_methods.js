@@ -689,5 +689,16 @@ Meteor.methods({
     return response_id;
   },
 
-
+  create_new_sectorbased_pi(piname, sector) {
+    chosens = new Array();
+    if(sector === "textile") {}
+    if(sector === "health") {}
+    if(sector === "construction") {}
+    if(sector === "automotive") {}
+    if(sector === "service") {}
+    if(sector === "it") {}
+    if(sector === "manufacturing") {}
+    if(sector === "commercial") {}
+    if(sector === "retail") {}
+  }
 });

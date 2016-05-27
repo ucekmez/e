@@ -122,7 +122,13 @@ companyFormRoutes.route('/list/tech/responses/:templateId', { name: 'list_tech_t
   action: function() {
     BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListTechApplicantFormResponses' }); } });
 
+companyFormRoutes.route('/user/response/lang/:responseId/', { name: 'preview_applicant_langtest_response',
+  triggersExit: [function() { Session.set("coming_from", null); }],
+  action: function(params) { BlazeLayout.render('CompanyPreviewApplicantLangTestResponse'); } });
 
+companyFormRoutes.route('/user/response/tech/:responseId/', { name: 'preview_applicant_techtest_response',
+  triggersExit: [function() { Session.set("coming_from", null); }],
+  action: function(params) { BlazeLayout.render('CompanyPreviewApplicantTechTestResponse'); } });
 
 ///// pis routes
 

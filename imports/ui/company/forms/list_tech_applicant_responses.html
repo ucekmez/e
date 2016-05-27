@@ -31,7 +31,7 @@
             </h4>
           </td>
           <td class="single line right aligned">
-            <a id="preview-single-applicant-form-response" href="{{ pathFor 'preview_applicant_form_response' responseId=_id }}"><i class="large blue unhide icon" data-content="Preview the response" data-variation="inverted"></i></a>
+            <a id="preview-single-applicant-techtest-response" href="{{ pathFor 'preview_applicant_techtest_response' responseId=_id }}"><i class="large blue unhide icon" data-content="Preview the response" data-variation="inverted"></i></a>
           </td>
         </tr>
       {{else}}
@@ -47,4 +47,78 @@
       }, 1000);
     </script>
   {{/if}}
+</template>
+
+
+<!-- CompanyLanguageTestResponse ile ayni olmali-->
+<template name="CompanyPreviewApplicantTechTestResponse">
+
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="{{ pathFor 'home' }}" class="header item">Epply<sup>beta</sup></a>
+      {{#if coming_from_single_forms }}
+        <a class="item" href="{{ pathFor 'list_tech_test_responses' templateId=response.template}}">Back to responses</a>
+      {{else }}
+        <a class="item" href="{{ pathFor 'single_applicant_position_responses' applicationId=current_application_id }}">Back to applicant</a>
+      {{/if}}
+        <a class="item">
+          {{#if response.user_name}}
+            {{ response.user_name }}
+          {{else}}
+            {{ response.email}}
+          {{/if}}
+        </a>
+    </div>
+  </div>
+
+  <div class="ui container company-layout" style="margin-top:60px;">
+    <div class="ui stackable grid centered">
+      <div class="ten wide column">
+
+
+        <h2>{{ response.template_title }}
+          {{#if response}}
+            {{#if equals response.totalpoints 0 }}
+              <div class="ui red tag label">You have {{ response.totalpoints }} point!</div>
+            {{ else }}
+              <div class="ui teal tag label">You have {{ response.totalpoints }} total points!</div>
+            {{/if}}
+          {{/if}}
+        </h2>
+        <div class="ui divider"></div>
+        <div class="ui items">
+
+          {{#if response}}
+            {{#with response}}
+              {{#each report }}
+                <div class="item">
+                  <div class="content">
+                    <a class="header">{{ question }}</a>
+
+                      {{#if equals points 0}}
+                        <div class="ui left pointing red basic label">You have {{ points }} point!</div>
+                      {{else}}
+                        <div class="ui left pointing blue basic label">You have {{ points }} points!</div>
+                      {{/if}}
+
+                    <div class="description">
+                      <ul class="company-form-preview">
+                        {{#if result }} <!-- eger cevap dogru ise-->
+                          <li><i class="green checkmark box icon"></i><span style="color:green;font-weight:bold;">{{ answer }}</span></li>
+                        {{else}} <!-- eger cevap yanlis ise-->
+                          <li><i class="red minus square outline icon"></i><span style="color:red;">{{ answer }}</span></li>
+                        {{/if}}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              {{/each}}
+            {{/with}}
+          {{ else }}
+            <h3>There is no response for this form!</h3>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

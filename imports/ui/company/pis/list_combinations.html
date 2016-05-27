@@ -14,6 +14,22 @@
   </table>
   <div class="ui divider"></div>
 
+
+  <div class="ui info message">
+    <i class="close icon"></i>
+    <div class="header">
+      Boost your recruitment process with pre-defined sector-based combinations!
+    </div>
+    <div class="ui divider"></div>
+    <div class="inline field">
+      <div class="ui button add-sector-pi">
+        Create a Sector-based Personal Inventory
+      </div>
+    </div>
+  </div>
+
+
+
   <table class="ui very basic padded table">
     <tbody>
       {{#each combinations}}
@@ -59,7 +75,8 @@
     }, 1000);
   </script>
   {{/if}}
-  {{> CompanyExportPIToApplicant}}
+  {{> CompanyExportPIToApplicant }}
+  {{> CompanyAddSectorBasedPI }}
 </template>
 
 
@@ -80,4 +97,45 @@
       </div>
     </div>
   </div>
+</template>
+
+
+
+
+
+<template name="CompanyAddSectorBasedPI">
+  <div class="ui basic modal add-new-sectorbased-pi">
+    <div class="ui container">
+      <div class="ui grid centered">
+        <div class="twelve wide column add-new-sectorbased-pi">
+          <!-- form div starts-->
+          <div class="ui inverted segment">
+            <div class="ui inverted form sectorbasedpi">
+              <div class="field">
+                <label>PI Name</label>
+                <input type="text" placeholder="New PI" name="sectorbasedpiname" id="sectorbasedpiname" />
+              </div>
+
+              <div class="field">
+                <label>Choose Sector</label>
+                <select class="ui dropdown" id="selectpisector" name="selectpisector">
+                  <option value="">Sector</option>
+                  {{#each sectors }}
+                    <option value="{{ slug }}">{{ name }}</option>
+                  {{/each}}
+                </select>
+              </div>
+
+              <div class="actions">
+                <div class="ui button cancel" id="dismiss-button">Dismiss</div>
+                <div class="ui button positive submit" id="submit-button">Create</div>
+              </div>
+            </div>
+          </div>
+          <!-- /form div ends-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">$('#selectpisector').dropdown();$('#selectlangtestlevel').dropdown();</script>
 </template>
