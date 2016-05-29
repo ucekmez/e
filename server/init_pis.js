@@ -436,7 +436,7 @@ Meteor.startup(() => {
     ];
 
     ifadeler.forEach(function(ifade) {
-      ifade['slug'] = ifade.scale.toLowerCase().replace('ç','c').replace('ğ','g').replace('ö','o').replace('ş','s').replace('ü','u').replace('/','').replace('  ', ' ').replace(/ +/g,'-');
+      ifade['slug'] = ifade.scale.toLowerCase().replace('ı','i').replace('ç','c').replace('ğ','g').replace('ö','o').replace('ş','s').replace('ü','u').replace('/','').replace('  ', ' ').replace(/ +/g,'-');
       const pi_id = PIs.insert(ifade);
     });
     console.log("PIs are added");

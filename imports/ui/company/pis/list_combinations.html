@@ -28,6 +28,25 @@
     </div>
   </div>
 
+  <div class="ui three cards">
+    {{#each predefinedpis}}
+      <div class="fluid card">
+        <div class="content">
+          <div class="header">{{ name }}</div>
+          <div class="meta">Predefined "<b>{{ toUpperCase sector }}</b>" PI</div>
+          <div class="description">
+            {{#each scales }} <b>{{ getPIscaleName this }}</b>, {{/each}} <br />created <a>{{ dateFromNow createdAt }}</a><br />
+            <a id="preview-pi-action" href="{{ pathFor 'preview_pi' piId=_id }}"><i class="large green keyboard icon" data-content="See it in action!" data-variation="inverted"></i></a>
+            <a id="preview-pi-response-action" href="{{ pathFor 'preview_pi_response' piId=_id }}"><i class="large blue unhide icon" data-content="Preview the response" data-variation="inverted"></i></a>
+            <a id="export-pi-to-applicants" style="cursor:pointer;"><i class="large black external share icon" data-content="Export to your applicants" data-variation="inverted"></i></a>
+            <a id="list-applicant-pi-responses" href="{{ pathFor 'list_pi_responses' piId=_id }}" style="cursor:pointer;margin-right:10px;"><i class="large grey users icon" data-content="List applicant responses" data-variation="inverted"></i></a>
+            <a id="remove-combination" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove" data-variation="inverted"></i></a>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
 
 
   <table class="ui very basic padded table">
@@ -127,8 +146,8 @@
               </div>
 
               <div class="actions">
-                <div class="ui button cancel" id="dismiss-button">Dismiss</div>
-                <div class="ui button positive submit" id="submit-button">Create</div>
+                <div class="ui button cancel" id="pi-dismiss-button">Dismiss</div>
+                <div class="ui button positive submit" id="pi-submit-button">Create</div>
               </div>
             </div>
           </div>

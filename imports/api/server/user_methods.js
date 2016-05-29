@@ -1,5 +1,6 @@
 import { Positions, Applications, RecruitmentProcesses } from '/imports/api/collections/positions.js';
 import { VideoResponses } from '/imports/api/collections/videos.js';
+import { FormResponses, Responses } from '/imports/api/collections/forms.js';
 
 
 Meteor.methods({
@@ -9,9 +10,23 @@ Meteor.methods({
     // dolayisiyla kullanici bir daha uzerine guncelleme yapamayacak
     if(type === "prerequisites" && typeof(app.prerequisites_responses) === 'undefined') {
       Applications.update({ _id: application_id }, { $addToSet: { prerequisites_responses: response_id }});
+      const resp = Responses.findOne(response_id);
+      if (resp) {
+        console.log("resp");
+        console.log(resp.totalpoints);
+        Applications.update({ _id: application_id }, { $inc: { totalpoints: resp.totalpoints * 0.6 }});
+
+      }
 
     }else if(type === "test" && typeof(app.test_responses) === 'undefined') {
       Applications.update({ _id: application_id }, { $addToSet: { test_responses: response_id }});
+      const test_response = FormResponses.findOne(response_id);
+      const resp = Responses.findOne(response_id);
+      if (resp) {
+        console.log("resp");
+        console.log(resp.totalpoints);
+        Applications.update({ _id: application_id }, { $inc: { totalpoints: resp.totalpoints * 0.4 }});
+      }
 
     }else if(type === "survey" && typeof(app.survey_responses) === 'undefined') {
       Applications.update({ _id: application_id }, { $addToSet: { survey_responses: response_id }});
@@ -55,7 +70,8 @@ Meteor.methods({
         deneme: "asd",
         position_title: position.title,
         user_name: user_name,
-        email: user_email
+        email: user_email,
+        totalpoints: 0
       });
       console.log("Bu kullanici icin yeni bir application olusturuldu..");
       return new_application._id;

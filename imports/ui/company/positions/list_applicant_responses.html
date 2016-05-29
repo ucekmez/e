@@ -1,5 +1,18 @@
 <template name="CompanyListApplicantPositionResponses">
-  <h1>List of Applicant Responses for <i>{{ position_title }}</i></h1>
+  <table class="ui very basic table">
+    <tbody>
+      <td style="margin:0;padding:0;">List of Applicant Responses for <i>{{ position_title }}</i></td>
+      <td style="margin:0;padding:0;" class="right aligned">
+        <a href="#" id="applicant-evaluate">
+          <button class="ui basic right labeled icon button">
+            <i class="grid layout icon"></i>
+            <span>Evaluate Applicants</span>
+          </button>
+        </a>
+      </td>
+    </tbody>
+  </table>
+
   <div class="ui divider"></div>
 
 

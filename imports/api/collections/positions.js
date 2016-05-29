@@ -104,6 +104,8 @@ Applications.attachSchema(new SimpleSchema({
   keynote_responses       : { type: [String], optional: true }, // KeynoteResponses ID
   video_responses         : { type: [String], optional: true }, // VideoResponses ID
 
+  totalpoints : { type: Number, min: 0, optional: true },
+
 
   createdAt: {
     type: Date,

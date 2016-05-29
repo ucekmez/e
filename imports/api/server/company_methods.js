@@ -2,7 +2,7 @@ import { Forms, Responses, FormResponses, PredefinedLanguageTemplates, Predefine
 import { Slides, Keynotes, KeynoteResponses } from '/imports/api/collections/keynotes.js';
 import { Positions, RecruitmentProcesses, SingleProcesses } from '/imports/api/collections/positions.js';
 import { InterviewQuestions, VideoResponses, Videos } from '/imports/api/collections/videos.js';
-import { PIGroups, PIResponses } from '/imports/api/collections/pis.js';
+import { PIs, PIGroups, PIResponses } from '/imports/api/collections/pis.js';
 
 import  shortid  from 'shortid';
 
@@ -547,7 +547,7 @@ Meteor.methods({
       return already_exists._id;
     }else {
       const process_id = SingleProcesses.insert({
-        related_to: video,
+        related_to: [video],
         description: description
       });
       const rec_process_id = RecruitmentProcesses.insert({
@@ -690,15 +690,45 @@ Meteor.methods({
   },
 
   create_new_sectorbased_pi(piname, sector) {
-    chosens = new Array();
-    if(sector === "textile") {}
-    if(sector === "health") {}
-    if(sector === "construction") {}
-    if(sector === "automotive") {}
-    if(sector === "service") {}
-    if(sector === "it") {}
-    if(sector === "manufacturing") {}
-    if(sector === "commercial") {}
-    if(sector === "retail") {}
+    const chosens = new Array();
+    if(sector === "textile") {
+      const scales = PIs.find({ slug: { $in : ["dikkatlilik", "sorumluluk", "mukemmeliyetcilik"]}}).fetch();
+      for(let i=0;i<scales.length;i++) { chosens.push(scales[i]._id); }
+    }else if(sector === "health") {
+      const scales = PIs.find({ slug: { $in : ["sakinlik", "empati"]}}).fetch();
+      for(let i=0;i<scales.length;i++) { chosens.push(scales[i]._id); }
+    }else if(sector === "construction") {
+      const scales = PIs.find({ slug: { $in : ["verimlilik", "rasyonellik"]}}).fetch();
+      for(let i=0;i<scales.length;i++) { chosens.push(scales[i]._id); }
+    }else if(sector === "automotive") {
+      const scales = PIs.find({ slug: { $in : ["verimlilik", "yaraticilik"]}}).fetch();
+      for(let i=0;i<scales.length;i++) { chosens.push(scales[i]._id); }
+    }else if(sector === "service") {
+      const scales = PIs.find({ slug: { $in : ["verimlilik", "dikkat"]}}).fetch();
+      for(let i=0;i<scales.length;i++) { chosens.push(scales[i]._id); }
+    }else if(sector === "it") {
+      const scales = PIs.find({ slug: { $in : ["yaraticilik", "takim-calismasi", "(entelektuel-zeka)"]}}).fetch();
+      for(let i=0;i<scales.length;i++) { chosens.push(scales[i]._id); }
+    }else if(sector === "manufacturing") {
+      const scales = PIs.find({ slug: { $in : ["verimlilik", "liderlik"]}}).fetch();
+      for(let i=0;i<scales.length;i++) { chosens.push(scales[i]._id); }
+    }else if(sector === "commercial") {
+      const scales = PIs.find({ slug: { $in : ["verimlilik", "i̇sbi̇rli̇gi̇-–-ortaklaşa-calışma"]}}).fetch();
+      for(let i=0;i<scales.length;i++) { chosens.push(scales[i]._id); }
+    }else if(sector === "retail") {
+      const scales = PIs.find({ slug: { $in : ["verimlilik"]}}).fetch();
+      for(let i=0;i<scales.length;i++) { chosens.push(scales[i]._id); }
+    }
+
+    console.log(sector + " : " + chosens);
+
+    const pi_group_id = PIGroups.insert({
+      user: Meteor.userId(),
+      name: piname,
+      type: "predefined",
+      scales: chosens,
+      sector: sector
+    });
+    return pi_group_id;
   }
 });

@@ -65,7 +65,14 @@ Template.CompanyAddNewPICombination.events({
 
 Template.CompanyListPICombinations.helpers({
   combinations() {
-    return PIGroups.find({ user: Meteor.userId()})
+    return PIGroups.find({ $and: [{user: Meteor.userId()}, {type: "private"}]})
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
+  },
+  predefinedpis() {
+    return PIGroups.find({ $and: [{user: Meteor.userId()}, {type: "predefined"}]})
       .map(function(document, index) {
         document.index = index + 1;
         return document;
@@ -86,7 +93,7 @@ Template.CompanyListPICombinations.events({
           Session.set("add-sectorbasedpi-success", false);
         },
         onApprove() {
-          $('.ui.form.technical')
+          $('.ui.form.sectorbasedpi')
             .form({
               fields: {
                 sectorbasedpiname : 'empty',
@@ -94,9 +101,11 @@ Template.CompanyListPICombinations.events({
               }
             });
 
-          if ($('.ui.form.technical').form('is valid')) {
+          if ($('.ui.form.sectorbasedpi').form('is valid')) {
             const piname = $('#sectorbasedpiname').val();
             const sector = $('#selectpisector').val();
+
+            console.log(piname + " , " + sector);
 
             Meteor.call('create_new_sectorbased_pi', piname, sector, function (err, data) {
               if (err) {
@@ -337,4 +346,13 @@ Template.registerHelper("coming_from_single_pis", function(){
 
 Template.registerHelper("current_application_id", function(){
   return Session.get("current_application_id");
+});
+
+Template.registerHelper("getPIscaleName", function(pi_id){
+  const pi = PIs.findOne(pi_id);
+  if (pi) { return pi.scale;  }
+});
+
+Template.registerHelper("toUpperCase", function(sector){
+  return sector.toUpperCase();
 });

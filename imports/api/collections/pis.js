@@ -7,6 +7,7 @@ PIGroups.attachSchema(new SimpleSchema({
   name: { type: String, max: 256},
   user: { type: String, max: 64},
   type: { type: String, max: 16},
+  sector: { type: String, max: 32, optional: true},
   scales: { type: [String] },
   createdAt: {
     type: Date,

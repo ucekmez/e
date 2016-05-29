@@ -234,17 +234,34 @@ Template.CompanyEditPosition.helpers({
 
 Template.CompanyListApplicantPositionResponses.helpers({
   position_title() {
-    return Positions.findOne(FlowRouter.getParam('positionId')).title;
+    const position = Positions.findOne(FlowRouter.getParam('positionId'));
+    if (position) {
+      return position.title;
+    }
   },
   responses() {
-    return Applications.find({ position: FlowRouter.getParam('positionId') })
-      .map(function(document, index) {
-        document.index = index + 1;
-        return document;
-      });
+    if (typeof(Session.get("evaluate_applicants")) !== 'undefined' && Session.get("evaluate_applicants")) {
+      return Applications.find({ position: FlowRouter.getParam('positionId') }, { sort: { totalpoints: -1 }})
+        .map(function(document, index) {
+          document.index = index + 1;
+          return document;
+        });
+    }else {
+      return Applications.find({ position: FlowRouter.getParam('positionId') })
+        .map(function(document, index) {
+          document.index = index + 1;
+          return document;
+        });
+    }
+
   }
 });
 
+Template.CompanyListApplicantPositionResponses.events({
+  'click #applicant-evaluate'(event, instance) {
+    Session.set("evaluate_applicants", true);
+  }
+});
 
 Template.CompanyListSingleApplicantPositionResponses.helpers({
   response() {
