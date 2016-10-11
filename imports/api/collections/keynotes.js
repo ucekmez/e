@@ -13,15 +13,32 @@ Keynotes.attachSchema(new SimpleSchema({
   },
   updatedAt: {
     type: Date,
-    autoValue: function() {
-      if (this.isUpdate) {
-        return new Date();
-      }
-    },
+    autoValue: function() { if (this.isUpdate) { return new Date(); } },
     denyInsert: true,
     optional: true
   }
 }));
+
+Keynotes.allow({
+  insert: function (userId, doc) {
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  },
+  update: function (userId, doc, fields, modifier) {
+    // burayi yalnizca oturum acan company VE admin degistirebilir
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  },
+  // burayi sadece oturum acan company ve admin degistirebilir
+  remove: function (userId, doc, fields, modifier) {
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  }
+});
+
 
 export const Slides = new Mongo.Collection('slides');
 
@@ -40,15 +57,31 @@ Slides.attachSchema(new SimpleSchema({
   },
   updatedAt: {
     type: Date,
-    autoValue: function() {
-      if (this.isUpdate) {
-        return new Date();
-      }
-    },
+    autoValue: function() { if (this.isUpdate) { return new Date(); } },
     denyInsert: true,
     optional: true
   }
 }));
+
+Slides.allow({
+  insert: function (userId, doc) {
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  },
+  update: function (userId, doc, fields, modifier) {
+    // burayi yalnizca oturum acan company VE admin degistirebilir
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  },
+  // burayi sadece oturum acan company ve admin degistirebilir
+  remove: function (userId, doc, fields, modifier) {
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  }
+});
 
 
 // ----- for statistics purpose
@@ -71,11 +104,7 @@ KeynoteResponses.attachSchema(new SimpleSchema({
   },
   updatedAt: {
     type: Date,
-    autoValue: function() {
-      if (this.isUpdate) {
-        return new Date();
-      }
-    },
+    autoValue: function() { if (this.isUpdate) { return new Date(); } },
     denyInsert: true,
     optional: true
   }

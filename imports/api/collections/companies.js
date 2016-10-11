@@ -14,12 +14,28 @@ Companies.attachSchema(new SimpleSchema({
   },
   updatedAt: {
     type: Date,
-    autoValue: function() {
-      if (this.isUpdate) {
-        return new Date();
-      }
-    },
+    autoValue: function() { if (this.isUpdate) { return new Date(); } },
     denyInsert: true,
     optional: true
   }
 }));
+
+Companies.allow({
+  insert: function (userId, doc) {
+    if (userId && Roles.userIsInRole(userId, ['admin'])) {
+      return true;
+    }
+  },
+  update: function (userId, doc, fields, modifier) {
+    // burayi yalnizca oturum acan VE admin degistirebilir
+    if (userId && Roles.userIsInRole(userId, ['admin'])) {
+      return true;
+    }
+  },
+  // burayi sadece oturum acan ve admin degistirebilir
+  remove: function (userId, doc, fields, modifier) {
+    if (userId && Roles.userIsInRole(userId, ['admin'])) {
+      return true;
+    }
+  }
+});

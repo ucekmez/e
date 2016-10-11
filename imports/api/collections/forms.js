@@ -15,21 +15,35 @@ Forms.attachSchema(new SimpleSchema({
   },
   updatedAt: {
     type: Date,
-    autoValue: function() {
-      if (this.isUpdate) {
-        return new Date();
-      }
-    },
+    autoValue: function() { if (this.isUpdate) { return new Date(); } },
     denyInsert: true,
     optional: true
   }
 }));
 
+Forms.allow({
+  insert: function (userId, doc) {
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  },
+  update: function (userId, doc, fields, modifier) {
+    // burayi yalnizca oturum acan company VE admin degistirebilir
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  },
+  // burayi sadece oturum acan company ve admin degistirebilir
+  remove: function (userId, doc, fields, modifier) {
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  }
+});
+
 
 // tum cevaplar burada tutulacak
 export const Responses = new Mongo.Collection('responses');
-
-
 export const FormResponses = new Mongo.Collection('form_responses');
 
 FormResponses.attachSchema(new SimpleSchema({
@@ -48,11 +62,7 @@ FormResponses.attachSchema(new SimpleSchema({
   },
   updatedAt: {
     type: Date,
-    autoValue: function() {
-      if (this.isUpdate) {
-        return new Date();
-      }
-    },
+    autoValue: function() { if (this.isUpdate) { return new Date(); } },
     denyInsert: true,
     optional: true
   }
@@ -83,15 +93,33 @@ PredefinedLanguageTemplates.attachSchema(new SimpleSchema({
   },
   updatedAt: {
     type: Date,
-    autoValue: function() {
-      if (this.isUpdate) {
-        return new Date();
-      }
-    },
+    autoValue: function() { if (this.isUpdate) { return new Date(); } },
     denyInsert: true,
     optional: true
   }
 }));
+
+PredefinedLanguageTemplates.allow({
+  insert: function (userId, doc) {
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  },
+  update: function (userId, doc, fields, modifier) {
+    // burayi yalnizca oturum acan company VE admin degistirebilir
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  },
+  // burayi sadece oturum acan company ve admin degistirebilir
+  remove: function (userId, doc, fields, modifier) {
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  }
+});
+
+//////////////////////
 
 export const PredefinedTechnicalTemplates = new Mongo.Collection('predefined_technical_templates');
 PredefinedTechnicalTemplates.attachSchema(new SimpleSchema({
@@ -111,15 +139,31 @@ PredefinedTechnicalTemplates.attachSchema(new SimpleSchema({
   },
   updatedAt: {
     type: Date,
-    autoValue: function() {
-      if (this.isUpdate) {
-        return new Date();
-      }
-    },
+    autoValue: function() { if (this.isUpdate) { return new Date(); } },
     denyInsert: true,
     optional: true
   }
 }));
+
+PredefinedTechnicalTemplates.allow({
+  insert: function (userId, doc) {
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  },
+  update: function (userId, doc, fields, modifier) {
+    // burayi yalnizca oturum acan company VE admin degistirebilir
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  },
+  // burayi sadece oturum acan company ve admin degistirebilir
+  remove: function (userId, doc, fields, modifier) {
+    if (userId && (Roles.userIsInRole(userId, ['admin']) || Roles.userIsInRole(userId, ['company']))) {
+      return true;
+    }
+  }
+});
 
 export const PredefinedLanguageTestResponses = new Mongo.Collection('predefined_language_test_responses');
 export const PredefinedTechnicalTestResponses = new Mongo.Collection('predefined_technical_test_responses');

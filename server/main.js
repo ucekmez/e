@@ -6,6 +6,7 @@ import { Forms, FormResponses } from '/imports/api/collections/forms.js';
 
 Sortable.collections = ['slides'];
 
+import shortid from 'shortid';
 
 // keynotes preview sayfasi yuklenirken beklesin diye
 Meteor.publish("getSlidesOfKeynote", function(keynote_id) {
@@ -30,7 +31,9 @@ Meteor.publish("getFormForPreview", function(form_id) {
 
 AccountsTemplates.configure({
   postSignUpHook: function(userId, info) {
-    Roles.addUsersToRoles(userId, ['user']);
+    Roles.addUsersToRoles(userId, ['student']);
+    profile = {'name': "", 'gender': "", 'age': "", 'address': "", 'shortid': shortid.generate()};
+    Meteor.users.update({ _id: userId}, {$set: { profile: profile }});
   },
 });
 

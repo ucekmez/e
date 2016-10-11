@@ -13,7 +13,7 @@ Meteor.startup(() => {
         username: "ugur",
         email: "a@f.com",
         roles: ['admin'],
-        //group: 'admin'
+        profile : {'name': "", 'gender': "", 'age': "", 'address': "", 'shortid': shortid.generate()}
       }
     ];
 
@@ -23,7 +23,7 @@ Meteor.startup(() => {
         email: user.email,
         username: user.username,
         password: "asdasd",
-        profile: { name: user.name },
+        profile: user.profile
       });
 
       if (user.roles.length > 0) {
@@ -34,5 +34,5 @@ Meteor.startup(() => {
     });
 
   }
-  
+
 });
