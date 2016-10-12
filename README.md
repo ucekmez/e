@@ -20,5 +20,8 @@
 
 # meteor packages should be installed to run the project
 meteor add semantic:ui flemay:less-autoprefixer kadira:flow-router kadira:blaze-layout arillo:flow-router-helpers accounts-password useraccounts:semantic-ui aldeed:collection2 pcel:loading chrismbeckett:toastr session alanning:roles backbone rubaxa:sortable froala:editor froala:editor-reactive momentjs:moment momentjs:twix check lukemadera:video-capture msavin:mongol theara:flow-router-breadcrumb mrt:nprogress
+<<<<<<< HEAD
 
 meteor npm install
+=======
+>>>>>>> 879cec45f1cb8df0b45c7a4a7da96edb30d02bda
