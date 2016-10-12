@@ -31,7 +31,7 @@ Meteor.publish("getFormForPreview", function(form_id) {
 
 AccountsTemplates.configure({
   postSignUpHook: function(userId, info) {
-    Roles.addUsersToRoles(userId, ['student']);
+    Roles.addUsersToRoles(userId, ['user']);
     profile = {'name': "", 'gender': "", 'age': "", 'address': "", 'shortid': shortid.generate()};
     Meteor.users.update({ _id: userId}, {$set: { profile: profile }});
   },

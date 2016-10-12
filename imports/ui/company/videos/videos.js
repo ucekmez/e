@@ -125,11 +125,23 @@ Template.CompanyPreviewRecordQuestion.onRendered(function() {
           if (/WebKit/.test(navigator.userAgent)) {
             data = q_player.recordedData.video; // Chrome
           }
-          Videos.insert(data, function(err, fileObj) {
-            Meteor.call('save_video_response_preview', question._id, fileObj._id, function() {
-              toastr.info("Your response has been saved!");
-            });
+
+          const upload_state = Videos.insert({
+            file: data,
+            streams: 'dynamic',
+            chunkSize: 'dynamic'
+          }, false);
+          upload_state.on('end', function (error, fileObj) {
+            if (error) {
+              toastr.warning("Your response has not saved!");
+            } else {
+              Meteor.call('save_video_response_preview', question._id, fileObj._id, function() {
+                toastr.info("Your response has been saved!");
+              });
+            }
           });
+          upload_state.start();
+
         })
 
         q_player.on('deviceError', function() {
@@ -185,7 +197,7 @@ Template.CompanyPreviewAnswerQuestion.helpers({
   video_url() {
     A = VideoResponses.findOne({ $and : [{ question: FlowRouter.getParam('questionId')}, {user: Meteor.userId() }]});
     if (A) {
-      return Videos.findOne(A.video).url();
+      return Videos.findOne(A.video);
     }
   }
 });
@@ -341,7 +353,7 @@ Template.CompanyPreviewApplicantVideoResponse.helpers({
   video_url() {
     A = VideoResponses.findOne(FlowRouter.getParam('responseId'));
     if (A) {
-      return Videos.findOne(A.video).url();
+      return Videos.findOne(A.video);
     }
   }
 });

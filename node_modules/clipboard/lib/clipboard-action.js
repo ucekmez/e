@@ -96,9 +96,10 @@
 
             this.removeFake();
 
-            this.fakeHandler = document.body.addEventListener('click', function () {
+            this.fakeHandlerCallback = function () {
                 return _this.removeFake();
-            });
+            };
+            this.fakeHandler = document.body.addEventListener('click', this.fakeHandlerCallback) || true;
 
             this.fakeElem = document.createElement('textarea');
             // Prevent zooming on iOS
@@ -108,7 +109,7 @@
             this.fakeElem.style.padding = '0';
             this.fakeElem.style.margin = '0';
             // Move element out of screen horizontally
-            this.fakeElem.style.position = 'fixed';
+            this.fakeElem.style.position = 'absolute';
             this.fakeElem.style[isRTL ? 'right' : 'left'] = '-9999px';
             // Move element to the same position vertically
             this.fakeElem.style.top = (window.pageYOffset || document.documentElement.scrollTop) + 'px';
@@ -123,8 +124,9 @@
 
         ClipboardAction.prototype.removeFake = function removeFake() {
             if (this.fakeHandler) {
-                document.body.removeEventListener('click');
+                document.body.removeEventListener('click', this.fakeHandlerCallback);
                 this.fakeHandler = null;
+                this.fakeHandlerCallback = null;
             }
 
             if (this.fakeElem) {

@@ -33,24 +33,22 @@ import './generic_events.js';
 
 
 const companyRoutes = FlowRouter.group({ prefix: '/company', name: 'company',
-  triggersEnter: [function() {
-    if (Meteor.loggingIn()) { BlazeLayout.render('LoadingLayout');}
-    else {
-      if (Meteor.userId() && Meteor.user()) {
-        if (!Roles.userIsInRole(Meteor.userId(), ['company'])) {
-          FlowRouter.go('notfound');
-        }
-      }else {
-        FlowRouter.go('notfound');
-      }
-    }
-  }]
+  triggersEnter: [() => {
+    if (Meteor.userId() && Meteor.user()) {
+      if (!Roles.userIsInRole(Meteor.userId(), ['company'])) { FlowRouter.go('home'); }
+    }else { FlowRouter.go('home'); }
+  }],
 });
+
+
 companyRoutes.route('/', { name: 'company_dashboard',
   breadcrumb: {
     title: "Dashboard"
   },
-  action() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyDashboard' }); } });
+  action() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyDashboard' });
+    NProgress.done();
+  } });
 
 
 //************ forms routes
@@ -67,18 +65,22 @@ companyFormRoutes.route('/edit/:formId', { name: 'edit_form',
     }
   },
   action: function(params) {
-    BlazeLayout.render('CompanyEditFormLayout', { nav: 'MainNavigation', main: 'CompanyEditForm' }); } });
+    BlazeLayout.render('CompanyEditFormLayout', { nav: 'MainNavigation', main: 'CompanyEditForm' });
+    NProgress.done();
+  } });
 companyFormRoutes.route('/preview/fill/:formId', { name: 'preview_form',
-  action: function(params) { BlazeLayout.render('CompanyPreviewForm'); } });
+  action: function(params) { BlazeLayout.render('CompanyPreviewForm'); NProgress.done(); } });
 companyFormRoutes.route('/preview/response/:formId', { name: 'preview_form_response',
-  action: function(params) { BlazeLayout.render('CompanyPreviewFormResponse'); } });
+  action: function(params) { BlazeLayout.render('CompanyPreviewFormResponse'); NProgress.done(); } });
 companyFormRoutes.route('/list', { name: 'list_forms',
   breadcrumb: {
     parent: "company_dashboard",
     title: "List Forms"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListForms' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListForms' });
+    NProgress.done();
+  } });
 
 companyFormRoutes.route('/list/responses/:formId', { name: 'list_form_responses',
   triggersEnter: [function() { Session.set("coming_from", "single_forms"); }],
@@ -87,22 +89,24 @@ companyFormRoutes.route('/list/responses/:formId', { name: 'list_form_responses'
     title: "List Responses"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantFormResponses' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantFormResponses' });
+    NProgress.done();
+  } });
 
 companyFormRoutes.route('/response/:responseId/', { name: 'preview_applicant_form_response',
   triggersExit: [function() { Session.set("coming_from", null); }],
-  action: function(params) { BlazeLayout.render('CompanyPreviewApplicantFormResponse'); } });
+  action: function(params) { BlazeLayout.render('CompanyPreviewApplicantFormResponse'); NProgress.done(); } });
 
 // preview pre-defined tests
 companyFormRoutes.route('/preview/lang/:templateId', { name: 'preview_lang_test',
-  action: function(params) { BlazeLayout.render('CompanyPreviewLanguageTest'); } });
+  action: function(params) { BlazeLayout.render('CompanyPreviewLanguageTest'); NProgress.done(); } });
 companyFormRoutes.route('/preview/tech/:templateId', { name: 'preview_tech_test',
-  action: function(params) { BlazeLayout.render('CompanyPreviewTechnicalTest'); } });
+  action: function(params) { BlazeLayout.render('CompanyPreviewTechnicalTest'); NProgress.done(); } });
 
 companyFormRoutes.route('/response/lang/:responseId', { name: 'preview_lang_test_response',
-  action: function(params) { BlazeLayout.render('CompanyLanguageTestResponse'); } });
+  action: function(params) { BlazeLayout.render('CompanyLanguageTestResponse'); NProgress.done(); } });
 companyFormRoutes.route('/response/tech/:responseId', { name: 'preview_tech_test_response',
-  action: function(params) { BlazeLayout.render('CompanyTechnicalTestResponse'); } });
+  action: function(params) { BlazeLayout.render('CompanyTechnicalTestResponse'); NProgress.done(); } });
 
 companyFormRoutes.route('/list/lang/responses/:templateId', { name: 'list_lang_test_responses',
   triggersEnter: [function() { Session.set("coming_from", "single_forms"); }],
@@ -111,7 +115,9 @@ companyFormRoutes.route('/list/lang/responses/:templateId', { name: 'list_lang_t
     title: "List Responses"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListLangApplicantFormResponses' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListLangApplicantFormResponses' });
+    NProgress.done();
+  } });
 
 companyFormRoutes.route('/list/tech/responses/:templateId', { name: 'list_tech_test_responses',
   triggersEnter: [function() { Session.set("coming_from", "single_forms"); }],
@@ -120,15 +126,17 @@ companyFormRoutes.route('/list/tech/responses/:templateId', { name: 'list_tech_t
     title: "List Responses"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListTechApplicantFormResponses' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListTechApplicantFormResponses' });
+    NProgress.done();
+  } });
 
 companyFormRoutes.route('/user/response/lang/:responseId/', { name: 'preview_applicant_langtest_response',
   triggersExit: [function() { Session.set("coming_from", null); }],
-  action: function(params) { BlazeLayout.render('CompanyPreviewApplicantLangTestResponse'); } });
+  action: function(params) { BlazeLayout.render('CompanyPreviewApplicantLangTestResponse'); NProgress.done(); } });
 
 companyFormRoutes.route('/user/response/tech/:responseId/', { name: 'preview_applicant_techtest_response',
   triggersExit: [function() { Session.set("coming_from", null); }],
-  action: function(params) { BlazeLayout.render('CompanyPreviewApplicantTechTestResponse'); } });
+  action: function(params) { BlazeLayout.render('CompanyPreviewApplicantTechTestResponse'); NProgress.done(); } });
 
 ///// pis routes
 
@@ -139,7 +147,9 @@ companyPIsRoutes.route('/new', { name: 'create_new_pi',
     title: "Create New PI"
   },
   action: function(params) {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyAddNewPICombination' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyAddNewPICombination' });
+    NProgress.done();
+  } });
 
 companyPIsRoutes.route('/list', { name: 'list_combinations',
   breadcrumb: {
@@ -147,13 +157,15 @@ companyPIsRoutes.route('/list', { name: 'list_combinations',
     title: "List Combinations"
   },
   action: function(params) {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListPICombinations' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListPICombinations' });
+    NProgress.done();
+  } });
 
 companyPIsRoutes.route('/preview/fill/:piId', { name: 'preview_pi',
-  action: function(params) { BlazeLayout.render('CompanyPreviewPI'); } });
+  action: function(params) { BlazeLayout.render('CompanyPreviewPI'); NProgress.done(); } });
 
 companyPIsRoutes.route('/preview/response/:piId', { name: 'preview_pi_response',
-  action: function(params) { BlazeLayout.render('CompanyPreviewPIResponse'); } });
+  action: function(params) { BlazeLayout.render('CompanyPreviewPIResponse'); NProgress.done(); } });
 
 companyPIsRoutes.route('/list/responses/:piId', { name: 'list_pi_responses',
   triggersEnter: [function() { Session.set("coming_from", "single_pis"); }],
@@ -162,10 +174,12 @@ companyPIsRoutes.route('/list/responses/:piId', { name: 'list_pi_responses',
     title: "List Responses"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantPIResponses' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantPIResponses' });
+    NProgress.done();
+  } });
 
 companyPIsRoutes.route('/response/:responseId/', { name: 'preview_applicant_pi_response',
-  action: function(params) { BlazeLayout.render('CompanyPreviewApplicantPIResponse'); } });
+  action: function(params) { BlazeLayout.render('CompanyPreviewApplicantPIResponse'); NProgress.done(); } });
 
 
 
@@ -178,14 +192,18 @@ companyKeynoteRoutes.route('/edit/:keynoteId', { name: 'edit_keynote',
     title: "Edit Keynote"
   },
   action: function(params) {
-    BlazeLayout.render('CompanyEditKeynoteLayout', { nav: 'MainNavigation', main: 'CompanyEditKeynote' }); } });
+    BlazeLayout.render('CompanyEditKeynoteLayout', { nav: 'MainNavigation', main: 'CompanyEditKeynote' });
+    NProgress.done();
+  } });
 companyKeynoteRoutes.route('/list', { name: 'list_keynotes',
   breadcrumb: {
     parent: "company_dashboard",
     title: "List Keynotes"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListKeynotes' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListKeynotes' });
+    NProgress.done();
+  } });
 companyKeynoteRoutes.route('/preview/:keynoteId', { name: 'preview_keynote',
   triggersExit: [function() {
     $('body').removeClass('ofhiddenforslide');
@@ -197,8 +215,7 @@ companyKeynoteRoutes.route('/preview/:keynoteId', { name: 'preview_keynote',
       this.register('showslides', Meteor.subscribe("getSlidesOfKeynote", params._id));
     }
   },
-  action: function() {
-    BlazeLayout.render('CompanyKeynotePreviewLayout'); } });
+  action: function() { BlazeLayout.render('CompanyKeynotePreviewLayout'); NProgress.done(); } });
 
 companyKeynoteRoutes.route('/list/responses/:keynoteId', { name: 'list_keynote_responses',
   breadcrumb: {
@@ -206,7 +223,9 @@ companyKeynoteRoutes.route('/list/responses/:keynoteId', { name: 'list_keynote_r
     title: "List Responses"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantKeynoteResponses' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantKeynoteResponses' });
+    NProgress.done();
+  } });
 
 
 
@@ -219,51 +238,77 @@ companyPositions.route('/list', { name: 'list_positions',
     title: "List Positions"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListPositions' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListPositions' });
+    NProgress.done();
+  } });
 companyPositions.route('/edit/:positionId', { name: 'edit_position',
   breadcrumb: {
     parent: "list_positions",
     title: "Edit Position"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditPosition' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditPosition' });
+    NProgress.done();
+  } });
 
 companyPositions.route('/process/s1/:positionId', { name: 'extend_recruitment_positionS1',
   breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
-  action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS1' }); } });
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS1' });
+    NProgress.done();
+  } });
 
 companyPositions.route('/process/s2/:positionId', { name: 'extend_recruitment_positionS2',
   breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
-  action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS2' }); } });
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS2' });
+    NProgress.done();
+  } });
 
 companyPositions.route('/process/s3/:positionId', { name: 'extend_recruitment_positionS3',
   breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
-  action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS3' }); } });
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS3' });
+    NProgress.done();
+  } });
 
 companyPositions.route('/process/s4/:positionId', { name: 'extend_recruitment_positionS4',
   breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
-  action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS4' }); } });
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS4' });
+    NProgress.done();
+  } });
 
 companyPositions.route('/process/s5/:positionId', { name: 'extend_recruitment_positionS5',
   breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
-  action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS5' }); } });
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS5' });
+    NProgress.done();
+  } });
 
 companyPositions.route('/process/s6/:positionId', { name: 'extend_recruitment_positionS6',
   breadcrumb: { parent: "list_positions", title: "Extend Recruitment Process" },
-  action: function() { BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS6' }); } });
+  action: function() {
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyExtendRecruitmentProcessS6' });
+    NProgress.done();
+  } });
 
 
 companyPositions.route('/list/responses/:positionId', { name: 'list_position_responses',
   breadcrumb: { parent: "list_positions", title: "List Responses" },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantPositionResponses' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantPositionResponses' });
+    NProgress.done();
+  } });
 
 companyPositions.route('/list/responses/single/:applicationId', { name: 'single_applicant_position_responses',
   triggersEnter: [function(params) { Session.set("coming_from", "positionresponse");}],
   breadcrumb: { parent: "list_positions", title: "Applicant Response" },
   action: function(params, queryParams) {
     Session.set("current_application_id", params.applicationId);
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListSingleApplicantPositionResponses' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListSingleApplicantPositionResponses' });
+    NProgress.done();
+   } });
 
 
 
@@ -281,14 +326,18 @@ companyQuestions.route('/list', { name: 'list_questions',
     title: "List Questions"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListQuestions' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListQuestions' });
+    NProgress.done();
+  } });
 companyQuestions.route('/edit/:questionId', { name: 'edit_question',
   breadcrumb: {
     parent: "list_questions",
     title: "Edit Question"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditQuestion' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyEditQuestion' });
+    NProgress.done();
+  } });
 companyQuestions.route('/preview/record/:questionId', { name: 'preview_record_question',
   breadcrumb: {
     parent: "list_questions",
@@ -306,7 +355,9 @@ companyQuestions.route('/preview/record/:questionId', { name: 'preview_record_qu
     }
   }],
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewRecordQuestion' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewRecordQuestion' });
+    NProgress.done();
+  } });
 companyQuestions.route('/preview/answer/:questionId', { name: 'preview_answer_question',
   breadcrumb: {
     parent: "list_questions",
@@ -324,7 +375,9 @@ companyQuestions.route('/preview/answer/:questionId', { name: 'preview_answer_qu
     }
   }],
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewAnswerQuestion' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyPreviewAnswerQuestion' });
+    NProgress.done();
+  } });
 
 
 companyQuestions.route('/list/responses/:questionId', { name: 'list_video_responses',
@@ -334,7 +387,9 @@ companyQuestions.route('/list/responses/:questionId', { name: 'list_video_respon
     title: "List Responses"
   },
   action: function() {
-    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantVideoResponses' }); } });
+    BlazeLayout.render('CompanyLayout', { nav: 'MainNavigation', left: 'CompanyLeftMenu', main: 'CompanyListApplicantVideoResponses' });
+    NProgress.done();
+  } });
 
 
 companyQuestions.route('/response/:responseId', { name: 'preview_video_response',
@@ -353,8 +408,7 @@ companyQuestions.route('/response/:responseId', { name: 'preview_video_response'
       a_player.dispose();
     }
   }],
-  action: function() {
-    BlazeLayout.render('CompanyPreviewApplicantVideoResponse'); } });
+  action: function() { BlazeLayout.render('CompanyPreviewApplicantVideoResponse'); NProgress.done(); } });
 
 
 //////////// Template events, helpers

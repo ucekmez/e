@@ -79,7 +79,7 @@
         {{#if video_url }}
           <video id="user-preview-answer" class="ui raised segment video-js vjs-default-skin"
             preload="auto" controls>
-            <source src="{{ video_url }}" type="video/webm">
+            <source src="{{ video_url.link }}?play=true" type="{{ video_url.type }}">
             <p class="vjs-no-js">
               To view this video please enable JavaScript, and consider upgrading to a web browser
               that supports HTML5 video

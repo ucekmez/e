@@ -18,29 +18,30 @@ import './positions/positions.js';
 
 
 const userRoutes = FlowRouter.group({ prefix: '/user', name: 'user',
-  triggersEnter: [function() {
-    if (Meteor.loggingIn()) { BlazeLayout.render('LoadingLayout');}
-    else {
-      if (Meteor.userId() && Meteor.user()) {
-        if (!Roles.userIsInRole(Meteor.userId(), ['user'])) { FlowRouter.go('home'); }
-      }else { FlowRouter.go('notfound'); }
-    }
-  }]
+  triggersEnter: [() => {
+    if (Meteor.userId() && Meteor.user()) {
+      if (!Roles.userIsInRole(Meteor.userId(), ['user'])) { FlowRouter.go('home'); }
+    }else { FlowRouter.go('home'); }
+  }],
 });
+
 userRoutes.route('/', { name: 'user_dashboard',
   breadcrumb: { title: "Dashboard" },
-  action() { BlazeLayout.render('UserLayout', { nav: 'MainNavigation', left: 'UserLeftMenu', main: 'UserDashboard' }); } });
+  action() {
+    BlazeLayout.render('UserLayout', { nav: 'MainNavigation', left: 'UserLeftMenu', main: 'UserDashboard' });
+    NProgress.done();
+  } });
 
 userRoutes.route('/form/:formId', { name: 'user_formresponse',
-  action() { BlazeLayout.render('UserFormResponseLayout'); } });
+  action() { BlazeLayout.render('UserFormResponseLayout'); NProgress.done(); } });
 
 userRoutes.route('/test/lang/:templateId', { name: 'user_langtestresponse',
-  action() { BlazeLayout.render('UserLangTestResponseLayout'); } });
+  action() { BlazeLayout.render('UserLangTestResponseLayout'); NProgress.done(); } });
 userRoutes.route('/test/tech/:templateId', { name: 'user_techtestresponse',
-  action() { BlazeLayout.render('UserTechTestResponseLayout'); } });
+  action() { BlazeLayout.render('UserTechTestResponseLayout'); NProgress.done(); } });
 
 userRoutes.route('/PI/:piId', { name: 'user_piresponse',
-  action() { BlazeLayout.render('UserPIResponseLayout'); } });
+  action() { BlazeLayout.render('UserPIResponseLayout'); NProgress.done(); } });
 
 userRoutes.route('/keynote/:keynoteId', { name: 'user_keynoteresponse',
   triggersExit: [function() {
@@ -53,7 +54,7 @@ userRoutes.route('/keynote/:keynoteId', { name: 'user_keynoteresponse',
       this.register('showslides', Meteor.subscribe("getSlidesOfKeynote", params._id));
     }
   },
-  action() { BlazeLayout.render('UserKeynoteResponseLayout'); } });
+  action() { BlazeLayout.render('UserKeynoteResponseLayout'); NProgress.done(); } });
 
 userRoutes.route('/record/:questionId', { name: 'user_videoresponse',
   subscriptions: function(params, queryParams) {
@@ -67,23 +68,22 @@ userRoutes.route('/record/:questionId', { name: 'user_videoresponse',
       q_player.recorder.destroy();
     }
   }],
-  action: function() {
-    BlazeLayout.render('UserVideoResponseLayout'); } });
+  action: function() { BlazeLayout.render('UserVideoResponseLayout'); NProgress.done(); } });
 
 
 userRoutes.route('/position/:positionId', { name: 'user_positionapply', action() { BlazeLayout.render('UserPositionResponseApplyLayout'); } });
 
 userRoutes.route('/application/:applicationId/S1/:formId', { name: 'user_position_applicationS1',
-  action: function() { BlazeLayout.render('UserApplicationPrerequisitesLayout'); } });
+  action: function() { BlazeLayout.render('UserApplicationPrerequisitesLayout'); NProgress.done(); } });
 
 userRoutes.route('/application/:applicationId/S2/:formId', { name: 'user_position_applicationS2',
-  action: function() { BlazeLayout.render('UserApplicationSurveyLayout'); } });
+  action: function() { BlazeLayout.render('UserApplicationSurveyLayout'); NProgress.done(); } });
 
 userRoutes.route('/application/:applicationId/S3/:formId', { name: 'user_position_applicationS3',
-  action: function() { BlazeLayout.render('UserApplicationTestLayout'); } });
+  action: function() { BlazeLayout.render('UserApplicationTestLayout'); NProgress.done(); } });
 
 userRoutes.route('/application/:applicationId/S4/:piId', { name: 'user_position_applicationS4',
-  action: function() { BlazeLayout.render('UserApplicationPILayout'); } });
+  action: function() { BlazeLayout.render('UserApplicationPILayout'); NProgress.done(); } });
 
 userRoutes.route('/application/:applicationId/S5/:keynoteId', { name: 'user_position_applicationS5',
   triggersExit: [function() {
@@ -96,7 +96,7 @@ userRoutes.route('/application/:applicationId/S5/:keynoteId', { name: 'user_posi
       this.register('showslides', Meteor.subscribe("getSlidesOfKeynote", params._id));
     }
   },
-  action: function() { BlazeLayout.render('UserApplicationKeynoteLayout'); } });
+  action: function() { BlazeLayout.render('UserApplicationKeynoteLayout'); NProgress.done(); } });
 
 userRoutes.route('/application/:applicationId/S6/:questionId', { name: 'user_position_applicationS6',
   subscriptions: function(params, queryParams) {
@@ -110,16 +110,19 @@ userRoutes.route('/application/:applicationId/S6/:questionId', { name: 'user_pos
       q_player.recorder.destroy();
     }
   }],
-  action: function() { BlazeLayout.render('UserApplicationVideoLayout'); } });
+  action: function() { BlazeLayout.render('UserApplicationVideoLayout'); NProgress.done(); } });
 
 
 userRoutes.route('/application/:applicationId/thanks', { name: 'user_position_application_thanks',
-  action: function() { BlazeLayout.render('UserApplicationThanksLayout'); } });
+  action: function() { BlazeLayout.render('UserApplicationThanksLayout'); NProgress.done(); } });
 
 
 userRoutes.route('/appliedpositions/', { name: 'user_applied_positions',
   breadcrumb: { parent: "user_dashboard", title: "Applied Positions" },
-  action() { BlazeLayout.render('UserLayout', { nav: 'MainNavigation', left: 'UserLeftMenu', main: 'UserAppliedPositions' }); } });
+  action() {
+    BlazeLayout.render('UserLayout', { nav: 'MainNavigation', left: 'UserLeftMenu', main: 'UserAppliedPositions' });
+    NProgress.done();
+  } });
 
 
 
