@@ -1,3 +1,5 @@
+import { FilesCollection } from 'meteor/ostrio:files';
+
 export const InterviewQuestions = new Mongo.Collection('interviewquestions');
 
 InterviewQuestions.attachSchema(new SimpleSchema({
@@ -44,8 +46,21 @@ InterviewQuestions.allow({
 
 /////////////
 
-export const Videos = new FS.Collection("videos", {
-  stores: [new FS.Store.GridFS("videos", {})]
+//export const Videos = new FS.Collection("videos", {
+//  stores: [new FS.Store.GridFS("videos", {})]
+//});
+
+export const Videos = new FilesCollection({
+  collectionName: 'Videos',
+  allowClientCode: false, // Disallow remove files from Client
+  onBeforeUpload: function (file) {
+    // Allow upload files under 10MB, and only in png/jpg/jpeg formats
+    if (file.size <= 50485760) {
+      return true;
+    } else {
+      return 'The file should be in size equal or less than 50MB';
+    }
+  }
 });
 
 /////////////

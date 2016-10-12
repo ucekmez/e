@@ -7,7 +7,6 @@ import { Forms, FormResponses } from '/imports/api/collections/forms.js';
 import { InterviewQuestions, VideoResponses } from '/imports/api/collections/videos.js';
 import { Keynotes, KeynoteResponses } from '/imports/api/collections/keynotes.js';
 
-import '/imports/startup/client/routes/not_found.js'; // BlazeLayout.render('NotFoundLayout');
 
 import '../landing/main_navigation.html' // MainNavigation
 import '../landing/not_found.html' // NotFoundLayout
@@ -19,30 +18,30 @@ import './list_companies.html'; // AdminListCompanies
 
 
 const adminRoutes = FlowRouter.group({ prefix: '/admin', name: 'admin',
-  triggersEnter: [function() {
-    if (Meteor.loggingIn()) { BlazeLayout.render('LoadingLayout');}
-    else {
-      if (Meteor.userId() && Meteor.user()) {
-        if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
-          FlowRouter.go('notfound');
-        }
-      }else {
-        FlowRouter.go('notfound');
-      }
-    }
-  }]
+  triggersEnter: [() => {
+    if (Meteor.userId() && Meteor.user()) {
+      if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) { FlowRouter.go('home'); }
+    }else { FlowRouter.go('home'); }
+  }],
 });
+
 adminRoutes.route('/', { name: 'admin_dashboard',
   breadcrumb: {
     title: "Dashboard"
   },
-  action() { BlazeLayout.render('AdminLayout', { nav: 'MainNavigation', left: 'AdminLeftMenu', main: 'AdminDashboard' }); } });
+  action() {
+    BlazeLayout.render('AdminLayout', { nav: 'MainNavigation', left: 'AdminLeftMenu', main: 'AdminDashboard' });
+    NProgress.done();
+  } });
 adminRoutes.route('/companies', { name: 'list_companies',
   breadcrumb: {
     title: "List Companies",
     parent: "admin_dashboard"
   },
-  action() { BlazeLayout.render('AdminLayout', { nav: 'MainNavigation', left: 'AdminLeftMenu', main: 'AdminListCompanies' }); } });
+  action() {
+    BlazeLayout.render('AdminLayout', { nav: 'MainNavigation', left: 'AdminLeftMenu', main: 'AdminListCompanies' });
+    NProgress.done();
+  } });
 
 
 
